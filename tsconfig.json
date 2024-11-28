@@ -1,16 +1,16 @@
 {
   "compilerOptions": {
-    "target": "es2016",                                  /* Set the JavaScript language version for emitted JavaScript and include compatible library declarations. */
-    "module": "CommonJS",                                /* Specify what module code is generated. */
-    "rootDir": "./src",                                  /* Specify the root folder within your source files. */
-    "outDir": "./dist",                                   /* Specify an output folder for all emitted files. */
-    "esModuleInterop": true,                             /* Emit additional JavaScript to ease support for importing CommonJS modules. This enables 'allowSyntheticDefaultImports' for type compatibility. */
-    "strict": false,            
-    "noImplicitAny": false,                           /* Enable all strict type-checking options. */
-    // "skipLibCheck": true                                 /* Skip type checking all .d.ts files. */
-    // "forceConsistentCasingInFileNames": true,            /* Ensure that casing is correct in imports. */
+    "target": "es2016",
+    "module": "CommonJS",
+    "rootDir": "./src",
+    "outDir": "./dist",
+    "esModuleInterop": true,
+    "strict": true,
+    "noImplicitAny": false,
     "typeRoots": ["./node_modules/@types", "./src/types"],
-  },  
-    "include": ["src/**/*"],
-    "exclude": ["node_modules"]
+    "skipLibCheck": true,  // Added to bypass issues with 3rd-party type definitions
+    "forceConsistentCasingInFileNames": true
+  },
+  "include": ["src/**/*", "src/types/**/*"], // Explicitly include types directory
+  "exclude": ["node_modules"]
 }
