@@ -20,11 +20,10 @@ const limiter = rateLimit({
     max: 100
 });
 
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(process.cwd(), "public")));
 app.get("/", (req: Request, res: Response) => {
-    res.sendFile(path.join(__dirname, "public", "index.html"));
-})
-
+  res.sendFile(path.join(process.cwd(), "public", "index.html"));
+});
 app.use(limiter);
 app.use(cors());
 app.use(helmet());
