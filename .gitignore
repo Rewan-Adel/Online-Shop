@@ -5,9 +5,9 @@ dist/
 .vscode/
 package-lock.json
 
-logs/
 coverage/
 __test__
 jest.config
 
 eslint.config.mjs
+.vercel

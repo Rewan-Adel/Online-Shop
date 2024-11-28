@@ -1,0 +1,40 @@
+2024-11-25T18:33:49.255Z [31merror[39m Email already exists
+2024-11-25T18:34:40.729Z [31merror[39m Cannot read properties of undefined (reading 'IVerificationCodeService')
+2024-11-25T18:38:09.066Z [31merror[39m Cannot read properties of undefined (reading 'IVerificationCodeService')
+2024-11-25T19:03:53.920Z [31merror[39m Cannot read properties of undefined (reading 'verificationCodeService')
+2024-11-25T19:15:39.900Z [31merror[39m data and hash arguments required
+2024-11-25T19:17:57.068Z [31merror[39m data and hash arguments required
+2024-11-25T19:18:48.971Z [31merror[39m data and hash arguments required
+2024-11-25T19:19:12.225Z [31merror[39m data and hash arguments required
+2024-11-25T19:20:42.180Z [31merror[39m Cannot read properties of null (reading 'otp')
+2024-11-25T19:20:42.209Z [31merror[39m Cannot read properties of null (reading 'otp')
+2024-11-25T19:20:42.242Z [31merror[39m Cannot read properties of null (reading 'otp')
+2024-11-25T19:20:42.286Z [31merror[39m Cannot read properties of null (reading 'otp')
+2024-11-25T19:20:42.695Z [31merror[39m Cannot read properties of null (reading 'otp')
+2024-11-25T19:20:42.763Z [31merror[39m Cannot read properties of null (reading 'otp')
+2024-11-25T19:21:09.802Z [31merror[39m data and hash arguments required
+2024-11-25T19:21:43.740Z [31merror[39m Cannot read properties of undefined (reading 'signupService')
+2024-11-25T19:21:44.658Z [31merror[39m Cannot read properties of undefined (reading 'signupService')
+2024-11-25T19:22:26.254Z [31merror[39m Email already exists
+2024-11-25T19:22:29.835Z [31merror[39m data and hash arguments required
+2024-11-25T20:19:40.932Z [31merror[39m data and hash must be strings
+2024-11-25T20:20:01.698Z [31merror[39m data and hash must be strings
+2024-11-25T20:22:09.531Z [31merror[39m data and hash must be strings
+2024-11-25T20:23:32.035Z [31merror[39m data and hash must be strings
+2024-11-26T16:16:29.130Z [31merror[39m Email already exists
+2024-11-26T16:38:15.468Z [31merror[39m data and hash arguments required
+2024-11-26T16:38:32.437Z [31merror[39m data and hash arguments required
+2024-11-26T16:39:53.296Z [31merror[39m data and hash arguments required
+2024-11-26T17:21:02.897Z [31merror[39m fetch failed
+2024-11-26T19:41:26.730Z [31merror[39m Email already exists
+2024-11-26T19:43:08.108Z [31merror[39m Email already exists
+2024-11-26T19:44:49.934Z [31merror[39m Email already exists
+2024-11-26T19:47:20.943Z [31merror[39m Email already exists
+2024-11-26T19:48:41.625Z [31merror[39m Email already exists
+2024-11-26T19:55:21.535Z [31merror[39m Email already exists
+2024-11-26T19:56:22.100Z [31merror[39m An error occurred while sending the verification code
+2024-11-26T20:14:23.197Z [31merror[39m Email already exists
+2024-11-26T20:24:59.630Z [31merror[39m fetch failed
+2024-11-26T20:25:22.452Z [31merror[39m fetch failed
+2024-11-26T20:28:53.575Z [31merror[39m Send email error: fetch failed
+2024-11-28T09:11:42.744Z [31merror[39m fetch failed
