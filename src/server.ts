@@ -24,6 +24,8 @@ app.use(express.static(path.join(process.cwd(), "public")));
 app.get("/", (req: Request, res: Response) => {
   res.sendFile(path.join(process.cwd(), "public", "index.html"));
 });
+
+app.set('trust proxy', 1);
 app.use(limiter);
 app.use(cors());
 app.use(helmet());
