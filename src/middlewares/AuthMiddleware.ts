@@ -1,8 +1,8 @@
 import { Request, Response, NextFunction } from "express";
-import { failedResponse } from "../../../middlewares/responseHandler";
-import Logger from "../../../logger";
+import { failedResponse } from "./responseHandler";
+import Logger from "../logger";
 import TokenService from "../services/TokenService";
-import User from  "../../user/models/user.model";
+import User from  "../models/user.model";
 
 interface Payload {
     userID: string;
@@ -40,7 +40,7 @@ class AuthMiddleware {
             if (!user)
                 return failedResponse(res, 400, "Invalid or expired token.");
             
-            if (user.resetPasswordExpires && user.resetPasswordExpires.getTime() < Date.now())
+            if(user.otpExpires instanceof Date && user.otpExpires.getTime() < Date.now())
                 return failedResponse(res, 400, "Token has expired.");
             
             if (!user.verified) 
