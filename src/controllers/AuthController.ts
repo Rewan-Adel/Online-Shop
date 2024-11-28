@@ -17,9 +17,9 @@ class signupController{
         }
         return true;
     }
-    async signup(req: Request, res: Response): Promise<void> {
+    async signup(req: Request, res:Response): Promise<void> {
         try {
-            if (!this.handleValidation(new AuthValidator().signupValidate(req.body), res)) return;
+            if (!this.handleValidation(new AuthValidator().signupValidate(req), res)) return;
 
             const { username, email, password } = req.body;
             const response = await this.authService.signup(username, email, password);
