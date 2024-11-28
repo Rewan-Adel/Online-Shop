@@ -167,16 +167,46 @@ class AuthServiceImpl implements IAuthService {
         }
     };
 
-    async resendCode(email:string, codeFor: string): Promise<{ message:string }>{
+    async resendCodeForSignup(email:string): Promise<{ message:string }>{
         const user = await this.isUserExist(email);
         if(!user){
             return {
                 message: "Invalid email"
             };
         };
-        let counter = user.otpCounter as number;
-        counter++;
-        await user.save();
+        // let counter = user.otpCounter as number;
+        // counter++;
+        // await user.save();
+        // if(counter as number > 5){
+        //     setTimeout(()=>{
+        //         user.otpCounter =0;
+        //         user.save();
+        //     })
+        //     return{
+        //         message: "You have exceeded the maximum number of code resend attempts. Please try again later."
+        //     }
+        // }
+        const code = await this.otpHandler(user);
+
+        await this.notificationService.send(
+            email,
+            "Verification Code",
+             `Your code is ${code}`,
+            `<p>Your code is: <b>${code}</b></p>`
+        );
+        return { message: "Verification code sent." };
+        };
+
+    async resendCodeForReset(email:string): Promise<{ message:string }>{
+        const user = await this.isUserExist(email);
+        if(!user){
+            return {
+                message: "Invalid email"
+            };
+        };
+        // let counter = user.otpCounter as number;
+        // counter++;
+        // await user.save();
 
         // if(counter as number > 5){
         //     setTimeout(()=>{
@@ -188,26 +218,14 @@ class AuthServiceImpl implements IAuthService {
         //     }
         // }
         const code = await this.otpHandler(user);
-        if(codeFor == "reset"){
-            await this.notificationService.send(
-                email,
-                "Reset Password Code",
-                `Your code is ${code}`,
-                `<p>Your code is: <b>${code}</b></p>`
-            );
-            return { message: "Reset Password code sent." };
-        }
-        else if(codeFor == "signup"){
-            await this.notificationService.send(
-                email,
-                "Verification Code",
-                `Your code is ${code}`,
-                `<p>Your code is: <b>${code}</b></p>`
-            );
-            return { message: "Verification code sent." };
-        };
-
         
+        await this.notificationService.send(
+            email,
+            "Reset Password Code",
+            `Your code is ${code}`,
+            `<p>Your code is: <b>${code}</b></p>`
+        );
+        return { message: "Reset Password code sent." };
 
     };
 

@@ -75,11 +75,24 @@ class signupController{
     }
     };
 
-    async resendCode(req: Request, res: Response): Promise<void> {
+    async resendCodeForSignup(req: Request, res: Response): Promise<void> {
         try { 
-            const { email, codeFor } = req.body;
+            const { email } = req.body;
 
-            const response = await this.authService.resendCode(email, codeFor);
+            const response = await this.authService.resendCodeForSignup(email);
+            return successResponse(res, 200, response.message);
+
+        } catch (error) {
+            Logger.error(error.message);
+            return failedResponse(res, 500, "Internal Server Error");
+    }
+    };
+
+    async resendCodeForReset(req: Request, res: Response): Promise<void> {
+        try { 
+            const { email } = req.body;
+
+            const response = await this.authService.resendCodeForReset(email);
             return successResponse(res, 200, response.message);
 
         } catch (error) {

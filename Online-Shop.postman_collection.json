@@ -20,7 +20,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"email\":\"user@gmail.com\"\r\n}",
+									"raw": "{\r\n    \"email\":\"rewanadel1266@gmail.com\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -50,7 +50,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"email\":\"user@gmail.com\",\r\n    \"code\":  546909\r\n}",
+									"raw": "{\r\n    \"email\":\"rewanadel1266@gmail.com\",\r\n    \"code\":  937797\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -80,7 +80,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"newPassword\":\"12345678\"\r\n}",
+									"raw": "{\r\n    \"email\":\"rewanadel1266@gmail.com\",\r\n    \"newPassword\":\"12345678r\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -88,7 +88,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:8080/api/auth/reset-password/:userID/:token",
+									"raw": "http://localhost:8080/api/auth/reset-password",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -97,19 +97,38 @@
 									"path": [
 										"api",
 										"auth",
-										"reset-password",
-										":userID",
-										":token"
-									],
-									"variable": [
-										{
-											"key": "userID",
-											"value": ""
-										},
-										{
-											"key": "token",
-											"value": ""
+										"reset-password"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Resend Reset Code",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\":\"rewanadel1266@gmail.com\"\r\n }",
+									"options": {
+										"raw": {
+											"language": "json"
 										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/auth/signup/resend-code",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"auth",
+										"signup",
+										"resend-code"
 									]
 								}
 							},
@@ -124,7 +143,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"username\":\"user_name\",\r\n    \"email\":\"user@gmail.com\",\r\n    \"password\":\"12345678\"\r\n}",
+							"raw": "{\r\n    \"username\":\"user_name\",\r\n    \"email\":\"rewanadel1266@gmail.com\",\r\n    \"password\":\"12345678\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -154,7 +173,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\":\"user@gmail.com\",\r\n    \"code\":  546909\r\n}",
+							"raw": "{\r\n    \"email\":\"rewanadel1266@gmail.com\",\r\n    \"code\":  462257\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -184,7 +203,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\":\"user@gmail.com\",\r\n    \"password\":\"12345338\"\r\n}",
+							"raw": "{\r\n    \"email\":\"rewanadel1266@gmail.com\",\r\n    \"password\":\"12345678r\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -214,7 +233,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\":\"user@gmail.com\",\r\n    \"codeFor\": \"reset\" // valuse [\"reset\", \"signup\"]\r\n}",
+							"raw": "{\r\n    \"email\":\"rewanadel1266@gmail.com\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -222,7 +241,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/auth/resend-code",
+							"raw": "http://localhost:8080/api/auth/signup/resend-code",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -231,6 +250,7 @@
 							"path": [
 								"api",
 								"auth",
+								"signup",
 								"resend-code"
 							]
 						}
@@ -238,7 +258,7 @@
 					"response": []
 				}
 			],
-			"description": "### 1\\. Signup (Register a New User)\n\n- **Method**: `POST`\n    \n- **URL**: `http://localhost:8000/api/auth/signup`\n    \n- **Body** (JSON):\n    \n\n``` json\n{\n \"name\": \"User Name\",\n \"email\": \"user@example.com\",\n \"password\": \"password123\" \n}\n\n ```\n\n**Expected Response**:\n\n``` json\n{\n  \"status\": true,\n  \"message\": \"Verification code sent.\",\n   \"data\": {\n        \"user\": {\n            \"username\": \"Username\",\n            \"email\": \"user@example.com\",\n            \"_id\": \"\",\n            \"createdAt\": \"\",\n            \"updatedAt\": \"\",\n            .................\n        }\n    }\n}\n\n ```\n\n### **2.Email Verifecation**\n\n- **Method**: `POST`\n    \n- **URL**: `http://localhost:8000/api/auth/verify-email`\n    \n- **Body** (JSON):\n    \n\n``` json\n{\n    \"email\":\"user@example.com\",\n    \"code\":  123456\n}\n\n ```\n\n**Expected Response**:\n\n``` json\n{\n  \"status\": true,\n  \"message\": \"Email verified successfully\",\n   \"data\": {\n        \"user\": {\n            \"username\": \"Username\",\n            \"email\": \"user@example.com\",\n            \"_id\": \"\",\n            \"createdAt\": \"\",\n            \"updatedAt\": \"\"\n                  ......\n        }\n        \"token\":\"Token\"\n    }\n}\n\n ```\n\n### 2\\. Login\n\n- **Method**: `POST`\n    \n- **URL**: `http://localhost:8000/api/auth/login`\n    \n- **Body** (JSON):\n    \n\n``` json\n{\n \"email\": \"user@example.com\",\n \"password\": \"password123\" \n}\n\n ```\n\n- **Expected Response**\n    \n\n``` json\n{\n  \"status\": \"success\",\n  \"code\": 200,\n  \"message\":\"login successfully\",\n  \"token\": \"your_jwt_token\",\n  \"data\": {\n        \"user\": {\n            \"username\": \"Username\",\n            \"email\": \"user@example.com\",\n            \"_id\": \"\",\n            \"createdAt\": \"\",\n            \"updatedAt\": \"\"\n        }\n    }\n}\n\n ```\n\n### 3.Forgot Password\n\n- **Method**: `POST`\n    \n- **URL**: `http://localhost:8000/api/auth/forgot-password`\n    \n- **Body** (JSON):\n    \n\n``` json\n{\n \"email\": \"user@example.com\"\n}\n\n ```\n\n### 4.Reset Password\n\n- **Method**: `POST`\n    \n- **URL**: `http://localhost:8000/api/auth/reset-password`\n    \n- **Body** (JSON):\n    \n\n``` json\n{\n \"email\": \"user@example.com\"\n \"newPassword\": \"password123\" \n}\n\n ```\n\n### 5.Resend Code\n\n- **Method**: `POST`\n    \n- **URL**: `http://localhost:8000/api/auth/resend-code`\n    \n- **Body** (JSON):\n    \n\n``` json\n{\n \"email\": \"user@example.com\",\n \"codeFor\": \"signup\" // or 'reset' for password reset \n}\n\n ```\n\n**Expected Response**:\n\nResponse for Resend code at signup functionality\n\n``` json\n{\n \"status\": true,\n    \"message\": \"Verification code sent.\",\n    \"data\": null\n}\n\n ```\n\nResponse for Resend code at Reset password functionality\n\n``` json\n{\n    \"status\": true,\n    \"message\": \"Reset Password code sent.\",\n    \"data\": null\n}\n\n ```"
+			"description": "### 1\\. Signup (Register a New User)\n\n- **Method**: `POST`\n    \n- **URL**: `http://localhost:8000/api/auth/signup`\n    \n- **Body** (JSON):\n    \n\n``` json\n{\n \"name\": \"User Name\",\n \"email\": \"user@example.com\",\n \"password\": \"password123\" \n}\n\n ```\n\n**Expected Response**:\n\n``` json\n{\n  \"status\": true,\n  \"message\": \"Verification code sent.\",\n   \"data\": {\n        \"user\": {\n            \"username\": \"Username\",\n            \"email\": \"user@example.com\",\n            \"_id\": \"\",\n            \"createdAt\": \"\",\n            \"updatedAt\": \"\",\n            .................\n        }\n    }\n}\n\n ```\n\n### **2.Email Verifecation**\n\n- **Method**: `POST`\n    \n- **URL**: `http://localhost:8000/api/auth/verify-email`\n    \n- **Body** (JSON):\n    \n\n``` json\n{\n    \"email\":\"user@example.com\",\n    \"code\":  123456\n}\n\n ```\n\n**Expected Response**:\n\n``` json\n{\n  \"status\": true,\n  \"message\": \"Email verified successfully\",\n   \"data\": {\n        \"user\": {\n            \"username\": \"Username\",\n            \"email\": \"user@example.com\",\n            \"_id\": \"\",\n            \"createdAt\": \"\",\n            \"updatedAt\": \"\"\n                  ......\n        }\n        \"token\":\"Token\"\n    }\n}\n\n ```\n\n### 2\\. Login\n\n- **Method**: `POST`\n    \n- **URL**: `http://localhost:8000/api/auth/login`\n    \n- **Body** (JSON):\n    \n\n``` json\n{\n \"email\": \"user@example.com\",\n \"password\": \"password123\" \n}\n\n ```\n\n- **Expected Response**\n    \n\n``` json\n{\n  \"status\": \"success\",\n  \"code\": 200,\n  \"message\":\"login successfully\",\n  \"token\": \"your_jwt_token\",\n  \"data\": {\n        \"user\": {\n            \"username\": \"Username\",\n            \"email\": \"user@example.com\",\n            \"_id\": \"\",\n            \"createdAt\": \"\",\n            \"updatedAt\": \"\"\n        }\n    }\n}\n\n ```\n\n### 3.Forgot Password\n\n- **Method**: `POST`\n    \n- **URL**: `http://localhost:8000/api/auth/forgot-password`\n    \n- **Body** (JSON):\n    \n\n``` json\n{\n \"email\": \"user@example.com\"\n}\n\n ```\n\n### 4.Reset Password\n\n- **Method**: `POST`\n    \n- **URL**: `http://localhost:8000/api/auth/reset-password`\n    \n- **Body** (JSON):\n    \n\n``` json\n{\n \"email\": \"user@example.com\"\n \"newPassword\": \"password123\" \n}\n\n ```\n\n### 5.Resend Code For Signup\n\n- **Method**: `POST`\n    \n- **URL**: `http://localhost:8000/api/auth/signup/resend-code`\n    \n- **Body** (JSON):\n    \n\n``` json\n{\n \"email\": \"user@example.com\"\n}\n\n ```\n\n**Expected Response**:\n\n``` json\n{\n \"status\": true,\n    \"message\": \"Verification code sent.\",\n    \"data\": null\n}\n\n ```\n\n### 5.Resend Code For Signup\n\n- **Method**: `POST`\n    \n- **URL**: `http://localhost:8000/api/auth/reset-password/resend-code`\n    \n- **Body** (JSON):\n    \n\n``` json\n{\n \"email\": \"user@example.com\"\n}\n\n ```\n\n**Expected Response**:\n\n``` json\n{\n    \"status\": true,\n    \"message\": \"Reset Password code sent.\",\n    \"data\": null\n}\n\n ```"
 		}
 	]
 }
