@@ -1,0 +1,9 @@
+.env
+node_modules/
+
+dist/
+.vscode/
+package-lock.json
+logs/
+coverage/
+eslint.config.mjs
