@@ -27,6 +27,9 @@ app.use(cors());
 app.use(helmet());
 app.use(cookieParser());
 app.use(express.json());
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, '../public/index.html'));
+});
 
 app.use("/api/auth", authRoutes)
 if(process.env.NODE_ENV == "production"){
