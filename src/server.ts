@@ -20,13 +20,17 @@ const limiter = rateLimit({
     max: 100
 });
 
+app.use(express.static(path.join(__dirname, "public")));
+app.get("/", (req: Request, res: Response) => {
+    res.sendFile(path.join(__dirname, "public", "index.html"));
+})
+
 app.use(limiter);
 app.use(cors());
 app.use(helmet());
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
 
 app.use("/api/auth", authRoutes)
 if(process.env.NODE_ENV == "production"){
