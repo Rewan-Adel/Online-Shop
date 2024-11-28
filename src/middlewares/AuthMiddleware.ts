@@ -3,17 +3,7 @@ import { failedResponse } from "./responseHandler";
 import Logger from "../logger";
 import TokenService from "../services/TokenService";
 import User from  "../models/user.model";
-
-interface Payload {
-    userID: string;
-    [key: string]: unknown;
-}
-
-declare module 'express-serve-static-core' {
-    interface Request {
-        user?: Payload; 
-    }
-}
+import { Payload } from "../types/express.d";
 
 class AuthMiddleware {
     private tokenService: TokenService;
