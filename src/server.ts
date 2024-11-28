@@ -10,6 +10,7 @@ import "dotenv/config";
 import {failedResponse} from "./middlewares/responseHandler";
 import dbConnection from "./config/dbConnection";
 import authRoutes from "./routes/authRoute";
+import path from "path";
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -18,6 +19,8 @@ const limiter = rateLimit({
     windowMs: 15 * 60 * 1000,
     max: 100
 });
+
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(limiter);
 app.use(cors());
