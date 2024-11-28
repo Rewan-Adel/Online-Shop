@@ -34,7 +34,7 @@ The server follows a Layered Architecture that helps organize code into distinct
 ```
 2.Navigate to the project directory:
 ```
-cd online-shop-
+cd Online-Shop
 ```
 3.Install dependencies:
 ```
@@ -50,7 +50,9 @@ EMAIL_FORM_URL= your-email-form-url
 ```
 5.Run the server:
 ```
-npm run dev
+npm run dev 
+or
+npm start
 ```
 
 
