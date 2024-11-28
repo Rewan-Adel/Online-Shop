@@ -12,7 +12,7 @@ class TokenService implements ITokenService{
     private expiresIn: string;
 
     constructor() {
-        this.secret = process.env.JWT_SECRET;
+        this.secret = process.env.JWT_SECRET || "defaultSecret";
         this.expiresIn = "90d";
     }
 

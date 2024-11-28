@@ -2,15 +2,14 @@ import { INotification } from "../repositories/INotification";
 import { URLSearchParams } from "url";
 
 class EmailNotificationImp implements INotification{
-    async send(recipient: string, subject: string, content: string, options?: string): Promise<boolean> {
+    async send(recipient: string, subject: string, content: string): Promise<boolean> {
         const params = new URLSearchParams();
         params.append("email", recipient);
         params.append("subject", subject);
         params.append("text", content);
-        params.append("html", options);
         
         try{
-            const response = await fetch(process.env.EMAIL_FORM_URL,{
+            const response = await fetch(process.env.EMAIL_FORM_URL as string ,{
                 method: "POST",
                 body: params,
             });
@@ -19,7 +18,7 @@ class EmailNotificationImp implements INotification{
                 
             return true;
         }
-        catch(error){
+        catch (error : any) {
             throw new Error(error.message)
         }
     }

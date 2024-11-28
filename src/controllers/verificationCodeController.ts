@@ -25,11 +25,11 @@ class VerificationCodeController{
         
             const response = await this.verificationCodeService.codeVerifier(email, code);
             if(response.isValid)
-                return successResponse(res, 200, "Email verified successfully", response.data);
+                return successResponse(res, 200, "Email verified successfully", response.data?? undefined);
             else
                 return failedResponse(res, 400, "Invalid code!")
         }
-        catch(error){
+        catch (error : any) {
             Logger.error(error.message);
             console.log(error);
             

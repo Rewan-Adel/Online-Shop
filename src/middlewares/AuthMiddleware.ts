@@ -52,7 +52,7 @@ class AuthMiddleware {
                 ...user.toObject(),
             };
             next();
-        } catch (error) {
+        } catch (error : any)  {
             Logger.error(error.message);
             return failedResponse(res, 500, "Authorization failed.");
         }

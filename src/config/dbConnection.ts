@@ -8,7 +8,7 @@ class dbConnection{
         this.connection()
     }
     public connection(){
-        mongoose.connect(this.dbUri)
+        mongoose.connect(this.dbUri as string)
         .then(()=>{
             console.log("Database connected successfully.");
         })

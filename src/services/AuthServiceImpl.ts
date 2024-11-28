@@ -9,7 +9,7 @@ import { ITokenService } from "../repositories/ITokenService";
 import IUserRepository from "../repositories/IUserRepository";
 
 class AuthServiceImpl implements IAuthService {
-    private userRepository: IUserRepository;
+    // private userRepository: IUserRepository;
     private tokenService: ITokenService;
     private codeService: ICodeService;
     private notificationService: INotification;
@@ -28,7 +28,7 @@ class AuthServiceImpl implements IAuthService {
         this.encryptionService = encryptionService;
     };
 
-    async signup( username: string, email: string, password: string ): Promise<{message:string, data:object}>{
+    async signup( username: string, email: string, password: string ): Promise<{ message:string, data:object | null}>{
         const userExist = await this.isUserExist(email);
         if(userExist)
             return {
@@ -54,7 +54,7 @@ class AuthServiceImpl implements IAuthService {
         return { message: "Verification code sent.", data: {user:newUser} };
     };
     
-    async login(email: string, password: string ) {
+    async login(email: string, password: string ): Promise<{isLogin: boolean, message:string, data:object | null}>{
         try {
             const user = await this.isUserExist(email);  
             if (!user || !await this.encryptionService.compare(password.trim(), user.password as string)) {
@@ -81,7 +81,7 @@ class AuthServiceImpl implements IAuthService {
                     token,
                 },
             };
-        } catch (error) {
+        } catch (error : any)  {
             console.error("Error during login:", error);
             return {
                 isLogin: false,
@@ -91,7 +91,7 @@ class AuthServiceImpl implements IAuthService {
         }
     };
     
-    async forgotPassword(email: string ){
+    async forgotPassword(email: string ): Promise<{ message:string, data:object | null}>{
         try{
             const user = await this.isUserExist(email);
             if(!user){
@@ -114,7 +114,7 @@ class AuthServiceImpl implements IAuthService {
                 data: null
             };
 
-        }catch(error){
+        }catch (error : any) {
             return {
                 message: error.message,
                 data:null
@@ -123,7 +123,7 @@ class AuthServiceImpl implements IAuthService {
 
     };
 
-    async resetPassword(email:string, password:string): Promise<{message:string, data:{user:object, token:string}}>{
+    async resetPassword(email:string, password:string): Promise<{message:string, data:{user:object, token:string} | null}>{
         try{
             const user    = await User.findOne({email:email});
             if (!user)
@@ -156,13 +156,10 @@ class AuthServiceImpl implements IAuthService {
                     token
                 }
             }
-        }catch(error){
+        }catch (error : any) {
             return {
                 message: error.message,
-                data:{
-                    user: null,
-                    token: null
-                }
+                data:null
             }
         }
     };

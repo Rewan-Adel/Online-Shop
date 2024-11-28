@@ -24,13 +24,15 @@ class verificationServiceImp implements ICodeService{
             codeExpiration
         }
     };
-    public async codeVerifier(email: string, code: string): Promise<{isValid:boolean, data:object}> {
+
+
+    public async codeVerifier(email: string, code: string): Promise<{isValid:boolean, data:object | null }> {
         try{
             const user = await User.findOne({email: email});
             if(!user || user.otp == null){
                     return {
                         isValid: false,
-                        data:null
+                        data: null
                     }
                 }
                 
@@ -54,8 +56,12 @@ class verificationServiceImp implements ICodeService{
                     }
                 }
 
-        }catch(error){
-            console.log(error.message)
+        }catch (error : any) {
+            console.log(error.message);
+            return {
+                isValid: false,
+                data: null,
+            };
         }
     };
 

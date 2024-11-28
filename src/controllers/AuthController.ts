@@ -24,8 +24,8 @@ class signupController{
             const { username, email, password } = req.body;
             const response = await this.authService.signup(username, email, password);
     
-            return successResponse(res, 201, response.message, response.data);
-        } catch (error) {
+            return successResponse(res, 201, response.message, response.data?? undefined);
+        } catch (error : any)  {
             Logger.error(error.message);
             return failedResponse(res, 500, "Internal Server Error");
         }
@@ -40,8 +40,8 @@ class signupController{
             if(!response.isLogin) 
                 return failedResponse(res, 400, response.message);
             else
-                return successResponse(res, 200, response.message, response.data);
-        } catch (error) {
+                return successResponse(res, 200, response.message, response.data ?? undefined);
+        } catch (error : any)  {
                 Logger.error(error.message);
                 return failedResponse(res, 500, "Internal Server Error");
         }
@@ -54,7 +54,7 @@ class signupController{
             const response = await this.authService.forgotPassword(email);
 
             return successResponse(res, 200, response.message);
-        } catch (error) {
+        } catch (error : any)  {
             Logger.error(error.message);
             return failedResponse(res, 500, "Internal Server Error");
     }
@@ -69,7 +69,7 @@ class signupController{
             const response = await this.authService.resetPassword(email, newPassword);
             return successResponse(res, 200, response.message);
 
-        } catch (error) {
+        } catch (error : any) {
             Logger.error(error.message);
             return failedResponse(res, 500, "Internal Server Error");
     }
@@ -82,7 +82,7 @@ class signupController{
             const response = await this.authService.resendCodeForSignup(email);
             return successResponse(res, 200, response.message);
 
-        } catch (error) {
+        } catch (error : any)  {
             Logger.error(error.message);
             return failedResponse(res, 500, "Internal Server Error");
     }
@@ -95,7 +95,7 @@ class signupController{
             const response = await this.authService.resendCodeForReset(email);
             return successResponse(res, 200, response.message);
 
-        } catch (error) {
+        } catch (error : any)  {
             Logger.error(error.message);
             return failedResponse(res, 500, "Internal Server Error");
     }
