@@ -46,10 +46,7 @@ NODE_ENV = Env
 PORT = port
 DB_URI = mongodb://your-database-url
 JWT_SECRET = your-jwt-secret-key
-
-EMAIL_FORM_URL= your-email-sender-url
-
-HOST = "http://localhost:8080/api"
+EMAIL_FORM_URL= your-email-form-url
 ```
 5.Run the server:
 ```
