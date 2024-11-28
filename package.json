@@ -14,6 +14,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@types/express": "^5.0.0",
     "bcrypt": "^5.1.1",
     "compression": "^1.7.5",
     "cookie-parser": "^1.4.7",
@@ -28,8 +29,7 @@
     "online-shope": "file:",
     "ts-node": "^10.9.2",
     "typescript": "^4.7.4 ",
-    "winston": "^3.17.0",
-    "@types/express": "^5.0.0"
+    "winston": "^3.17.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.15.0",
