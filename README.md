@@ -34,7 +34,7 @@ The server follows a Layered Architecture that helps organize code into distinct
 ```
 2.Navigate to the project directory:
 ```
-cd Online-Shop
+cd Online-Shop-
 ```
 3.Install dependencies:
 ```
