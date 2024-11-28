@@ -1,13 +1,12 @@
-import { IAuthService } from "../Interfaces/IAuthService";
+import { IAuthService } from "../repositories/IAuthService";
 import User from "../models/user.model";
-import crypto from 'crypto';
 
-import { ICodeService } from "../Interfaces/ICodeService ";
+import { ICodeService } from "../repositories/ICodeService ";
 import EncryptionService from "../utils/EncryptionService";
 import TokenService from "./TokenService";
-import { INotification } from "../Interfaces/INotification";
-import { ITokenService } from "../Interfaces/ITokenService";
-import IUserRepository from "../Interfaces/IUserRepository";
+import { INotification } from "../repositories/INotification";
+import { ITokenService } from "../repositories/ITokenService";
+import IUserRepository from "../repositories/IUserRepository";
 
 class AuthServiceImpl implements IAuthService {
     private userRepository: IUserRepository;
@@ -31,29 +30,26 @@ class AuthServiceImpl implements IAuthService {
 
     async signup( username: string, email: string, password: string ): Promise<{message:string, data:object}>{
         const userExist = await this.isUserExist(email);
-        if(userExist){
+        if(userExist)
             return {
                 message: "Email already exists",
                 data: null
             };
-        }
-        const { code, hashedCode, codeExpiration } = await this.codeService.codeGenerator();
         
-        await this.notificationService.send(
-            email,
-            "Your Verification Code",
-            `Your code is ${code}`,
-            `<p>Your code is: <strong>${code}</strong></p>`
-        );
-
         
         const newUser = await User.create({
             username,
             email,
-            password,
-            otp: hashedCode,
-            otpExpires: codeExpiration,
+            password
         });
+        const code = await this.otpHandler(newUser);
+        
+        await this.notificationService.send(
+            email,
+            "Verification Code",
+            `Your code is ${code}`,
+            `<p>Your code is: <strong>${code}</strong></p>`
+        );
 
         return { message: "Verification code sent.", data: {user:newUser} };
     };
@@ -65,6 +61,13 @@ class AuthServiceImpl implements IAuthService {
                 return {
                     isLogin: false,
                     message: "Invalid email or password.",
+                    data: null,
+                };
+            };
+            if(!user.verified){
+                return {
+                    isLogin: false,
+                    message: "Email not verified.",
                     data: null,
                 };
             }
@@ -97,31 +100,19 @@ class AuthServiceImpl implements IAuthService {
                     data: null
                 };
             };
-    
-            const token = crypto.randomBytes(32).toString('hex');
-            const hashedToken = await this.encryptionService.hash(token);
             
-            user.resetPasswordExpires = new Date(Date.now() + 15 * 60 * 1000);
-            user.resetPasswordToken = hashedToken;
-            await user.save();
+            const code = await this.otpHandler(user);
     
-            setTimeout(()=>{
-                user.resetPasswordToken = null;
-                user.resetPasswordExpires = null;
-                user.save();
-            }, 15 * 60 * 1000)
-    
-            const resetUrl = `${process.env.HOST}/auth/reset-password/${user.id}/${token}`;
             await this.notificationService.send(
                 email,
-                "Password Reset",
-                `Click the link to reset your password: <a href="${resetUrl}">Reset Password</a>`              
+                "Reset Password",
+                `Your code is ${code}`,
+                `<p>Your code is: <strong>${code}</strong></p>`
             );
-            console.log(resetUrl)
-            return { 
-                message: "Password reset email sent" , 
-                data:{resetUrl}
-                };
+            return {
+                message: "Reset password code sent",
+                data: null
+            };
 
         }catch(error){
             return {
@@ -132,46 +123,111 @@ class AuthServiceImpl implements IAuthService {
 
     };
 
-    async resetPassword(token:string, userID, password:string): Promise<{message:string, token:string}>{
+    async resetPassword(email:string, password:string): Promise<{message:string, data:{user:object, token:string}}>{
         try{
-            const user    = await User.findById(userID);
+            const user    = await User.findOne({email:email});
             if (!user)
-                return { message: "User not found.", token: null };
-
-            const isToken = await this.encryptionService.compare(token, user.resetPasswordToken as string);
-            if(!isToken)
+                return { message: "User not found.", data: null };
+            if(!user.verified){
                 return{
-                    message: "Invalid token or expired.",
-                    token: null
-                }
-            
-            if(user.resetPasswordExpires instanceof Date && user.resetPasswordExpires.getTime() < Date.now()){
-                return{
-                    message: "Invalid token or expired.",
-                    token: null
+                    message: "Email not verified.",
+                    data: null,
                 }
             }
-            console.log("new Pass: ", password);
             
-            const hashedPassword = await this.encryptionService.hash(password);
-            user.password = hashedPassword;
-            user.resetPasswordExpires = null;
-            user.resetPasswordToken   = null;
+            if(user.otpExpires instanceof Date && user.otpExpires.getTime() < Date.now()){
+                return{
+                    message: "Invalid token or expired.",
+                    data: null
+                }
+            }
+            
+            // const hashedPassword = await this.encryptionService.hash(password);
+            user.password = password;
+            user.otp = null;
+            user.otpExpires   = null;
             await user.save();
             
-            const jwtToken = new TokenService().generateToken(user._id.toString());
+            const token = new TokenService().generateToken(user._id.toString());
             return{
-                message: "Reset password email sent",
-                token: jwtToken
+                message: "password reset successful",
+                data:{
+                    user,
+                    token
+                }
             }
         }catch(error){
             return {
                 message: error.message,
-                token: null
+                data:{
+                    user: null,
+                    token: null
+                }
             }
         }
     };
-    
+
+    async resendCode(email:string, codeFor: string): Promise<{ message:string }>{
+        const user = await this.isUserExist(email);
+        if(!user){
+            return {
+                message: "Invalid email"
+            };
+        };
+        let counter = user.otpCounter as number;
+        counter++;
+        await user.save();
+
+        // if(counter as number > 5){
+        //     setTimeout(()=>{
+        //         user.otpCounter =0;
+        //         user.save();
+        //     })
+        //     return{
+        //         message: "You have exceeded the maximum number of code resend attempts. Please try again later."
+        //     }
+        // }
+        const code = await this.otpHandler(user);
+        if(codeFor == "reset"){
+            await this.notificationService.send(
+                email,
+                "Reset Password Code",
+                `Your code is ${code}`,
+                `<p>Your code is: <b>${code}</b></p>`
+            );
+            return { message: "Reset Password code sent." };
+        }
+        else if(codeFor == "signup"){
+            await this.notificationService.send(
+                email,
+                "Verification Code",
+                `Your code is ${code}`,
+                `<p>Your code is: <b>${code}</b></p>`
+            );
+            return { message: "Verification code sent." };
+        };
+
+        
+
+    };
+
+    private async otpHandler(user){
+        const { code, hashedCode, codeExpiration } = await this.codeService.codeGenerator();
+
+        user.verified   = false;
+        user.otpExpires = codeExpiration;
+        user.otp        = hashedCode;
+        await user.save();
+
+        setTimeout(()=>{
+            user.otp = null;
+            user.otpExpires = null;
+            user.save();
+        }, 15 * 60 * 1000)
+
+        return code;
+    }
+
     private async isUserExist(email: string){
         const user = await User.findOne({email});
         return user;

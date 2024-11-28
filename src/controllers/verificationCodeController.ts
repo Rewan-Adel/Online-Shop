@@ -2,7 +2,7 @@
 import { Request, Response } from "express";
 import Logger from "../logger";
 import { successResponse, failedResponse } from "../middlewares/responseHandler";
-import { ICodeService } from "../Interfaces/ICodeService ";
+import { ICodeService } from "../repositories/ICodeService ";
 
 class VerificationCodeController{
     private verificationCodeService : ICodeService

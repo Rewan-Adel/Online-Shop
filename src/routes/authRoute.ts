@@ -21,11 +21,11 @@ const signupController = new AuthController(signupService);
 
 authRoutes.post("/signup", (req, res) => signupController.signup(req, res));
 authRoutes.post("/verify-email", (req, res) => verificationCodeController.codeVerifier(req, res));
-authRoutes.get("/resend-code", (req, res) => verificationCodeController.codeReSender(req, res));
+authRoutes.post("/resend-code", (req, res) => signupController.resendCode(req, res));
 
 authRoutes.post("/login", (req, res) => signupController.login(req, res));
 
 authRoutes.post("/forgot-password", (req, res) => signupController.forgotPassword(req, res));
-authRoutes.post("/reset-password/:userID/:token", (req, res) => signupController.resetPassword(req, res));
+authRoutes.post("/reset-password", (req, res) => signupController.resetPassword(req, res));
 
 export default authRoutes;

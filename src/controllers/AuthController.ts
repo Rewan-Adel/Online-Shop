@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { successResponse, failedResponse } from "../middlewares/responseHandler";
-import { IAuthService } from "../Interfaces/IAuthService";
+import { IAuthService } from "../repositories/IAuthService";
 import AuthValidator from "../utils/AuthValidator";
 import Logger from "../logger";
 
@@ -64,10 +64,9 @@ class signupController{
         try { 
             if (!this.handleValidation(new AuthValidator().resetPasswordValidate(req.body), res)) return;
 
-            const { newPassword } = req.body;
-            const {token, userID} = req.params;
+            const { email, newPassword } = req.body;
 
-            const response = await this.authService.resetPassword(token, userID, newPassword);
+            const response = await this.authService.resetPassword(email, newPassword);
             return successResponse(res, 200, response.message);
 
         } catch (error) {
@@ -75,6 +74,20 @@ class signupController{
             return failedResponse(res, 500, "Internal Server Error");
     }
     };
+
+    async resendCode(req: Request, res: Response): Promise<void> {
+        try { 
+            const { email, codeFor } = req.body;
+
+            const response = await this.authService.resendCode(email, codeFor);
+            return successResponse(res, 200, response.message);
+
+        } catch (error) {
+            Logger.error(error.message);
+            return failedResponse(res, 500, "Internal Server Error");
+    }
+    };
+
 };
 
 export default signupController;

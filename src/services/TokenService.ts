@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import { ITokenService } from "../Interfaces/ITokenService";
+import { ITokenService } from "../repositories/ITokenService";
 
 // interface Payload {
 //     userID: string;

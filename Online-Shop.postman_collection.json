@@ -1,0 +1,244 @@
+{
+	"info": {
+		"_postman_id": "1c468566-1df4-485b-b471-b48531896726",
+		"name": "Online-Shop",
+		"description": "# 🛍️Online-Shop API Documentation\n\nThis API provides all the necessary endpoints for managing and interacting with an e-commerce platform. Below is an overview of its main features:\n\n#### **Key Features**\n\n1. **User Management**\n    \n    - User registration, login, and logout.\n        \n    - Authentication via email/password.\n        \n    - Profile management and updates.\n        \n2. **Product Management**\n    \n    - List all available products with filtering and sorting options.\n        \n    - Retrieve detailed product information.\n        \n    - Create, update, or delete products (Admin only).\n        \n3. **Cart and Checkout**\n    \n    - Add, update, or remove items from the cart.\n        \n    - Retrieve cart details.\n        \n    - Process orders and handle payments.\n        \n4. **Order Management**\n    \n    - View order history for users.\n        \n    - Update order status (Admin only).\n        \n5. **Marketplace Features**\n    \n    - View and manage product reviews.\n        \n    - Display bestsellers and trending products.\n        \n6. **Social Features**\n    \n    - Wishlist management.\n        \n    - Share products on social media platforms.\n        \n\n### Authentication\n\nThe API supports two methods for managing authentication:\n\nJWT (JSON Web Tokens) via the Authorization header and\n\n- HTTP-only cookies. Use either method to access protected endpoints.\n    \n\n1\\. JWT in Authorization Header  \nInclude a valid JWT token in the Authorization header for endpoints that require authentication. This method is commonly used for mobile and non-browser clients.\n\nExample:\n\n``` json\nAuthorization: Bearer <your_token_here>\n\n ```\n\n2\\. Cookies  \nFor browser-based clients, the server can manage authentication through HTTP-only cookies for enhanced security. This cookie is automatically sent with each request after login.\n\nThe cookie will store the JWT or session token securely.  \nEnsure your client handles CSRF tokens if required by the server for cookie-based authentication.  \nExample Request Flow with Cookies:\n\nLogin Endpoint: Authenticate using credentials, and the server sends an HTTP-only cookie.  \nSubsequent Requests: The cookie is automatically sent by the browser, eliminating the need to manually include the Authorization header.\n\n#### **Response Format**\n\nAll responses follow this structure:\n\n``` json\n{\n  \"status\": true,\n  \"message\": \"Optional descriptive message\"\n  \"data\": { ... },\n }\n\n ```\n\n#### **Error Handling**\n\nErrors are returned in the following format:\n\n``` json\njsonCopy code{\n  \"status\": false,\n  \"message\": \"Error description\"\n  \"data\": null\n}\n\n ```\n\n#### **Usage Notes**\n\n- Use the provided environment variables for base URLs and tokens.\n    \n- Follow rate limits to avoid throttling.\n    \n\n#### **API Categories in Postman**\n\nThe Postman collection is organized into the following folders for easy navigation:\n\n1. **Auth** – User registration, login, logout.\n    \n2. **Products** – CRUD operations for products.\n    \n3. **Cart** – Managing user cart.\n    \n4. **Orders** – Placing and viewing orders.\n    \n5. User - Managing user profile\n    \n6. **Admin** – Admin-specific functionalities.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25350743"
+	},
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Reset Password",
+					"item": [
+						{
+							"name": "Forgot Pass",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\":\"user@gmail.com\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/auth/forgot-password",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"auth",
+										"forgot-password"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Verify Email Copy",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\":\"user@gmail.com\",\r\n    \"code\":  546909\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/auth/verify-email",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"auth",
+										"verify-email"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Reset Pass",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"newPassword\":\"12345678\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/auth/reset-password/:userID/:token",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"auth",
+										"reset-password",
+										":userID",
+										":token"
+									],
+									"variable": [
+										{
+											"key": "userID",
+											"value": ""
+										},
+										{
+											"key": "token",
+											"value": ""
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Signup",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\":\"user_name\",\r\n    \"email\":\"user@gmail.com\",\r\n    \"password\":\"12345678\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/auth/signup",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"auth",
+								"signup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Verify Email",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"user@gmail.com\",\r\n    \"code\":  546909\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/auth/verify-email",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"auth",
+								"verify-email"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"user@gmail.com\",\r\n    \"password\":\"12345338\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/auth/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Resend Verification Code",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"user@gmail.com\",\r\n    \"codeFor\": \"reset\" // valuse [\"reset\", \"signup\"]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/auth/resend-code",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"auth",
+								"resend-code"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "### 1\\. Signup (Register a New User)\n\n- **Method**: `POST`\n    \n- **URL**: `http://localhost:8000/api/auth/signup`\n    \n- **Body** (JSON):\n    \n\n``` json\n{\n \"name\": \"User Name\",\n \"email\": \"user@example.com\",\n \"password\": \"password123\" \n}\n\n ```\n\n**Expected Response**:\n\n``` json\n{\n  \"status\": true,\n  \"message\": \"Verification code sent.\",\n   \"data\": {\n        \"user\": {\n            \"username\": \"Username\",\n            \"email\": \"user@example.com\",\n            \"_id\": \"\",\n            \"createdAt\": \"\",\n            \"updatedAt\": \"\",\n            .................\n        }\n    }\n}\n\n ```\n\n### **2.Email Verifecation**\n\n- **Method**: `POST`\n    \n- **URL**: `http://localhost:8000/api/auth/verify-email`\n    \n- **Body** (JSON):\n    \n\n``` json\n{\n    \"email\":\"user@example.com\",\n    \"code\":  123456\n}\n\n ```\n\n**Expected Response**:\n\n``` json\n{\n  \"status\": true,\n  \"message\": \"Email verified successfully\",\n   \"data\": {\n        \"user\": {\n            \"username\": \"Username\",\n            \"email\": \"user@example.com\",\n            \"_id\": \"\",\n            \"createdAt\": \"\",\n            \"updatedAt\": \"\"\n                  ......\n        }\n        \"token\":\"Token\"\n    }\n}\n\n ```\n\n### 2\\. Login\n\n- **Method**: `POST`\n    \n- **URL**: `http://localhost:8000/api/auth/login`\n    \n- **Body** (JSON):\n    \n\n``` json\n{\n \"email\": \"user@example.com\",\n \"password\": \"password123\" \n}\n\n ```\n\n- **Expected Response**\n    \n\n``` json\n{\n  \"status\": \"success\",\n  \"code\": 200,\n  \"message\":\"login successfully\",\n  \"token\": \"your_jwt_token\",\n  \"data\": {\n        \"user\": {\n            \"username\": \"Username\",\n            \"email\": \"user@example.com\",\n            \"_id\": \"\",\n            \"createdAt\": \"\",\n            \"updatedAt\": \"\"\n        }\n    }\n}\n\n ```\n\n### 3.Forgot Password\n\n- **Method**: `POST`\n    \n- **URL**: `http://localhost:8000/api/auth/forgot-password`\n    \n- **Body** (JSON):\n    \n\n``` json\n{\n \"email\": \"user@example.com\"\n}\n\n ```\n\n### 4.Reset Password\n\n- **Method**: `POST`\n    \n- **URL**: `http://localhost:8000/api/auth/reset-password`\n    \n- **Body** (JSON):\n    \n\n``` json\n{\n \"email\": \"user@example.com\"\n \"newPassword\": \"password123\" \n}\n\n ```\n\n### 5.Resend Code\n\n- **Method**: `POST`\n    \n- **URL**: `http://localhost:8000/api/auth/resend-code`\n    \n- **Body** (JSON):\n    \n\n``` json\n{\n \"email\": \"user@example.com\",\n \"codeFor\": \"signup\" // or 'reset' for password reset \n}\n\n ```\n\n**Expected Response**:\n\nResponse for Resend code at signup functionality\n\n``` json\n{\n \"status\": true,\n    \"message\": \"Verification code sent.\",\n    \"data\": null\n}\n\n ```\n\nResponse for Resend code at Reset password functionality\n\n``` json\n{\n    \"status\": true,\n    \"message\": \"Reset Password code sent.\",\n    \"data\": null\n}\n\n ```"
+		}
+	]
+}

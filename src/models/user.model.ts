@@ -97,12 +97,6 @@ const userSchema = new mongoose.Schema({
     },
     otpExpires:{
         type: Date
-    },
-    resetPasswordToken:{
-        type: String
-    },
-    resetPasswordExpires:{
-        type: Date
     }
 },{
     timestamps: true,
@@ -112,8 +106,6 @@ const userSchema = new mongoose.Schema({
             delete ret.otp;
             delete ret.otpCounter;
             delete ret.otpExpires
-            delete ret.resetPasswordToken;
-            delete ret.resetPasswordExpires;
             delete ret.__v;
             delete ret.cart;
             delete ret.orders;

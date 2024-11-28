@@ -1,4 +1,4 @@
-import { INotification } from "../Interfaces/INotification";
+import { INotification } from "../repositories/INotification";
 import { URLSearchParams } from "url";
 
 class EmailNotificationImp implements INotification{
