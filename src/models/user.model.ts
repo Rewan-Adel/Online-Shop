@@ -97,7 +97,10 @@ const userSchema = new mongoose.Schema({
     },
     otpExpires:{
         type: Date
-    }
+    },
+    resetPasswordToken:{
+        type: String
+    },
 },{
     timestamps: true,
     toJSON:{
@@ -110,6 +113,7 @@ const userSchema = new mongoose.Schema({
             delete ret.cart;
             delete ret.orders;
             delete ret.wishlist;
+            delete ret.resetPasswordToken;
             return ret;
         }
     }

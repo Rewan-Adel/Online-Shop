@@ -1,5 +1,6 @@
 import { INotification } from "../repositories/INotification";
 import { URLSearchParams } from "url";
+import Logger from "../logger";
 
 class EmailNotificationImp implements INotification{
     async send(recipient: string, subject: string, content: string): Promise<boolean> {
@@ -17,9 +18,13 @@ class EmailNotificationImp implements INotification{
                 return false;
                 
             return true;
-        }
-        catch (error : any) {
-            throw new Error(error.message)
+        }catch (error: unknown) {
+            if (error instanceof Error) {
+                Logger.error(error.message);
+            } else {
+                Logger.error('Unknown error');
+            }
+            return false;
         }
     }
 }

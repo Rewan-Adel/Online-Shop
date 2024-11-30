@@ -1,4 +1,4 @@
-import { IAuthService } from "../repositories/IAuthService";
+import { IAuthService } from "../repositories/IAuthRepository";
 import User from "../models/user.model";
 
 import { ICodeService } from "../repositories/ICodeService ";
@@ -6,7 +6,9 @@ import EncryptionService from "../utils/EncryptionService";
 import TokenService from "./TokenService";
 import { INotification } from "../repositories/INotification";
 import { ITokenService } from "../repositories/ITokenService";
-import IUserRepository from "../repositories/IUserRepository";
+// import IUserRepository from "../repositories/IUserRepository";
+import crypto from "crypto";    
+import Logger from "../logger";
 
 class AuthServiceImpl implements IAuthService {
     // private userRepository: IUserRepository;
@@ -81,14 +83,23 @@ class AuthServiceImpl implements IAuthService {
                     token,
                 },
             };
-        } catch (error : any)  {
-            console.error("Error during login:", error);
-            return {
-                isLogin: false,
-                message: "An error occurred.",
-                data: null,
-            };
-        }
+        }catch (error: unknown) {
+            if (error instanceof Error) {
+                Logger.error(error.message);
+                return {
+                    isLogin: false,
+                    message: error.message,
+                    data: null,
+                };
+            } else {
+                Logger.error('Unknown error');
+                return {
+                    isLogin: false,
+                    message: "An error occurred.",
+                    data: null,
+                };
+            }
+        } 
     };
     
     async forgotPassword(email: string ): Promise<{ message:string, data:object | null}>{
@@ -109,23 +120,35 @@ class AuthServiceImpl implements IAuthService {
                 `Your code is ${code}`,
                 `<p>Your code is: <strong>${code}</strong></p>`
             );
+            const token= crypto.randomBytes(20).toString('hex');
+            user.resetPasswordToken = await this.encryptionService.hash(token);
+            await user.save();
+
             return {
                 message: "Reset password code sent",
-                data: null
+                data: {
+                    userID: user._id,
+                    token
+                }
             };
 
-        }catch (error : any) {
-            return {
-                message: error.message,
-                data:null
+        }catch (error: unknown) {
+            if (error instanceof Error) {
+                Logger.error(error.message);
+            } else {
+                Logger.error('Unknown error');
             }
+            return {
+                message: "An error occurred.",
+                data: null
+            };
         }
 
     };
 
-    async resetPassword(email:string, password:string): Promise<{message:string, data:{user:object, token:string} | null}>{
+    async resetPassword(resetToken:string,userID, password:string): Promise<{message:string, data:{user:object, token:string} | null}>{
         try{
-            const user    = await User.findOne({email:email});
+            const user    = await User.findById(userID);
             if (!user)
                 return { message: "User not found.", data: null };
             if(!user.verified){
@@ -135,15 +158,16 @@ class AuthServiceImpl implements IAuthService {
                 }
             }
             
-            if(user.otpExpires instanceof Date && user.otpExpires.getTime() < Date.now()){
+            const isToken = await this.encryptionService.compare(resetToken, user.resetPasswordToken as string);
+            if(!isToken || user.otpExpires instanceof Date && user.otpExpires.getTime() < Date.now()){
                 return{
                     message: "Invalid token or expired.",
                     data: null
                 }
             }
             
-            // const hashedPassword = await this.encryptionService.hash(password);
             user.password = password;
+            user.resetPasswordToken = null;
             user.otp = null;
             user.otpExpires   = null;
             await user.save();
@@ -156,12 +180,21 @@ class AuthServiceImpl implements IAuthService {
                     token
                 }
             }
-        }catch (error : any) {
-            return {
-                message: error.message,
-                data:null
+        }catch (error : unknown) {
+            if (error instanceof Error) {
+                Logger.error(error.message);
+                return {
+                    message: error.message,
+                    data:null
+                }
+            }else{
+                Logger.error('Unknown error');
+                return {
+                    message: "An error occurred.",
+                    data:null
+                }
             }
-        }
+        };
     };
 
     async resendCodeForSignup(email:string): Promise<{ message:string }>{

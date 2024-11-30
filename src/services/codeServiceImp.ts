@@ -3,6 +3,7 @@ import { ICodeService } from "../repositories/ICodeService ";
 import EncryptionService from "../utils/EncryptionService";
 import TokenService from "./TokenService";
 import { INotification } from "../repositories/INotification";
+import Logger from "../logger";
 
 class verificationServiceImp implements ICodeService{
     private encryptionService  : EncryptionService;
@@ -56,8 +57,12 @@ class verificationServiceImp implements ICodeService{
                     }
                 }
 
-        }catch (error : any) {
-            console.log(error.message);
+        } catch (error: unknown) {
+            if (error instanceof Error) {
+                Logger.error(error.message);
+            } else {
+                Logger.error('Unknown error');
+            }
             return {
                 isValid: false,
                 data: null,

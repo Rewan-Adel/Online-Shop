@@ -10,7 +10,6 @@ interface IUserRepository{
     
     deleteUser(): Promise<void>;
     deleteAll(id:ObjectId): Promise<void>;
-
 };
 
 export default IUserRepository;

@@ -15,14 +15,19 @@ import path from "path";
 const app = express();
 const port = process.env.PORT || 3000;
 
+if(process.env.NODE_ENV == "production"){
+    app.use(compression());
+};
+
 const limiter = rateLimit({
     windowMs: 15 * 60 * 1000,
-    max: 100
+    max: 100,
+    message: "Too many requests from this IP, please try again later."
 });
 
 app.use(express.static(path.join(process.cwd(), "public")));
 app.get("/", (req: Request, res: Response) => {
-  res.sendFile(path.join(process.cwd(), "public", "index.html"));
+    res.sendFile(path.join(process.cwd(), "public", "index.html"));
 });
 
 app.set('trust proxy', 1);
@@ -33,10 +38,8 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use("/api/auth", authRoutes)
-if(process.env.NODE_ENV == "production"){
-    app.use(compression());
-}
+app.use("/api/auth", authRoutes);
+
 
 app.all("*", (req: Request, res: Response) => {
     failedResponse(res, 404, `can't find ${req.originalUrl} on this server!`);

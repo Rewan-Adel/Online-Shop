@@ -28,12 +28,15 @@ class VerificationCodeController{
                 return successResponse(res, 200, "Email verified successfully", response.data?? undefined);
             else
                 return failedResponse(res, 400, "Invalid code!")
-        }
-        catch (error : any) {
-            Logger.error(error.message);
-            console.log(error);
-            
-            return failedResponse(res, 500, error.message);
+        }catch (error: unknown) {
+            if (error instanceof Error) {
+                Logger.error(error.message);
+                return failedResponse(res, 500, error.message);
+            } else {
+                Logger.error('Unknown error');
+                return failedResponse(res, 500);
+            }
+
         }
     };
     

@@ -26,7 +26,7 @@ authRoutes.post("/signup/resend-code", (req, res) => signupController.resendCode
 authRoutes.post("/login", (req, res) => signupController.login(req, res));
 
 authRoutes.post("/forgot-password", (req, res) => signupController.forgotPassword(req, res));
-authRoutes.post("/reset-password", (req, res) => signupController.resetPassword(req, res));
+authRoutes.post("/reset-password/:userID/:resetToken", (req, res) => signupController.resetPassword(req, res));
 authRoutes.post("/reset-password/resend-code", (req, res) => signupController.resendCodeForReset(req, res));
 
 export default authRoutes;

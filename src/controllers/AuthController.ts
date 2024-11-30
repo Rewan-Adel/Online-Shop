@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { successResponse, failedResponse } from "../middlewares/responseHandler";
-import { IAuthService } from "../repositories/IAuthService";
+import { IAuthService } from "../repositories/IAuthRepository";
 import AuthValidator from "../utils/AuthValidator";
 import Logger from "../logger";
 
@@ -10,7 +10,7 @@ class signupController{
         this.authService = authService;
     };
     private handleValidation(validation: any, res: Response): boolean {
-        const { value, error } = validation;
+        const {  error } = validation;
         if (error) {
             failedResponse(res, 400, error.message);
             return false;
@@ -25,10 +25,15 @@ class signupController{
             const response = await this.authService.signup(username, email, password);
     
             return successResponse(res, 201, response.message, response.data?? undefined);
-        } catch (error : any)  {
-            Logger.error(error.message);
-            return failedResponse(res, 500, "Internal Server Error");
-        }
+        }catch (error: unknown) {
+            if (error instanceof Error) {
+                Logger.error(error.message);
+                return failedResponse(res, 500, error.message);
+            } else {
+                Logger.error('Unknown error');
+                return failedResponse(res, 500);
+            }
+        };
     };
 
     async login(req: Request, res: Response): Promise<void> {
@@ -41,38 +46,55 @@ class signupController{
                 return failedResponse(res, 400, response.message);
             else
                 return successResponse(res, 200, response.message, response.data ?? undefined);
-        } catch (error : any)  {
+        } catch (error: unknown) {
+            if (error instanceof Error) {
                 Logger.error(error.message);
-                return failedResponse(res, 500, "Internal Server Error");
-        }
+                return failedResponse(res, 500, error.message);
+            } else {
+                Logger.error('Unknown error');
+                return failedResponse(res, 500);
+            }
+        };
     };
 
     async forgotPassword(req: Request, res: Response): Promise<void> {
         try {
-            if (!this.handleValidation(new AuthValidator().forgotPasswordValidate(req.body), res)) return;
+           // if (!this.handleValidation(new AuthValidator().forgotPasswordValidate(req.body), res)) return;
             const { email } = req.body;
             const response = await this.authService.forgotPassword(email);
 
-            return successResponse(res, 200, response.message);
-        } catch (error : any)  {
-            Logger.error(error.message);
-            return failedResponse(res, 500, "Internal Server Error");
+            return successResponse(res, 200, response.message, );
+        }catch (error: unknown) {
+            if (error instanceof Error) {
+                Logger.error(error.message);
+                return failedResponse(res, 500, error.message);
+
+            } else {
+                Logger.error('Unknown error');
+                return failedResponse(res, 500);
+            }
+        }
     }
-    };
 
     async resetPassword(req: Request, res: Response): Promise<void> {
         try { 
-            if (!this.handleValidation(new AuthValidator().resetPasswordValidate(req.body), res)) return;
+           // if (!this.handleValidation(new AuthValidator().resetPasswordValidate(req.body), res)) return;
 
-            const { email, newPassword } = req.body;
+            const {newPassword } = req.body;
+            const {resetToken, userID}  = req.params;
 
-            const response = await this.authService.resetPassword(email, newPassword);
+            const response = await this.authService.resetPassword(resetToken, userID, newPassword);
             return successResponse(res, 200, response.message);
 
-        } catch (error : any) {
-            Logger.error(error.message);
-            return failedResponse(res, 500, "Internal Server Error");
-    }
+        }catch (error: unknown) {
+            if (error instanceof Error) {
+                Logger.error(error.message);
+                return failedResponse(res, 500, error.message);
+            } else {
+                Logger.error('Unknown error');
+                return failedResponse(res, 500);
+            }
+        };
     };
 
     async resendCodeForSignup(req: Request, res: Response): Promise<void> {
@@ -82,10 +104,15 @@ class signupController{
             const response = await this.authService.resendCodeForSignup(email);
             return successResponse(res, 200, response.message);
 
-        } catch (error : any)  {
-            Logger.error(error.message);
-            return failedResponse(res, 500, "Internal Server Error");
-    }
+        } catch (error: unknown) {
+            if (error instanceof Error) {
+                Logger.error(error.message);
+                return failedResponse(res, 500, error.message);
+            } else {
+                Logger.error('Unknown error');
+                return failedResponse(res, 500);
+            }
+        };
     };
 
     async resendCodeForReset(req: Request, res: Response): Promise<void> {
@@ -95,10 +122,17 @@ class signupController{
             const response = await this.authService.resendCodeForReset(email);
             return successResponse(res, 200, response.message);
 
-        } catch (error : any)  {
-            Logger.error(error.message);
-            return failedResponse(res, 500, "Internal Server Error");
-    }
+        } catch (error: unknown) {
+            if (error instanceof Error) {
+                Logger.error(error.message);
+                return failedResponse(res, 500, error.message);
+
+            } else {
+                Logger.error('Unknown error');
+                return failedResponse(res, 500);
+
+            }
+        }
     };
 
 };
