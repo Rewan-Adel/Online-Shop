@@ -1,7 +1,7 @@
 import bcrypt from "bcrypt";
 import Logger from "../logger";
 
-class EncryptionService {
+class Encryption{
     async hash(data: string): Promise<string> {
         try {
             return await bcrypt.hash(data, 10);
@@ -32,4 +32,4 @@ class EncryptionService {
     
 }
 
-export default EncryptionService;
+export default Encryption;

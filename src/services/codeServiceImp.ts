@@ -1,6 +1,6 @@
 import User from "../models/user.model";
 import { ICodeService } from "../repositories/ICodeService ";
-import EncryptionService from "../utils/EncryptionService";
+import EncryptionService from "../utils/Encryption";
 import TokenService from "./TokenService";
 import { INotification } from "../repositories/INotification";
 import Logger from "../logger";

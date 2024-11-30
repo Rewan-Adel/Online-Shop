@@ -2,7 +2,7 @@ import { INotification } from "../repositories/INotification";
 import { URLSearchParams } from "url";
 import Logger from "../logger";
 
-class EmailNotificationImp implements INotification{
+class EmailSender implements INotification{
     async send(recipient: string, subject: string, content: string): Promise<boolean> {
         const params = new URLSearchParams();
         params.append("email", recipient);
@@ -29,4 +29,4 @@ class EmailNotificationImp implements INotification{
     }
 }
 
-export default EmailNotificationImp;
+export default EmailSender;

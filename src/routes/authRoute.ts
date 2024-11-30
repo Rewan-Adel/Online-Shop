@@ -3,9 +3,9 @@ import  AuthController from "../controllers/AuthController";
 import  AuthServiceImpl from "../services/AuthServiceImpl";
 import  codeServiceImpl  from "../services/codeServiceImp";
 
-import EmailNotificationImp from "../services/EmailNotificationImp";
+import EmailNotificationImp from "../utils/EmailSender";
 import VerificationCodeController from "../controllers/verificationCodeController";
-import EncryptionService from "../utils/EncryptionService";
+import EncryptionService from "../utils/Encryption";
 import TokenService from "../services/TokenService";
 const authRoutes = Router();
 

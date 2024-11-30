@@ -1,49 +1,47 @@
-import { IAuthService } from "../repositories/IAuthRepository";
+import AuthRepository  from "../repositories/AuthRepository";
 import User from "../models/user.model";
 
 import { ICodeService } from "../repositories/ICodeService ";
-import EncryptionService from "../utils/EncryptionService";
+import EncryptionService from "../utils/Encryption";
 import TokenService from "./TokenService";
 import { INotification } from "../repositories/INotification";
+
 import { ITokenService } from "../repositories/ITokenService";
-// import IUserRepository from "../repositories/IUserRepository";
+
+import UserService from "./UserService";
 import crypto from "crypto";    
 import Logger from "../logger";
 
-class AuthServiceImpl implements IAuthService {
-    // private userRepository: IUserRepository;
+class AuthServiceImpl implements AuthRepository {
+    private userService: UserService = new UserService();
+
+
     private tokenService: ITokenService;
     private codeService: ICodeService;
     private notificationService: INotification;
     private encryptionService: EncryptionService
     constructor(
-        // userRepository: IUserRepository,
         tokenService: ITokenService,
         encryptionService: EncryptionService,
         codeService: ICodeService,
         notificationService: INotification
     ) {
-        // this.userRepository = userRepository;
         this.tokenService = tokenService;
         this.codeService = codeService;
         this.notificationService = notificationService;
         this.encryptionService = encryptionService;
     };
 
-    async signup( username: string, email: string, password: string ): Promise<{ message:string, data:object | null}>{
-        const userExist = await this.isUserExist(email);
-        if(userExist)
+    async signup( username: string, email: string, password: string ): Promise<{isSignup:boolean, message:string, data?:object | null}>{
+        const userExist = await this.userService.findByEmail(email);
+        console.log(userExist)
+        if(userExist )
             return {
-                message: "Email already exists",
-                data: null
-            };
+                isSignup: false,
+                message: "Email already exists"
+        };
         
-        
-        const newUser = await User.create({
-            username,
-            email,
-            password
-        });
+        const newUser =  await this.userService.createUser(username, email, password);
         const code = await this.otpHandler(newUser);
         
         await this.notificationService.send(
@@ -53,7 +51,11 @@ class AuthServiceImpl implements IAuthService {
             `<p>Your code is: <strong>${code}</strong></p>`
         );
 
-        return { message: "Verification code sent.", data: {user:newUser} };
+        return {
+            isSignup: true,
+            message: "Verification code sent.",
+            data: {user:newUser}
+        };
     };
     
     async login(email: string, password: string ): Promise<{isLogin: boolean, message:string, data:object | null}>{

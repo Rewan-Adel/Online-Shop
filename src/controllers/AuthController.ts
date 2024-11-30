@@ -1,12 +1,12 @@
 import { Request, Response } from "express";
 import { successResponse, failedResponse } from "../middlewares/responseHandler";
-import { IAuthService } from "../repositories/IAuthRepository";
+import AuthRepository from "../repositories/AuthRepository";
 import AuthValidator from "../utils/AuthValidator";
 import Logger from "../logger";
 
 class signupController{
-    private authService: IAuthService;
-    constructor(authService: IAuthService) {
+    private authService: AuthRepository;
+    constructor(authService: AuthRepository) {
         this.authService = authService;
     };
     private handleValidation(validation: any, res: Response): boolean {
@@ -23,7 +23,9 @@ class signupController{
 
             const { username, email, password } = req.body;
             const response = await this.authService.signup(username, email, password);
-    
+
+            if(!response.isSignup) return failedResponse(res, 400, response.message);
+
             return successResponse(res, 201, response.message, response.data?? undefined);
         }catch (error: unknown) {
             if (error instanceof Error) {
