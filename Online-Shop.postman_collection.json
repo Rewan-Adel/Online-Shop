@@ -20,7 +20,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"email\":\"rewanadel1266@gmail.com\"\r\n}",
+									"raw": "{\r\n    \"email\":\"rewanmahrous0@gmail.com\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -28,12 +28,9 @@
 									}
 								},
 								"url": {
-									"raw": "https://online-shop-tau-liart.vercel.app/api/auth/forgot-password",
-									"protocol": "https",
+									"raw": "{{LOCAL_URL}}/api/auth/forgot-password",
 									"host": [
-										"online-shop-tau-liart",
-										"vercel",
-										"app"
+										"{{LOCAL_URL}}"
 									],
 									"path": [
 										"api",
@@ -51,7 +48,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"email\":\"rewanadel1266@gmail.com\",\r\n    \"code\":  937797\r\n}",
+									"raw": "{\r\n    \"email\":\"rewanmahrous0@gmail.com\",\r\n    \"code\":  332016\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -59,12 +56,9 @@
 									}
 								},
 								"url": {
-									"raw": "https://online-shop-tau-liart.vercel.app/api/auth/verify-email",
-									"protocol": "https",
+									"raw": "{{LOCAL_URL}}/api/auth/verify-email",
 									"host": [
-										"online-shop-tau-liart",
-										"vercel",
-										"app"
+										"{{LOCAL_URL}}"
 									],
 									"path": [
 										"api",
@@ -82,7 +76,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"email\":\"rewanadel1266@gmail.com\",\r\n    \"newPassword\":\"12345678r\"\r\n}",
+									"raw": "{\r\n    \"newPassword\":\"12345678r\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -90,17 +84,26 @@
 									}
 								},
 								"url": {
-									"raw": "https://online-shop-tau-liart.vercel.app/api/auth/reset-password",
-									"protocol": "https",
+									"raw": "{{LOCAL_URL}}/api/auth/reset-password/:userID/:resetToken",
 									"host": [
-										"online-shop-tau-liart",
-										"vercel",
-										"app"
+										"{{LOCAL_URL}}"
 									],
 									"path": [
 										"api",
 										"auth",
-										"reset-password"
+										"reset-password",
+										":userID",
+										":resetToken"
+									],
+									"variable": [
+										{
+											"key": "userID",
+											"value": "6748f018c3843857ac4e0591"
+										},
+										{
+											"key": "resetToken",
+											"value": "9e1ebab46bb3fb39deda6d8983a8d1288054844f"
+										}
 									]
 								}
 							},
@@ -142,65 +145,102 @@
 				},
 				{
 					"name": "Signup",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"username\":\"user_name\",\r\n    \"email\":\"rewanadel1266@gmail.com\",\r\n    \"password\":\"12345678\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
+					"item": [
+						{
+							"name": "Signup",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\":\"user_name\",\r\n    \"email\":\"rewanadel1266@gmail.com\",\r\n    \"password\":\"12345678\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://online-shop-tau-liart.vercel.app/api/auth/signup",
+									"protocol": "https",
+									"host": [
+										"online-shop-tau-liart",
+										"vercel",
+										"app"
+									],
+									"path": [
+										"api",
+										"auth",
+										"signup"
+									]
 								}
-							}
+							},
+							"response": []
 						},
-						"url": {
-							"raw": "https://online-shop-tau-liart.vercel.app/api/auth/signup",
-							"protocol": "https",
-							"host": [
-								"online-shop-tau-liart",
-								"vercel",
-								"app"
-							],
-							"path": [
-								"api",
-								"auth",
-								"signup"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Verify Email",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"email\":\"rewanadel1266@gmail.com\",\r\n    \"code\":  462257\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
+						{
+							"name": "Verify Email",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\":\"rewanadel1266@gmail.com\",\r\n    \"code\":  462257\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://online-shop-tau-liart.vercel.app/api/auth/verify-email",
+									"protocol": "https",
+									"host": [
+										"online-shop-tau-liart",
+										"vercel",
+										"app"
+									],
+									"path": [
+										"api",
+										"auth",
+										"verify-email"
+									]
 								}
-							}
+							},
+							"response": []
 						},
-						"url": {
-							"raw": "https://online-shop-tau-liart.vercel.app/api/auth/verify-email",
-							"protocol": "https",
-							"host": [
-								"online-shop-tau-liart",
-								"vercel",
-								"app"
-							],
-							"path": [
-								"api",
-								"auth",
-								"verify-email"
-							]
+						{
+							"name": "Resend Verification Code",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\":\"rewanadel1266@gmail.com\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://online-shop-tau-liart.vercel.app/api/auth/signup/resend-code",
+									"protocol": "https",
+									"host": [
+										"online-shop-tau-liart",
+										"vercel",
+										"app"
+									],
+									"path": [
+										"api",
+										"auth",
+										"signup",
+										"resend-code"
+									]
+								}
+							},
+							"response": []
 						}
-					},
-					"response": []
+					]
 				},
 				{
 					"name": "Login",
@@ -209,7 +249,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\":\"rewanadel1266@gmail.com\",\r\n    \"password\":\"12345678r\"\r\n}",
+							"raw": "{\r\n    \"email\":\"rewanmahrous0@gmail.com\",\r\n    \"password\":\"12345678r\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -217,12 +257,9 @@
 							}
 						},
 						"url": {
-							"raw": "https://online-shop-tau-liart.vercel.app/api/auth/login",
-							"protocol": "https",
+							"raw": "{{LOCAL_URL}}/api/auth/login",
 							"host": [
-								"online-shop-tau-liart",
-								"vercel",
-								"app"
+								"{{LOCAL_URL}}"
 							],
 							"path": [
 								"api",
@@ -232,41 +269,43 @@
 						}
 					},
 					"response": []
-				},
-				{
-					"name": "Resend Verification Code",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"email\":\"rewanadel1266@gmail.com\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "https://online-shop-tau-liart.vercel.app/api/auth/signup/resend-code",
-							"protocol": "https",
-							"host": [
-								"online-shop-tau-liart",
-								"vercel",
-								"app"
-							],
-							"path": [
-								"api",
-								"auth",
-								"signup",
-								"resend-code"
-							]
-						}
-					},
-					"response": []
 				}
 			],
-			"description": "### 1\\. Signup (Register a New User)\n\n- **Method**: `POST`\n    \n- **URL**: `http://localhost:8000/api/auth/signup`\n    \n- **Body** (JSON):\n    \n\n``` json\n{\n \"name\": \"User Name\",\n \"email\": \"user@example.com\",\n \"password\": \"password123\" \n}\n\n ```\n\n**Expected Response**:\n\n``` json\n{\n  \"status\": true,\n  \"message\": \"Verification code sent.\",\n   \"data\": {\n        \"user\": {\n            \"username\": \"Username\",\n            \"email\": \"user@example.com\",\n            \"_id\": \"\",\n            \"createdAt\": \"\",\n            \"updatedAt\": \"\",\n            .................\n        }\n    }\n}\n\n ```\n\n### **2.Email Verifecation**\n\n- **Method**: `POST`\n    \n- **URL**: `http://localhost:8000/api/auth/verify-email`\n    \n- **Body** (JSON):\n    \n\n``` json\n{\n    \"email\":\"user@example.com\",\n    \"code\":  123456\n}\n\n ```\n\n**Expected Response**:\n\n``` json\n{\n  \"status\": true,\n  \"message\": \"Email verified successfully\",\n   \"data\": {\n        \"user\": {\n            \"username\": \"Username\",\n            \"email\": \"user@example.com\",\n            \"_id\": \"\",\n            \"createdAt\": \"\",\n            \"updatedAt\": \"\"\n                  ......\n        }\n        \"token\":\"Token\"\n    }\n}\n\n ```\n\n### 2\\. Login\n\n- **Method**: `POST`\n    \n- **URL**: `http://localhost:8000/api/auth/login`\n    \n- **Body** (JSON):\n    \n\n``` json\n{\n \"email\": \"user@example.com\",\n \"password\": \"password123\" \n}\n\n ```\n\n- **Expected Response**\n    \n\n``` json\n{\n  \"status\": \"success\",\n  \"code\": 200,\n  \"message\":\"login successfully\",\n  \"token\": \"your_jwt_token\",\n  \"data\": {\n        \"user\": {\n            \"username\": \"Username\",\n            \"email\": \"user@example.com\",\n            \"_id\": \"\",\n            \"createdAt\": \"\",\n            \"updatedAt\": \"\"\n        }\n    }\n}\n\n ```\n\n### 3.Forgot Password\n\n- **Method**: `POST`\n    \n- **URL**: `http://localhost:8000/api/auth/forgot-password`\n    \n- **Body** (JSON):\n    \n\n``` json\n{\n \"email\": \"user@example.com\"\n}\n\n ```\n\n### 4.Reset Password\n\n- **Method**: `POST`\n    \n- **URL**: `http://localhost:8000/api/auth/reset-password`\n    \n- **Body** (JSON):\n    \n\n``` json\n{\n \"email\": \"user@example.com\"\n \"newPassword\": \"password123\" \n}\n\n ```\n\n### 5.Resend Code For Signup\n\n- **Method**: `POST`\n    \n- **URL**: `http://localhost:8000/api/auth/signup/resend-code`\n    \n- **Body** (JSON):\n    \n\n``` json\n{\n \"email\": \"user@example.com\"\n}\n\n ```\n\n**Expected Response**:\n\n``` json\n{\n \"status\": true,\n    \"message\": \"Verification code sent.\",\n    \"data\": null\n}\n\n ```\n\n### 5.Resend Code For Signup\n\n- **Method**: `POST`\n    \n- **URL**: `http://localhost:8000/api/auth/reset-password/resend-code`\n    \n- **Body** (JSON):\n    \n\n``` json\n{\n \"email\": \"user@example.com\"\n}\n\n ```\n\n**Expected Response**:\n\n``` json\n{\n    \"status\": true,\n    \"message\": \"Reset Password code sent.\",\n    \"data\": null\n}\n\n ```"
+			"description": "### 1\\. Signup (Register a New User)\n\n- **Method**: `POST`\n    \n- **URL**: `/api/auth/signup`\n    \n- **Body** (JSON):\n    \n\n``` json\n{\n \"name\": \"User Name\",\n \"email\": \"user@example.com\",\n \"password\": \"password123\" \n}\n\n ```\n\n**Expected Response**:\n\n``` json\n{\n  \"status\": true,\n  \"message\": \"Verification code sent.\",\n   \"data\": {\n        \"user\": {\n            \"username\": \"Username\",\n            \"email\": \"user@example.com\",\n            \"_id\": \"\",\n            \"createdAt\": \"\",\n            \"updatedAt\": \"\",\n            .................\n        }\n    }\n}\n\n ```\n\n### **2.Email Verifecation**\n\n- **Method**: `POST`\n    \n- **URL**: `http://localhost:8000/api/auth/verify-email`\n    \n- **Body** (JSON):\n    \n\n``` json\n{\n    \"email\":\"user@example.com\",\n    \"code\":  123456\n}\n\n ```\n\n**Expected Response**:\n\n``` json\n{\n  \"status\": true,\n  \"message\": \"Email verified successfully\",\n   \"data\": {\n        \"user\": {\n            \"username\": \"Username\",\n            \"email\": \"user@example.com\",\n            \"_id\": \"\",\n            \"createdAt\": \"\",\n            \"updatedAt\": \"\"\n                  ......\n        }\n        \"token\":\"Token\"\n    }\n}\n\n ```\n\n### 2\\. Login\n\n- **Method**: `POST`\n    \n- **URL**: `/api/auth/login`\n    \n- **Body** (JSON):\n    \n\n``` json\n{\n \"email\": \"user@example.com\",\n \"password\": \"password123\" \n}\n\n ```\n\n- **Expected Response**\n    \n\n``` json\n{\n  \"status\": \"success\",\n  \"code\": 200,\n  \"message\":\"login successfully\",\n  \"token\": \"your_jwt_token\",\n  \"data\": {\n        \"user\": {\n            \"username\": \"Username\",\n            \"email\": \"user@example.com\",\n            \"_id\": \"\",\n            \"createdAt\": \"\",\n            \"updatedAt\": \"\"\n        }\n    }\n}\n\n ```\n\n### 3.Forgot Password\n\n- **Method**: `POST`\n    \n- **URL**: `/api/auth/forgot-password`\n    \n- **Body** (JSON):\n    \n\n``` json\n{\n \"email\": \"user@example.com\"\n}\n\n ```\n\n### 4.Reset Password\n\n- **Method**: `POST`\n    \n- **URL**: `http://localhost:8000/api/auth/reset-password/:userID/:resetToken`\n    \n- **Body** (JSON):\n    \n\n``` json\n{\n \"newPassword\": \"password123\" \n}\n\n ```\n\n### 5.Resend Code For Signup\n\n- **Method**: `POST`\n    \n- **URL**: `/api/auth/signup/resend-code`\n    \n- **Body** (JSON):\n    \n\n``` json\n{\n \"email\": \"user@example.com\"\n}\n\n ```\n\n**Expected Response**:\n\n``` json\n{\n \"status\": true,\n    \"message\": \"Verification code sent.\",\n    \"data\": null\n}\n\n ```\n\n### 5.Resend Code For Signup\n\n- **Method**: `POST`\n    \n- **URL**: `/api/auth/reset-password/resend-code`\n    \n- **Body** (JSON):\n    \n\n``` json\n{\n \"email\": \"user@example.com\"\n}\n\n ```\n\n**Expected Response**:\n\n``` json\n{\n    \"status\": true,\n    \"message\": \"Reset Password code sent.\",\n    \"data\": null\n}\n\n ```"
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "LOCAL_URL",
+			"value": "http://localhost:8080",
+			"type": "default"
+		},
+		{
+			"key": "{{URL}}",
+			"value": "https://online-shop-tau-liart.vercel.app/",
+			"type": "string"
 		}
 	]
 }
