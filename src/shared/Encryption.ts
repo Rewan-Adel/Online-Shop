@@ -1,5 +1,5 @@
 import bcrypt from "bcrypt";
-import Logger from "../logger";
+import Logger from "../shared/Logger";
 
 class Encryption{
     async hash(data: string): Promise<string> {

@@ -1,26 +1,23 @@
 import { Router } from "express";
 import  AuthController from "../controllers/AuthController";
-import  AuthServiceImpl from "../services/AuthServiceImpl";
-import  codeServiceImpl  from "../services/codeServiceImp";
-
+import  AuthServiceImpl from "../services/AuthService";
 import EmailNotificationImp from "../utils/EmailSender";
-import VerificationCodeController from "../controllers/verificationCodeController";
-import EncryptionService from "../utils/Encryption";
-import TokenService from "../services/TokenService";
+import Encryption from "../shared/Encryption";
+import Token from "../shared/Token";
+import UserService from "../services/UserService";
 const authRoutes = Router();
 
-const encryption       = new EncryptionService();
+const encryption       = new Encryption();
 const notification     = new EmailNotificationImp();
-const tokenServiceInstance = new TokenService();
-const verificationCodeService    = new codeServiceImpl(encryption, notification);
-const verificationCodeController = new VerificationCodeController(verificationCodeService);
+const token   = new Token();
+const userService  = new UserService()
 
-const signupService    = new AuthServiceImpl(tokenServiceInstance, encryption, verificationCodeService, notification);
+const signupService    = new AuthServiceImpl(userService, token, encryption, notification);
 const signupController = new AuthController(signupService);
 
 
 authRoutes.post("/signup", (req, res) => signupController.signup(req, res));
-authRoutes.post("/verify-email", (req, res) => verificationCodeController.codeVerifier(req, res));
+authRoutes.post("/verify-email", (req, res) => signupController.ValidateUserEmail(req, res));
 authRoutes.post("/signup/resend-code", (req, res) => signupController.resendCodeForSignup(req, res));
 
 authRoutes.post("/login", (req, res) => signupController.login(req, res));

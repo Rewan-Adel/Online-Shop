@@ -1,13 +1,11 @@
 import jwt from "jsonwebtoken";
-import { ITokenService } from "../repositories/ITokenService";
 
-// interface Payload {
-//     userID: string;
-//     email: string;
-//     [key: string]: unknown;
-// }
+export interface IToken{
+    generateToken(userId:string): string;
+    verifyToken(token: string) : string | jwt.JwtPayload
+};
 
-class TokenService implements ITokenService{
+class Token implements IToken{
     private secret: string;
     private expiresIn: string;
 
@@ -29,4 +27,4 @@ class TokenService implements ITokenService{
     }
 }
 
-export default TokenService;
+export default Token;

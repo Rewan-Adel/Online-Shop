@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import  mongoose from 'mongoose';
 
 class dbConnection{
     private dbUri = process.env.DB_URI;

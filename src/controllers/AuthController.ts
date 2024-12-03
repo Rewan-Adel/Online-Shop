@@ -1,22 +1,17 @@
 import { Request, Response } from "express";
 import { successResponse, failedResponse } from "../middlewares/responseHandler";
-import AuthRepository from "../repositories/AuthRepository";
-import AuthValidator from "../utils/AuthValidator";
-import Logger from "../logger";
 
-class signupController{
+import AuthRepository from "../repositories/AuthRepository";
+import AuthValidator  from "../utils/AuthValidator";
+import Logger         from "../shared/Logger";
+import { ValidationResult } from "joi";
+
+class AuthController{
     private authService: AuthRepository;
     constructor(authService: AuthRepository) {
         this.authService = authService;
     };
-    private handleValidation(validation: any, res: Response): boolean {
-        const {  error } = validation;
-        if (error) {
-            failedResponse(res, 400, error.message);
-            return false;
-        }
-        return true;
-    }
+
     async signup(req: Request, res:Response): Promise<void> {
         try {
             if (!this.handleValidation(new AuthValidator().signupValidate(req.body), res)) return;
@@ -27,6 +22,28 @@ class signupController{
             if(!response.isSignup) return failedResponse(res, 400, response.message);
 
             return successResponse(res, 201, response.message, response.data?? undefined);
+        
+        }catch (error: unknown) {
+            if (error instanceof Error) {
+                Logger.error(error.message);
+                return failedResponse(res, 500, error.message);
+            } else {
+                Logger.error('Unknown error');
+                return failedResponse(res, 500);
+            }
+        };
+    };
+    
+    async ValidateUserEmail(req:Request, res:Response){
+        try{
+            const {email, code} = req.body;
+        
+            const response = await this.authService.ValidateUserEmail(email,code)
+            if(response.isValid)
+                return successResponse(res, 200, response.message, response.data?? undefined);
+            else
+                return failedResponse(res, 400, response.message);
+
         }catch (error: unknown) {
             if (error instanceof Error) {
                 Logger.error(error.message);
@@ -61,11 +78,14 @@ class signupController{
 
     async forgotPassword(req: Request, res: Response): Promise<void> {
         try {
-           // if (!this.handleValidation(new AuthValidator().forgotPasswordValidate(req.body), res)) return;
+            if (!this.handleValidation(new AuthValidator().forgotPasswordValidate(req.body), res)) return;
             const { email } = req.body;
             const response = await this.authService.forgotPassword(email);
 
-            return successResponse(res, 200, response.message, );
+            if(!response.isSent)
+                return failedResponse(res, 400, response.message);
+
+            return successResponse(res, 200, response.message, response.data??undefined);
         }catch (error: unknown) {
             if (error instanceof Error) {
                 Logger.error(error.message);
@@ -80,12 +100,15 @@ class signupController{
 
     async resetPassword(req: Request, res: Response): Promise<void> {
         try { 
-           // if (!this.handleValidation(new AuthValidator().resetPasswordValidate(req.body), res)) return;
+            if (!this.handleValidation(new AuthValidator().resetPasswordValidate(req.body), res)) return;
 
             const {newPassword } = req.body;
             const {resetToken, userID}  = req.params;
 
             const response = await this.authService.resetPassword(resetToken, userID, newPassword);
+            if(!response.isReset)
+                return failedResponse(res, 400, response.message);
+            
             return successResponse(res, 200, response.message);
 
         }catch (error: unknown) {
@@ -103,7 +126,10 @@ class signupController{
         try { 
             const { email } = req.body;
 
-            const response = await this.authService.resendCodeForSignup(email);
+            const response = await this.authService.sendSignupCode(email)
+            if(!response.isSent)
+                return failedResponse(res, 400, response.message);
+
             return successResponse(res, 200, response.message);
 
         } catch (error: unknown) {
@@ -121,7 +147,7 @@ class signupController{
         try { 
             const { email } = req.body;
 
-            const response = await this.authService.resendCodeForReset(email);
+            const response = await this.authService.sendResetPasswordCode(email);
             return successResponse(res, 200, response.message);
 
         } catch (error: unknown) {
@@ -135,8 +161,17 @@ class signupController{
 
             }
         }
-    };
+    }
 
+    private handleValidation(validation: ValidationResult, res: Response): boolean {
+        const {  error } = validation;
+        if (error) {
+            failedResponse(res, 400, error.message);
+            return false;
+        }
+            return true;
+    }
 };
 
-export default signupController;
+
+export default AuthController;

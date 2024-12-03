@@ -38,7 +38,7 @@ const userSchema = new mongoose.Schema({
     },
     role:{
         type: String,
-        enum: ["user","admin"],
+        enum: ["user","admin", "User", "Admin"],
         default: "user"
     },
     location:{
@@ -67,7 +67,7 @@ const userSchema = new mongoose.Schema({
     },
     active:{
         type: Boolean,
-        default: true
+        default: false
     },
     wishlist:[
         {
@@ -119,7 +119,7 @@ const userSchema = new mongoose.Schema({
     }
 });
 
-userSchema.index({email: 1}, {unique: true})
+userSchema.index({ email: 1 }, { unique: true, sparse: true });
 
 userSchema.pre("save", async function(this: mongoose.Document & { password: string, isModified: (path: string) => boolean }, next){
     if(!this.isModified("password")) return next();
@@ -127,8 +127,5 @@ userSchema.pre("save", async function(this: mongoose.Document & { password: stri
     next();
 });
 
-// userSchema.methods.passwordMatch = async function(this: mongoose.Document & { password: string }, userPassword: string) {
-//     return await bcrypt.compare(userPassword, this.password);
-// };
 const User = mongoose.model('user', userSchema);
 export default User;

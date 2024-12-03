@@ -1,6 +1,6 @@
-import { INotification } from "../repositories/INotification";
+import INotification  from "../shared/INotification";
 import { URLSearchParams } from "url";
-import Logger from "../logger";
+import Logger from "../shared/Logger";
 
 class EmailSender implements INotification{
     async send(recipient: string, subject: string, content: string): Promise<boolean> {

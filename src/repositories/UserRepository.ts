@@ -1,12 +1,16 @@
-import { ObjectId } from "mongoose";
+import { mongo, ObjectId } from "mongoose";
 
 interface UserRepository{
-    findById(id:ObjectId): Promise<object>;
-    findByEmail(email:string): Promise<object | null>;
-    // findAll(): Promise<[]>;
-    updateUser(userID, data: object): Promise<object>
+    findById(id:ObjectId): Promise<mongo.Document>;
+    findByEmail(email:string);
+    updateUser(userID, data: object);
+    
     deleteUser(userID): Promise<void>;
-    deleteAll(id:ObjectId): Promise<void>;
+    deleteAll(): Promise<void>;
+
+    //findAll(): Promise<[]>;
+    //IsActiveUser
+    //enableUser
 };
 
 export default UserRepository;

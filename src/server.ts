@@ -1,16 +1,17 @@
 import express from "express";
 import { Request, Response } from "express";
-import compression from "compression";
 import cookieParser from "cookie-parser";
+import rateLimit    from "express-rate-limit";
+import compression  from "compression";
 import helmet from "helmet";
-import cors from "cors";
-import rateLimit from "express-rate-limit";
+import cors   from "cors";
+import path   from "path";
 import "dotenv/config";
 
 import {failedResponse} from "./middlewares/responseHandler";
 import dbConnection from "./config/dbConnection";
+import BackgroundJob from "./shared/BackgroundJob";
 import authRoutes from "./routes/authRoute";
-import path from "path";
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -38,6 +39,7 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+
 app.use("/api/auth", authRoutes);
 
 
@@ -46,6 +48,7 @@ app.all("*", (req: Request, res: Response) => {
 });
 
 new dbConnection();
+new BackgroundJob();
 
 app.listen(port, ()=>{
     console.log(`Server running on port ${port}`);

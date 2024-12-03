@@ -1,14 +1,15 @@
 import UserRepository from '../repositories/UserRepository';
 import User from '../models/user.model';
-import Logger from '../logger';
-import { ObjectId } from 'mongoose';
+import Logger from '../shared/Logger';
+// import EncryptionService  from '../utils/Encryption';
+import { ObjectId } from "mongoose";
 
 class UserService implements UserRepository{
-    //ValidateUser
+    // private encryptionService = new EncryptionService();
     //IsActiveUser
     //enableUser
 
-    public async findById(id: ObjectId): Promise<object> {
+    public async findById(id: ObjectId){
         try{
             const user = await User.findById(id);
             return user || {};
@@ -23,10 +24,10 @@ class UserService implements UserRepository{
         }
     };
 
-    public async findByEmail(email: string): Promise<object | null> {
+    public async findByEmail(email: string){
         try{
             const user = await User.findOne({email:email});
-            return user? user : null;
+            return user;
         }catch(error: unknown){
             if(error instanceof Error)
                 Logger.error(error.message);
@@ -51,7 +52,7 @@ class UserService implements UserRepository{
     //     }
     // };
 
-    public async createUser(username: string, email: string, password: string): Promise<object> {
+    public async createUser(username: string, email: string, password: string){
         try{
             const user = new User({
                 username,
@@ -70,7 +71,7 @@ class UserService implements UserRepository{
         }
     };
 
-    public async updateUser(userID, data: object): Promise<object> {
+    public async updateUser(userID, data: object) {
         try{
             const user = await  User.findByIdAndUpdate(userID, data, {new: true});
             return user || {};
