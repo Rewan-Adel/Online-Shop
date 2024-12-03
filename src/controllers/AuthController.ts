@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { successResponse, failedResponse } from "../middlewares/responseHandler";
+import { successResponse, failedResponse, handleError} from "../middlewares/responseHandler";
 
 import AuthRepository from "../repositories/AuthRepository";
 import AuthValidator  from "../utils/AuthValidator";
@@ -24,13 +24,7 @@ class AuthController{
             return successResponse(res, 201, response.message, response.data?? undefined);
         
         }catch (error: unknown) {
-            if (error instanceof Error) {
-                Logger.error(error.message);
-                return failedResponse(res, 500, error.message);
-            } else {
-                Logger.error('Unknown error');
-                return failedResponse(res, 500);
-            }
+            handleError(error, res);
         };
     };
     
@@ -45,13 +39,7 @@ class AuthController{
                 return failedResponse(res, 400, response.message);
 
         }catch (error: unknown) {
-            if (error instanceof Error) {
-                Logger.error(error.message);
-                return failedResponse(res, 500, error.message);
-            } else {
-                Logger.error('Unknown error');
-                return failedResponse(res, 500);
-            }
+            handleError(error, res);
         };
     };
 
@@ -66,13 +54,7 @@ class AuthController{
             else
                 return successResponse(res, 200, response.message, response.data ?? undefined);
         } catch (error: unknown) {
-            if (error instanceof Error) {
-                Logger.error(error.message);
-                return failedResponse(res, 500, error.message);
-            } else {
-                Logger.error('Unknown error');
-                return failedResponse(res, 500);
-            }
+            handleError(error, res);
         };
     };
 
@@ -87,14 +69,7 @@ class AuthController{
 
             return successResponse(res, 200, response.message, response.data??undefined);
         }catch (error: unknown) {
-            if (error instanceof Error) {
-                Logger.error(error.message);
-                return failedResponse(res, 500, error.message);
-
-            } else {
-                Logger.error('Unknown error');
-                return failedResponse(res, 500);
-            }
+            handleError(error, res);
         }
     }
 
@@ -112,13 +87,7 @@ class AuthController{
             return successResponse(res, 200, response.message);
 
         }catch (error: unknown) {
-            if (error instanceof Error) {
-                Logger.error(error.message);
-                return failedResponse(res, 500, error.message);
-            } else {
-                Logger.error('Unknown error');
-                return failedResponse(res, 500);
-            }
+            handleError(error, res);
         };
     };
 
@@ -133,13 +102,7 @@ class AuthController{
             return successResponse(res, 200, response.message);
 
         } catch (error: unknown) {
-            if (error instanceof Error) {
-                Logger.error(error.message);
-                return failedResponse(res, 500, error.message);
-            } else {
-                Logger.error('Unknown error');
-                return failedResponse(res, 500);
-            }
+            handleError(error, res);
         };
     };
 
@@ -151,15 +114,7 @@ class AuthController{
             return successResponse(res, 200, response.message);
 
         } catch (error: unknown) {
-            if (error instanceof Error) {
-                Logger.error(error.message);
-                return failedResponse(res, 500, error.message);
-
-            } else {
-                Logger.error('Unknown error');
-                return failedResponse(res, 500);
-
-            }
+            handleError(error, res);
         }
     }
 

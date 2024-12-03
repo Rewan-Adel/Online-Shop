@@ -1,4 +1,5 @@
 import { Response } from "express";
+import Logger from "../shared/Logger";
 
 export const successResponse= (res:Response, statusCode?:number, msg? : string, data?:object)=>{
     res.status(statusCode?? 200).json({
@@ -16,3 +17,12 @@ export const failedResponse = (res:Response, statusCode?:number, msg? : string, 
     })
 };
 
+export const handleError = (error: unknown, res: Response) =>{
+    if (error instanceof Error) {
+        Logger.error(error.message);
+        failedResponse(res, 500, error.message);
+    } else {
+        Logger.error('Unknown error');
+        failedResponse(res, 500);
+    }
+}
