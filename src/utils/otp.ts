@@ -1,4 +1,4 @@
-import Encryption from '../shared/Encryption';
+import Encryption from './Encryption';
 
 class Otp{
     private encryptionService: Encryption = new Encryption();

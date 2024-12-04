@@ -28,10 +28,6 @@ const userSchema = new mongoose.Schema({
             default:"default_j5ftby_jspjve"
         },
     },
-    phone : {
-        type: String,
-        trim: true
-    },
     gender: { 
         type: String,
         enum: ["male", "Male", "Female", "female"] 

@@ -5,10 +5,11 @@ import AuthRepository    from "../repositories/AuthRepository";
 import UserRepository    from "../repositories/UserRepository";
 
 import Otp               from "../utils/otp";
-import Encryption        from "../shared/Encryption";
-import INotification     from "../shared/INotification";
-import { IToken } from "../shared/Token";
-import Logger            from "../shared/Logger";
+import Encryption        from "../utils/Encryption";
+import INotification     from "../utils/INotification";
+import { IToken } from "../utils/Token";
+import Logger            from "../utils/Logger";
+import UserType from "../types/userType";
 
 class AuthService implements AuthRepository {
     private userService : UserRepository;
@@ -31,7 +32,7 @@ class AuthService implements AuthRepository {
     };
 
     public async signup( username: string, email: string, password: string ): Promise<{isSignup:boolean, message:string, data?:object | null}>{
-        const userExist = await User.findOne({email:email});
+        const userExist = await this.userService.findByEmail(email);
         if(userExist && userExist.active && userExist.verified){
             return {
                 isSignup: false,
@@ -63,9 +64,9 @@ class AuthService implements AuthRepository {
         };
 
         const newUser =  new User({username, email, password});
-        await newUser.save()
+        await newUser.save();
         const code    = await this.generateAndSaveOtp(newUser);
-        
+        Logger.info(`Verification code ${code} for ${email}`);
         await this.notificationService.send(
             email,
             "Verification Code",
@@ -80,9 +81,9 @@ class AuthService implements AuthRepository {
         };
     };
 
-    public async ValidateUserEmail(email: string, code: string): Promise<{isValid:boolean, message:string, data?:object | null }> {
+    public async ValidateUserEmail(email: string, code: string): Promise<{isValid:boolean, message:string, data?:{user:UserType, token:string} | null}> {
         try{
-            let user = await User.findOne({email:email});
+            let user = await this.userService.findByEmail(email);
             if(!user ){
                 return {
                     isValid: false,
@@ -101,7 +102,7 @@ class AuthService implements AuthRepository {
                 }
             };
             
-            user = await this.userService.updateUser(user._id, {
+            user = await this.userService.updateUser(user._id.toString(), {
                 verified: true,
                 active  : true,
                 otpCounter:0,
@@ -127,8 +128,10 @@ class AuthService implements AuthRepository {
             };
 
         }catch (error: unknown) {
+            console.log(error);
+            
             if (error instanceof Error) {
-                Logger.error(error.message);
+               Logger.error(error)
             } else {
                 Logger.error('Unknown error');
             }
@@ -140,9 +143,9 @@ class AuthService implements AuthRepository {
         }
     };
     
-    public async login(email: string, password: string ): Promise<{isLogin: boolean, message:string, data:object | null}>{
+    public async login(email: string, password: string ): Promise<{isLogin: boolean, message:string,  data?:{user:UserType, token:string} | null }>{
         try {
-            const user = await User.findOne({email:email});
+            const user = await this.userService.findByEmail(email);
             if (!user || !await this.Encryption.compare(password.trim(), user.password as string)) {
                 return {
                     isLogin: false,
@@ -150,6 +153,7 @@ class AuthService implements AuthRepository {
                     data: null,
                 };
             };
+            const token = this.Token.generateToken(user._id.toString());
             if(!user.verified && user.active){
                 const code    = await this.generateAndSaveOtp(user);
                 await this.notificationService.send(
@@ -162,7 +166,10 @@ class AuthService implements AuthRepository {
                 return {
                     isLogin:  true,
                     message: "Account already exists but not verified. Verification code resent.",
-                    data: { user }
+                    data: { 
+                        user,
+                        token
+                    }
                 };
             };
             if(!user.active){
@@ -173,7 +180,6 @@ class AuthService implements AuthRepository {
                 };
             }
             
-            const token = this.Token.generateToken(user._id.toString());
             return {
                 isLogin: true,
                 message: "Login successful.",
@@ -184,7 +190,7 @@ class AuthService implements AuthRepository {
             };
         }catch (error: unknown) {
             if (error instanceof Error) {
-                Logger.error(error.message);
+               Logger.error(error)
                 return {
                     isLogin: false,
                     message: error.message,
@@ -204,7 +210,7 @@ class AuthService implements AuthRepository {
     public async forgotPassword(email: string ): Promise<{isSent:boolean, message:string, data:{ userID: string,
         resetToken: string} | null} >{
         try{
-            const user = await User.findOne({email:email});
+            const user = await this.userService.findByEmail(email);
             if(!user){
                 return {
                     isSent: false,
@@ -237,9 +243,11 @@ class AuthService implements AuthRepository {
                 `<p>Your code is: <strong>${code}</strong></p>`
             );
             const token= await crypto.randomBytes(20).toString('hex');
-            user.resetPasswordToken = await this.Encryption.hash(token);
-            user.verified = false;
-            await user.save();
+            
+            await this.userService.updateUser(user._id.toString(),{
+                resetPasswordToken: await this.Encryption.hash(token),
+                verified: false
+            });
 
             return {
                 isSent: true,
@@ -252,7 +260,7 @@ class AuthService implements AuthRepository {
 
         }catch (error: unknown) {
             if (error instanceof Error) {
-                Logger.error(error.message);
+               Logger.error(error)
             } else {
                 Logger.error('Unknown error');
             }
@@ -267,7 +275,7 @@ class AuthService implements AuthRepository {
 
     public async resetPassword(resetToken:string,userID, password:string): Promise<{isReset: boolean, message:string, data:{user:object, token:string} | null}>{
         try{
-            const user    = await User.findById(userID);
+            const user    = await this.userService.findById(userID.toString());
             if (!user)
                 return {
                     isReset:false,
@@ -290,12 +298,12 @@ class AuthService implements AuthRepository {
                     data: null
                 }
             }
-            
-            user.password = password;
-            user.resetPasswordToken = null;
-            user.otp = null;
-            user.otpExpires   = null;
-            await user.save();
+            await this.userService.updateUser(user._id.toString(), {
+                password: password,
+                otp: null,
+                otpExpires: null,
+                resetPasswordToken: null
+            });
             
             const token = this.Token.generateToken(user._id.toString());
             return{
@@ -308,7 +316,7 @@ class AuthService implements AuthRepository {
             }
         }catch (error : unknown) {
             if (error instanceof Error) {
-                Logger.error(error.message);
+               Logger.error(error)
                 return {
                     isReset:false,
                     message: error.message,
@@ -334,7 +342,6 @@ class AuthService implements AuthRepository {
             };
         };
         const checkCounter = await this.checkAndIncrementOtpCounter(user);
-        await user.save()
         if(!checkCounter.isAllowed){
             return {
                 isSent:false,

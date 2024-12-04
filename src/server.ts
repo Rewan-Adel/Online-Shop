@@ -10,8 +10,10 @@ import "dotenv/config";
 
 import {failedResponse} from "./middlewares/responseHandler";
 import dbConnection from "./config/dbConnection";
-import BackgroundJob from "./shared/BackgroundJob";
+import BackgroundJob from "./utils/BackgroundJob";
+
 import authRoutes from "./routes/authRoute";
+import userRoutes from "./routes/userRoute";
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -41,6 +43,7 @@ app.use(express.urlencoded({ extended: true }));
 
 
 app.use("/api/auth", authRoutes);
+app.use("/api/user", userRoutes);
 
 
 app.all("*", (req: Request, res: Response) => {

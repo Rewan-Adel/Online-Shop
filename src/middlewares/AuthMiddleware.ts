@@ -1,13 +1,14 @@
 import { Request, Response, NextFunction } from "express";
 import { failedResponse } from "./responseHandler";
-import Logger from "../shared/Logger";
-import Token from "../shared/Token";
+import Logger from "../utils/Logger";
+// import Token from "../utils/Token";
 import User from  "../models/user.model";
 import { JwtPayload } from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 
 declare module "express-serve-static-core" {
     interface Request {
-        user?: {
+        user: {
             userID: string;
             [key: string]: unknown;
         };
@@ -15,13 +16,14 @@ declare module "express-serve-static-core" {
 }
 
 class AuthMiddleware {
-    private Token: Token;
+    private secret: string;
+    private expiresIn: string;
 
-    constructor(Token: Token) {
-        this.Token = Token;
+    constructor() {
+        this.secret = process.env.JWT_SECRET || "defaultSecret";
+        this.expiresIn = "90d";
     };
-
-    public async protect(req: Request, res: Response, next: NextFunction): Promise<void> {
+    public async authenticated(req: Request, res: Response, next: NextFunction): Promise<void> {
         let token: string | undefined;
         if (req.cookies.token) {
             token = req.cookies.token;
@@ -29,13 +31,12 @@ class AuthMiddleware {
             token = req.headers.authorization.split(" ")[1];
         }
 
-        if (!token) 
+        if (!token || token === "undefined" || token === "null")     
             return failedResponse(res, 404, "Token not found");     
 
         try {
-            const decoded = this.Token.verifyToken(token) as JwtPayload;
-            const user    = await User.findById(decoded.userID);
-
+            const decoded = jwt.verify(token, process.env.JWT_SECRET || "defaultSecret") as JwtPayload;
+            const user    = await User.findById(decoded.userID);            
             if (!user)
                 return failedResponse(res, 400, "Invalid or expired token.");
             
@@ -51,8 +52,9 @@ class AuthMiddleware {
             };
             next();
         }catch (error: unknown) {
+            console.log(error);
             if (error instanceof Error) {
-                Logger.error(error.message);
+                //Logger.error(error)
                 return failedResponse(res, 500, error.message);
             } else {
                 Logger.error('Unknown error');
@@ -61,6 +63,18 @@ class AuthMiddleware {
         };
     };
 
+
+    generateToken(userId:string){
+        const token = jwt.sign({
+            userID: userId,
+        }, this.secret);
+
+        return token;
+    }
+
+    verifyToken(token: string) {
+        return jwt.verify(token, this.secret) ;
+    }
 }
 
 export default AuthMiddleware;

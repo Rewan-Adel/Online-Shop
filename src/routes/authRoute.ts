@@ -1,16 +1,16 @@
 import { Router } from "express";
 import  AuthController from "../controllers/AuthController";
 import  AuthServiceImpl from "../services/AuthService";
-import EmailNotificationImp from "../utils/EmailSender";
-import Encryption from "../shared/Encryption";
-import Token from "../shared/Token";
+import EmailSender from "../utils/EmailSender";
+import Encryption from "../utils/Encryption";
+import Token from "../utils/Token";
 import UserService from "../services/UserService";
 const authRoutes = Router();
 
 const encryption       = new Encryption();
-const notification     = new EmailNotificationImp();
-const token   = new Token();
-const userService  = new UserService()
+const notification     = new EmailSender();
+const token            = new Token();
+const userService      = new UserService()
 
 const signupService    = new AuthServiceImpl(userService, token, encryption, notification);
 const signupController = new AuthController(signupService);

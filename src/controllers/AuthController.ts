@@ -3,7 +3,6 @@ import { successResponse, failedResponse, handleError} from "../middlewares/resp
 
 import AuthRepository from "../repositories/AuthRepository";
 import AuthValidator  from "../utils/AuthValidator";
-import Logger         from "../shared/Logger";
 import { ValidationResult } from "joi";
 
 class AuthController{
@@ -33,9 +32,12 @@ class AuthController{
             const {email, code} = req.body;
         
             const response = await this.authService.ValidateUserEmail(email,code)
-            if(response.isValid)
+            if(response.isValid){
+                res.cookie("token",
+                    response.data?.token, 
+                    {httpOnly: true, secure: true, sameSite: "none"});
                 return successResponse(res, 200, response.message, response.data?? undefined);
-            else
+            }else
                 return failedResponse(res, 400, response.message);
 
         }catch (error: unknown) {
@@ -51,8 +53,11 @@ class AuthController{
             const response = await this.authService.login(email, password );
             if(!response.isLogin) 
                 return failedResponse(res, 400, response.message);
-            else
-                return successResponse(res, 200, response.message, response.data ?? undefined);
+            else{
+            res.cookie("token",
+                response.data?.token, 
+                {httpOnly: true, secure: true, sameSite: "none"});
+                return successResponse(res, 200, response.message, response.data ?? undefined);}
         } catch (error: unknown) {
             handleError(error, res);
         };

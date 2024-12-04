@@ -1,5 +1,5 @@
 import cron from "node-cron";
-import  Logger  from "./Logger"; 
+import  Logger  from "../utils/Logger"; 
 import User from "../models/user.model";
 
 class BackgroundJob{
@@ -20,7 +20,7 @@ class BackgroundJob{
             }
             catch (error: unknown) {
                 if (error instanceof Error) {
-                    Logger.error(error.message);
+                   Logger.error(error)
                 } else {
                     Logger.error('Unknown error');
                 }
@@ -51,7 +51,7 @@ class BackgroundJob{
     
             }catch (error: unknown) {
                 if (error instanceof Error) {
-                    Logger.error(error.message);
+                   Logger.error(error)
                 } else {
                     Logger.error('Unknown error');
                 }

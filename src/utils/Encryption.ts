@@ -1,5 +1,5 @@
 import bcrypt from "bcrypt";
-import Logger from "../shared/Logger";
+import Logger from "./Logger";
 
 class Encryption{
     async hash(data: string): Promise<string> {
@@ -7,7 +7,7 @@ class Encryption{
             return await bcrypt.hash(data, 10);
         } catch (error: unknown) {
             if (error instanceof Error) {
-                Logger.error(error.message);
+               Logger.error(error)
                 throw new Error('Error hashing the password');
             } else {
                 Logger.error('Unknown error');
@@ -21,7 +21,7 @@ class Encryption{
             return await bcrypt.compare(data, hashedData);
         } catch (error: unknown) {
             if (error instanceof Error) {
-                Logger.error(error.message);
+               Logger.error(error)
                 throw new Error('Error comparing passwords');
             } else {
                 Logger.error('Unknown error');

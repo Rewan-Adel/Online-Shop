@@ -1,16 +1,20 @@
-import { mongo, ObjectId } from "mongoose";
+import UserType from "../types/userType";
 
-interface UserRepository{
-    findById(id:ObjectId): Promise<mongo.Document>;
-    findByEmail(email:string);
-    updateUser(userID, data: object);
-    
-    deleteUser(userID): Promise<void>;
+interface UserRepository {
+    findById(id: string): Promise<UserType | null>;
+    findByEmail(email: string): Promise<UserType | null>;
+    updateUser(userID: string, data: object): Promise<UserType | null>;
+    deleteUser(userID: string): Promise<void>;
     deleteAll(): Promise<void>;
+    findAll(): Promise<UserType[]>;
+    createUser(username: string, email: string, password: string): Promise<UserType | null>;
 
-    //findAll(): Promise<[]>;
-    //IsActiveUser
-    //enableUser
+    changeAvatar(userID: string, avatar: string): Promise<UserType | null >;
+    deleteAvatar(userID: string): Promise<UserType | null>
+    
+    isActiveUser(userID: string): Promise<boolean>;
+    enableUser(userID: string): Promise<UserType  | null>;    
+    disableUser(userID: string): Promise<UserType | null>
 };
 
 export default UserRepository;
