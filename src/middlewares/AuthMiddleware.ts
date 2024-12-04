@@ -64,6 +64,12 @@ class AuthMiddleware {
     };
 
 
+    public async isAdmin(req: Request, res: Response, next: NextFunction): Promise<void> {
+        if (!req.user) return failedResponse(res, 401, "Unauthorized");
+        if (req.user.role !== "admin") return failedResponse(res, 401, "Unauthorized");
+        next();
+    };
+
     generateToken(userId:string){
         const token = jwt.sign({
             userID: userId,

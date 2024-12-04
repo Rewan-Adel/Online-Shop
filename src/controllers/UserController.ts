@@ -56,6 +56,7 @@ class UserController {
                 failedResponse(res, 400, "Please upload an image file.");
             }
             const response = await this.userRepository.changeAvatar(userID, req.file?.path || '');
+            
             if(response != null)
                 return successResponse(res, 200, "Avatar Changed.",  response);
             else
@@ -83,9 +84,22 @@ class UserController {
     /**
      * Only Admins can access this route
      */
+    async getUser(req: Request, res: Response): Promise<void>{
+        try{
+            const { userID } = req.params;
+            const response = await this.userRepository.findById(userID);
+            if(response != null)
+                return successResponse(res, 200, "User Fetched.",  response);
+            else
+                return failedResponse(res, 404, "User not found.");
+        }
+        catch(error: unknown){
+            handleError(error, res);
+        }
+    };
     async getAllUsers(req: Request, res: Response): Promise<void>{
         try{
-            const response = await this.userRepository.findAll();
+            const response = await this.userRepository.findAll(req.query.page as string);
             return successResponse(res, 200, "All Users Fetched.",  response);
         }
         catch(error: unknown){

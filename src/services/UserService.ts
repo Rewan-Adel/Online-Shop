@@ -35,17 +35,43 @@ class UserService implements UserRepository{
         }
     };
 
-    public async findAll(): Promise<any[]> {
+    public async findAll(page:string): Promise<{data:{
+        users: UserType [],
+        total_users:  number,
+        current_page: number,
+        total_pages: number,
+    }}> {
         try{
-            const users = await User.find();
-            return users || [];
+            const limit = 10;
+            const currentPage  = parseInt(page) || 1;
+            const skip  = (currentPage - 1) * limit;
+
+            const totalUsers = await User.countDocuments();
+            const totalPages = Math.ceil(totalUsers / limit);
+
+            const users = await User.find().skip(skip).limit(limit);
+            return {
+                data:{
+                    users: users as UserType[],
+                    total_users: totalUsers,
+                    current_page: currentPage,
+                    total_pages: totalPages,
+                }
+            };
         }catch(error: unknown){
             if(error instanceof Error)
-               Logger.error(error)
+                Logger.error(error)
             else
                 Logger.error('Unknown error');
 
-            return [];
+            return {
+                data:{
+                    users: [],
+                    total_users: 0,
+                    current_page: 1,
+                    total_pages: 0,
+                }
+            };
         }
     };
 
@@ -158,7 +184,6 @@ class UserService implements UserRepository{
 
     // public async changeEmail(userID):
 
-
     public async isActiveUser(userID: string): Promise<boolean>{
         try{
             const user = await User.findById(userID);
@@ -175,11 +200,11 @@ class UserService implements UserRepository{
 
     public async enableUser(userID: string): Promise<UserType | null>{
         try{
-            const user = await User.findByIdAndUpdate(userID, {active: true});
+            const user = await User.findByIdAndUpdate(userID, {active: true},{new:true});
             return user as UserType || null;
         }catch(error: unknown){
             if(error instanceof Error)
-               Logger.error(error)
+                Logger.error(error)
             else
                 Logger.error('Unknown error');
         }  return null;
@@ -187,7 +212,7 @@ class UserService implements UserRepository{
 
     public async disableUser(userID: string): Promise<UserType | null>{
         try{
-            const user = await User.findByIdAndUpdate(userID, {active: false});
+            const user = await User.findByIdAndUpdate(userID, {active: false}, {new:true});
             return user as UserType || null;
 
         }catch(error: unknown){

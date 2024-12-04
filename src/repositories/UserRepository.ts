@@ -6,7 +6,12 @@ interface UserRepository {
     updateUser(userID: string, data: object): Promise<UserType | null>;
     deleteUser(userID: string): Promise<void>;
     deleteAll(): Promise<void>;
-    findAll(): Promise<UserType[]>;
+    findAll(page:string): Promise<{data:{
+        users: UserType [] | null,
+        total_users:  number,
+        current_page: number,
+        total_pages: number,
+    }}>;
     createUser(username: string, email: string, password: string): Promise<UserType | null>;
 
     changeAvatar(userID: string, avatar: string): Promise<UserType | null >;
