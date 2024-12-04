@@ -299,7 +299,7 @@ class AuthService implements AuthRepository {
                 }
             }
             await this.userService.updateUser(user._id.toString(), {
-                password: password,
+                password: await this.Encryption.hash(password),
                 otp: null,
                 otpExpires: null,
                 resetPasswordToken: null
