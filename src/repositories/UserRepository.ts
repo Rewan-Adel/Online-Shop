@@ -20,6 +20,10 @@ interface UserRepository {
     isActiveUser(userID: string): Promise<boolean>;
     enableUser(userID: string): Promise<UserType  | null>;    
     disableUser(userID: string): Promise<UserType | null>
+
+    changeEmail(userID: string, email: string): Promise<{
+        isSent:boolean,
+        message: string }>;
 };
 
 export default UserRepository;

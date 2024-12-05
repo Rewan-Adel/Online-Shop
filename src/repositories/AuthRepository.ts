@@ -9,7 +9,8 @@ interface AuthRepository {
     
     ValidateUserEmail(email: string, code: string): Promise<{isValid:boolean, message:string, data?:{user:UserType, token:string} | null } >
 
-    sendSignupCode(email:string): Promise<{isSent:boolean, message:string }>
-    sendResetPasswordCode(email:string): Promise<{ message:string }>
+    sendVerificationCode(email:string): Promise<{isSent:boolean, message:string }>
+    sendResetPasswordCode(email:string): Promise<{isSent:boolean, message:string, data:{ userID: string,
+        resetToken: string} | null} >
 };
 export default AuthRepository;

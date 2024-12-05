@@ -3,8 +3,52 @@ import User           from '../models/user.model';
 import Logger         from '../utils/Logger';
 import CloudImage     from '../utils/CloudImage';
 import UserType       from "../types/userType";
-
+import AuthRepository from '../repositories/AuthRepository';
 class UserService implements UserRepository{
+    private authService: AuthRepository;
+    constructor(authService: AuthRepository){
+        this.authService = authService;
+    };
+
+    public async changeEmail(userID: string, email: string): Promise<{isSent:boolean, message: string }>{
+        try{
+            const user = await this.findById(userID);
+            if(!user) 
+                return {
+                    isSent:false,
+                    message: "User not found!"
+                }
+            if(user.email === email){
+                return {
+                    isSent:false,
+                    message: "Email is the same!"
+                }
+            };
+
+            let isExist = await this.findByEmail(email);
+            if(isExist)
+                return {
+                    isSent:false,
+                    message: "Email already exists!"
+                }
+            await this.updateUser(userID, {email: email});
+            const sendEmail = await this.authService.sendVerificationCode(email);
+            return {
+                isSent: sendEmail.isSent,
+                message: sendEmail.message,
+            }
+        }catch(error: unknown){
+            if(error instanceof Error)
+                Logger.error(error)
+            else
+                Logger.error('Unknown error');
+            return {
+                isSent:false,
+                message: "An error occurred while sending the email"
+            }
+        };
+    };
+
     public async findById(id: string):  Promise<UserType | null>{
         try{
             const user = await User.findById(id);
@@ -96,7 +140,7 @@ class UserService implements UserRepository{
 
     public async updateUser(userID: string, data: object) {
         try{
-            const user = await  User.findByIdAndUpdate(userID, { $set: data }, {new: true});            
+            const user = await  User.findByIdAndUpdate(userID, { $set: data }, {new: true});                        
             return user as UserType || null;
 
         }catch(error: unknown){
@@ -182,8 +226,6 @@ class UserService implements UserRepository{
         return null;
     }
 
-    // public async changeEmail(userID):
-
     public async isActiveUser(userID: string): Promise<boolean>{
         try{
             const user = await User.findById(userID);
@@ -217,7 +259,7 @@ class UserService implements UserRepository{
 
         }catch(error: unknown){
             if(error instanceof Error)
-               Logger.error(error)
+                Logger.error(error)
             else
                 Logger.error('Unknown error');
         }

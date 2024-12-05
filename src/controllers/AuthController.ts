@@ -100,7 +100,7 @@ class AuthController{
         try { 
             const { email } = req.body;
 
-            const response = await this.authService.sendSignupCode(email)
+            const response = await this.authService.sendVerificationCode(email)
             if(!response.isSent)
                 return failedResponse(res, 400, response.message);
 
@@ -116,7 +116,10 @@ class AuthController{
             const { email } = req.body;
 
             const response = await this.authService.sendResetPasswordCode(email);
-            return successResponse(res, 200, response.message);
+            if(!response.isSent)
+                return failedResponse(res, 400, response.message)
+
+            return successResponse(res, 200, response.message, response.data??undefined);
 
         } catch (error: unknown) {
             handleError(error, res);

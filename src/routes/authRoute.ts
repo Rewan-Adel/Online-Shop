@@ -4,15 +4,13 @@ import  AuthServiceImpl from "../services/AuthService";
 import EmailSender from "../utils/EmailSender";
 import Encryption from "../utils/Encryption";
 import Token from "../utils/Token";
-import UserService from "../services/UserService";
 const authRoutes = Router();
 
 const encryption       = new Encryption();
 const notification     = new EmailSender();
 const token            = new Token();
-const userService      = new UserService()
 
-const signupService    = new AuthServiceImpl(userService, token, encryption, notification);
+const signupService    = new AuthServiceImpl(token, encryption, notification);
 const signupController = new AuthController(signupService);
 
 

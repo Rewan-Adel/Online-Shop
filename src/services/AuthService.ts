@@ -1,9 +1,6 @@
 import crypto from "crypto";    
 import User from "../models/user.model";
-
 import AuthRepository    from "../repositories/AuthRepository";
-import UserRepository    from "../repositories/UserRepository";
-
 import Otp               from "../utils/otp";
 import Encryption        from "../utils/Encryption";
 import INotification     from "../utils/INotification";
@@ -12,27 +9,19 @@ import Logger            from "../utils/Logger";
 import UserType from "../types/userType";
 
 class AuthService implements AuthRepository {
-    private userService : UserRepository;
-    private Token: IToken;
-    
-    private notificationService: INotification;
-    private Encryption: Encryption;
     private otp = new Otp();
+    private Token: IToken;    
+    private Encryption: Encryption;
+    private notificationService: INotification;
 
-    constructor(
-        userService: UserRepository,
-        Token: IToken,
-        Encryption: Encryption,
-        notificationService: INotification
-    ) {
-        this.Token = Token;
-        this.userService = userService;
+    constructor(Token: IToken, Encryption: Encryption, notificationService: INotification){
+        this.Token               = Token;
+        this.Encryption          = Encryption;
         this.notificationService = notificationService;
-        this.Encryption = Encryption;
     };
 
     public async signup( username: string, email: string, password: string ): Promise<{isSignup:boolean, message:string, data?:object | null}>{
-        const userExist = await this.userService.findByEmail(email);
+        const userExist = await User.findOne({email: email});
         if(userExist && userExist.active && userExist.verified){
             return {
                 isSignup: false,
@@ -83,7 +72,7 @@ class AuthService implements AuthRepository {
 
     public async ValidateUserEmail(email: string, code: string): Promise<{isValid:boolean, message:string, data?:{user:UserType, token:string} | null}> {
         try{
-            let user = await this.userService.findByEmail(email);
+            let user = await User.findOne({email: email});
             if(!user ){
                 return {
                     isValid: false,
@@ -102,15 +91,15 @@ class AuthService implements AuthRepository {
                 }
             };
             
-            user = await this.userService.updateUser(user._id.toString(), {
+            let userUpdated = await User.findByIdAndUpdate(user._id, {
                 verified: true,
                 active  : true,
                 otpCounter:0,
                 otp: null,
                 otpExpires: null
-            });
+            }, {new: true});
             
-            if (!user) {
+            if (!userUpdated) {
                 return {
                     isValid: false,
                     message: "User not found after update.",
@@ -122,7 +111,7 @@ class AuthService implements AuthRepository {
                 isValid: true,
                 message: "Email verified successfully",
                 data:{
-                    user,
+                    user: userUpdated as unknown as UserType,
                     token
                 }
             };
@@ -145,7 +134,7 @@ class AuthService implements AuthRepository {
     
     public async login(email: string, password: string ): Promise<{isLogin: boolean, message:string,  data?:{user:UserType, token:string} | null }>{
         try {
-            const user = await this.userService.findByEmail(email);
+            const user = await User.findOne({email:email});
             if (!user || !await this.Encryption.compare(password.trim(), user.password as string)) {
                 return {
                     isLogin: false,
@@ -167,7 +156,7 @@ class AuthService implements AuthRepository {
                     isLogin:  true,
                     message: "Account already exists but not verified. Verification code resent.",
                     data: { 
-                        user,
+                        user: user as unknown as UserType,
                         token
                     }
                 };
@@ -184,13 +173,13 @@ class AuthService implements AuthRepository {
                 isLogin: true,
                 message: "Login successful.",
                 data: {
-                    user,
+                    user: user as unknown as UserType,
                     token,
                 },
             };
         }catch (error: unknown) {
             if (error instanceof Error) {
-               Logger.error(error)
+                Logger.error(error)
                 return {
                     isLogin: false,
                     message: error.message,
@@ -210,7 +199,7 @@ class AuthService implements AuthRepository {
     public async forgotPassword(email: string ): Promise<{isSent:boolean, message:string, data:{ userID: string,
         resetToken: string} | null} >{
         try{
-            const user = await this.userService.findByEmail(email);
+            const user = await User.findOne({email:email});
             if(!user){
                 return {
                     isSent: false,
@@ -244,7 +233,7 @@ class AuthService implements AuthRepository {
             );
             const token= await crypto.randomBytes(20).toString('hex');
             
-            await this.userService.updateUser(user._id.toString(),{
+            await User.findByIdAndUpdate(user._id,{
                 resetPasswordToken: await this.Encryption.hash(token),
                 verified: false
             });
@@ -275,7 +264,7 @@ class AuthService implements AuthRepository {
 
     public async resetPassword(resetToken:string,userID, password:string): Promise<{isReset: boolean, message:string, data:{user:object, token:string} | null}>{
         try{
-            const user    = await this.userService.findById(userID.toString());
+            const user    = await User.findById(userID.toString());
             if (!user)
                 return {
                     isReset:false,
@@ -298,7 +287,7 @@ class AuthService implements AuthRepository {
                     data: null
                 }
             }
-            await this.userService.updateUser(user._id.toString(), {
+            await User.findByIdAndUpdate(user._id, {
                 password: await this.Encryption.hash(password),
                 otp: null,
                 otpExpires: null,
@@ -316,7 +305,7 @@ class AuthService implements AuthRepository {
             }
         }catch (error : unknown) {
             if (error instanceof Error) {
-               Logger.error(error)
+                Logger.error(error)
                 return {
                     isReset:false,
                     message: error.message,
@@ -333,8 +322,8 @@ class AuthService implements AuthRepository {
         };
     };
 
-    public async sendSignupCode(email:string): Promise<{isSent:boolean, message:string }>{
-        const user = await this.userService.findByEmail(email);
+    public async sendVerificationCode(email:string): Promise<{isSent:boolean, message:string }>{
+        const user = await User.findOne({email:email});
         if(!user){
             return {
                 isSent: false,
@@ -372,20 +361,26 @@ class AuthService implements AuthRepository {
         
     };
 
-    public async sendResetPasswordCode(email:string): Promise<{ message:string }>{
-        const user = await this.userService.findByEmail(email);
+    public async sendResetPasswordCode(email:string):Promise<{isSent:boolean, message:string, data:{ userID: string,
+        resetToken: string} | null} >{
+        const user = await User.findOne({email: email});
         if(!user){
             return {
-                message: "Invalid email"
+                isSent: false,
+                message: "Invalid email",
+                data: null
             };
         };
         const checkCounter = await this.checkAndIncrementOtpCounter(user);
         if(!checkCounter.isAllowed){
             return {
-                message: checkCounter.message
+                isSent: false,
+                message: checkCounter.message,
+                data: null
             }
         }
         const otpCode = await this.generateAndSaveOtp(user);
+        
         try {
             await this.notificationService.send(
                 email,
@@ -393,12 +388,31 @@ class AuthService implements AuthRepository {
                 `Your code is ${otpCode}`,
                 `<p>Your code is: <b>${otpCode}</b></p>`
             );
+
+            const token =  crypto.randomBytes(20).toString('hex');
+            
+            await User.findByIdAndUpdate(user._id,{
+                resetPasswordToken: await this.Encryption.hash(token),
+                verified: false
+            });
+
+            return {
+                isSent: true,
+                message: "Reset password code sent",
+                data: {
+                    userID: user._id.toString(),
+                    resetToken: token
+                }
+            };
         } catch (error) {
             console.error("Error sending email:", error);
-            return { message: "Failed to send reset password code. Please try again later." };
+            return { 
+                isSent: false,
+                message: "Failed to send reset password code. Please try again later.", 
+                data: null
+            };
         }
     
-        return { message: "Reset password code sent." };
 
     };
 
@@ -413,7 +427,7 @@ class AuthService implements AuthRepository {
             }
         };
         
-        await this.userService.updateUser(user._id, {
+        await User.findByIdAndUpdate(user._id, {
             otpCounter : ++otpCounter
         });
 
@@ -423,7 +437,7 @@ class AuthService implements AuthRepository {
     private async generateAndSaveOtp(user){
         const { code, hashedCode, codeExpiration } = await this.otp.otpGenerator();
 
-        await this.userService.updateUser(user._id,{
+        await User.findByIdAndUpdate(user._id,{
             otpExpires : codeExpiration,
             otp        : hashedCode
         });

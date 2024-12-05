@@ -8,6 +8,22 @@ class UserController {
     constructor(userRepository: UserRepository) {
         this.userRepository = userRepository;
     };
+    async changeEmail(req: Request, res: Response): Promise<void>{
+        try{
+            const { userID } = req.user;
+            const { newEmail } = req.body;
+            const response = await this.userRepository.changeEmail(userID, newEmail);
+
+            if(response.isSent)
+                return successResponse(res, 200, response.message);
+            else
+                return failedResponse(res, 400, response.message);
+            
+        }
+        catch(error: unknown){
+            handleError(error, res);
+        }
+    };
 
     async getProfile(req: Request, res: Response): Promise<void>{
         try{
