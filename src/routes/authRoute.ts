@@ -16,7 +16,7 @@ const signupController = new AuthController(signupService);
 
 authRoutes.post("/signup", (req, res) => signupController.signup(req, res));
 authRoutes.post("/verify-email", (req, res) => signupController.ValidateUserEmail(req, res));
-authRoutes.post("/signup/resend-code", (req, res) => signupController.resendCodeForSignup(req, res));
+authRoutes.post("/resend-code", (req, res) => signupController.resendCodeForSignup(req, res));
 
 authRoutes.post("/login", (req, res) => signupController.login(req, res));
 

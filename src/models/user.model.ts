@@ -89,7 +89,8 @@ const userSchema = new mongoose.Schema({
         type: String
     },
     otpCounter:{
-        type: Number
+        type: Number,
+        default: 0
     },
     otpExpires:{
         type: Date

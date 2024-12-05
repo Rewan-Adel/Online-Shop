@@ -26,12 +26,15 @@ class UserService implements UserRepository{
             };
 
             let isExist = await this.findByEmail(email);
-            if(isExist)
+            if(isExist && !isExist.verified){
+                await this.deleteUser(isExist._id.toString());
+            }
+            if(isExist && isExist.verified)
                 return {
                     isSent:false,
                     message: "Email already exists!"
                 }
-            await this.updateUser(userID, {email: email});
+            await this.updateUser(userID, {email: email, verified: false});
             const sendEmail = await this.authService.sendVerificationCode(email);
             return {
                 isSent: sendEmail.isSent,
