@@ -35,6 +35,7 @@ userRoutes.get("/:userID", (req, res) => userController.getUser(req, res));
 userRoutes.put("/disable/:userID", (req, res) => userController.disableUser(req, res));
 userRoutes.put("/enable/:userID", (req, res) => userController.enableUser(req, res));
 userRoutes.delete("/", (req, res) => userController.deleteAllUsers(req, res));
+userRoutes.delete("/:userID", (req, res) => userController.deleteUser(req, res));
 
 export default userRoutes;
 

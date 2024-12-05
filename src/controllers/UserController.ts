@@ -161,6 +161,17 @@ class UserController {
         }
     };
 
+    async deleteUser(req:Request, res:Response){
+        try{
+            const { userID } = req.params;
+            await this.userRepository.deleteUser(userID);
+            return successResponse(res, 200, "User Deleted.");
+        }
+        catch(error: unknown){
+            handleError(error, res);
+        }
+    };
+
 };
 
 export default  UserController;
