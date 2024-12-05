@@ -142,6 +142,14 @@ class AuthService implements AuthRepository {
                     data: null,
                 };
             };
+
+            if(user.resetPasswordToken != null){
+                return {
+                    isLogin: false,
+                    message: "Password reset is in progress. Please complete the process to proceed.",
+                    data: null,
+                };
+            }
             const token = this.Token.generateToken(user._id.toString());
             if(!user.verified && user.active){
                 const code    = await this.generateAndSaveOtp(user);
