@@ -384,7 +384,7 @@ class AuthService implements AuthRepository {
         try {
             await this.notificationService.send(
                 email,
-                "Reset Password Code",
+                "Reset Password",
                 `Your code is ${otpCode}`,
                 `<p>Your code is: <b>${otpCode}</b></p>`
             );
