@@ -51,13 +51,13 @@ class AuthMiddleware {
             };
             next();
         }catch (error: unknown) {
-            console.log(error);
-            if (error instanceof Error) {
-                Logger.error(error)
-                return failedResponse(res, 500, error.message);
+            if (error instanceof jwt.TokenExpiredError) {
+                return failedResponse(res, 401, "Token has expired. Please login again.");
+            } else if (error instanceof jwt.JsonWebTokenError) {
+                return failedResponse(res, 400, "Invalid token.");
             } else {
-                Logger.error('Unknown error');
-                return failedResponse(res, 500);
+                Logger.error("Unexpected authentication error:", error);
+                return failedResponse(res, 500, "An unexpected error occurred.");
             }
         };
     };
@@ -72,7 +72,8 @@ class AuthMiddleware {
     generateToken(userId:string){
         const token = jwt.sign({
             userID: userId,
-        }, this.secret);
+        }, this.secret,
+        { expiresIn: this.expiresIn });
 
         return token;
     }

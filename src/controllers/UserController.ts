@@ -116,7 +116,7 @@ class UserController {
     async getAllUsers(req: Request, res: Response): Promise<void>{
         try{
             const response = await this.userRepository.findAll(req.query.page as string);
-            return successResponse(res, 200, "All Users Fetched.",  response);
+            return successResponse(res, 200, "All Users Fetched.",  response.data);
         }
         catch(error: unknown){
             handleError(error, res);
@@ -177,7 +177,7 @@ class UserController {
             if(!req.query.search)
                 return failedResponse(res, 400, "Please provide a query.");
             const response = await this.userRepository.filterUsers(req.user.userID.toString(), req.query.search as string, req.query.page as string);
-            return successResponse(res, 200, "Users Fetched.",  response);
+            return successResponse(res, 200, "Users Fetched.",  response.data);
         }
         catch(error: unknown){
             handleError(error, res);
@@ -189,7 +189,7 @@ class UserController {
             if(!req.query.status)
                 return failedResponse(res, 400, "Please provide a status.");
             const response = await this.userRepository.filterByStatus(req.user.userID.toString(), req.query.status as string, req.query.page as string);
-            return successResponse(res, 200, "Users Fetched.",  response);
+            return successResponse(res, 200, "Users Fetched.",  response.data);
         }
         catch(error: unknown){
             handleError(error, res);
