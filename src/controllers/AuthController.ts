@@ -35,7 +35,7 @@ class AuthController{
             if(response.isValid){
                 res.cookie("token",
                     response.data?.token, 
-                    {httpOnly: true, secure: true, sameSite: "none"});
+                    {httpOnly: true, secure: true, sameSite: "none" , maxAge: 90 * 24 * 60 * 60 * 1000});
                 return successResponse(res, 200, response.message, response.data?? undefined);
             }else
                 return failedResponse(res, 400, response.message);
@@ -56,7 +56,7 @@ class AuthController{
             else{
             res.cookie("token",
                 response.data?.token, 
-                {httpOnly: true, secure: true, sameSite: "none"});
+                {httpOnly: true, secure: true, sameSite: "none", maxAge: 90 * 24 * 60 * 60 * 1000});
                 return successResponse(res, 200, response.message, response.data ?? undefined);}
         } catch (error: unknown) {
             handleError(error, res);

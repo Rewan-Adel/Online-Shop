@@ -28,14 +28,17 @@ userRoutes.put("/change-email", (req, res) => userController.changeEmail(req, re
  * Admin Routes
  */
 userRoutes.use(auth.isAdmin);
-// userRoutes.get("/search", (req, res) => userController.searchUsers(req, res));
-// userRoutes.get("/:userID", (req, res) => userController.getUser(req, res));
-userRoutes.get("/", (req, res) => userController.getAllUsers(req, res));
-userRoutes.get("/:userID", (req, res) => userController.getUser(req, res));
+
+userRoutes.get("/",               (req, res) => userController.getAllUsers(req, res));
+userRoutes.get("/:userID",        (req, res) => userController.getUser(req, res));
+userRoutes.get("/filter/all",     (req, res)=> userController.filterUsers(req, res));
+userRoutes.get("/filter/status/", (req, res)=> userController.filterByStatus(req, res));
+
 userRoutes.put("/disable/:userID", (req, res) => userController.disableUser(req, res));
-userRoutes.put("/enable/:userID", (req, res) => userController.enableUser(req, res));
-userRoutes.delete("/", (req, res) => userController.deleteAllUsers(req, res));
-userRoutes.delete("/:userID", (req, res) => userController.deleteUser(req, res));
+userRoutes.put("/enable/:userID",  (req, res) => userController.enableUser(req, res));
+
+userRoutes.delete("/",             (req, res) => userController.deleteAllUsers(req, res));
+userRoutes.delete("/:userID",      (req, res) => userController.deleteUser(req, res));
 
 export default userRoutes;
 

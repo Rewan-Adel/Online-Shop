@@ -1,10 +1,12 @@
-import cron from "node-cron";
-import  Logger  from "../utils/Logger"; 
-import User from "../models/user.model";
+import cron   from "node-cron";
+import User   from "../models/user.model";
+import Logger from "../utils/Logger"; 
 
 class BackgroundJob{
     constructor(){
         console.log("Background job working....");
+        this.otpCleanupJob();
+        this.notVerifiedCleanupJob();
     };
     
     otpCleanupJob(){
@@ -20,7 +22,7 @@ class BackgroundJob{
             }
             catch (error: unknown) {
                 if (error instanceof Error) {
-                   Logger.error(error)
+                    Logger.error(error)
                 } else {
                     Logger.error('Unknown error');
                 }
@@ -34,8 +36,8 @@ class BackgroundJob{
     
     };
     
-    userCleanupJob(){
-        cron.schedule("*/120 * * * *", async()=>{ // every 2 hours
+    notVerifiedCleanupJob(){
+        cron.schedule("*/10 * * * *", async()=>{ // every 2 hours
             try{
                 const result =await User.deleteMany(
                     { 
@@ -51,7 +53,7 @@ class BackgroundJob{
     
             }catch (error: unknown) {
                 if (error instanceof Error) {
-                   Logger.error(error)
+                    Logger.error(error)
                 } else {
                     Logger.error('Unknown error');
                 }

@@ -1,7 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { failedResponse } from "./responseHandler";
 import Logger from "../utils/Logger";
-// import Token from "../utils/Token";
 import User from  "../models/user.model";
 import { JwtPayload } from "jsonwebtoken";
 import jwt from "jsonwebtoken";
@@ -32,7 +31,7 @@ class AuthMiddleware {
         }
 
         if (!token || token === "undefined" || token === "null")     
-            return failedResponse(res, 404, "Token not found");     
+            return failedResponse(res, 404, "Please, login to get access.");     
 
         try {
             const decoded = jwt.verify(token, process.env.JWT_SECRET || "defaultSecret") as JwtPayload;
@@ -54,7 +53,7 @@ class AuthMiddleware {
         }catch (error: unknown) {
             console.log(error);
             if (error instanceof Error) {
-                //Logger.error(error)
+                Logger.error(error)
                 return failedResponse(res, 500, error.message);
             } else {
                 Logger.error('Unknown error');

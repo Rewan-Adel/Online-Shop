@@ -1,29 +1,46 @@
 import UserType from "../types/userType";
 
 interface UserRepository {
+    createUser(username: string, email: string, password: string): Promise<UserType | null>;
+
     findById(id: string): Promise<UserType | null>;
     findByEmail(email: string): Promise<UserType | null>;
-    updateUser(userID: string, data: object): Promise<UserType | null>;
-    deleteUser(userID: string): Promise<void>;
-    deleteAll(): Promise<void>;
     findAll(page:string): Promise<{data:{
         users: UserType [] | null,
         total_users:  number,
         current_page: number,
         total_pages: number,
     }}>;
-    createUser(username: string, email: string, password: string): Promise<UserType | null>;
 
-    changeAvatar(userID: string, avatar: string): Promise<UserType | null >;
-    deleteAvatar(userID: string): Promise<UserType | null>
-    
-    isActiveUser(userID: string): Promise<boolean>;
-    enableUser(userID: string): Promise<UserType  | null>;    
-    disableUser(userID: string): Promise<UserType | null>
+    updateUser(userID: string, data: object): Promise<UserType | null>;
+    deleteUser(userID: string): Promise<void>;
+    deleteAll(): Promise<void>;
 
     changeEmail(userID: string, email: string): Promise<{
         isSent:boolean,
         message: string }>;
+        
+    changeAvatar(userID: string, avatar: string): Promise<UserType | null >;
+    deleteAvatar(userID: string): Promise<UserType | null>
+    
+    enableUser(userID: string): Promise<UserType  | null>;    
+    disableUser(userID: string): Promise<UserType | null>
+
+    
+
+    filterUsers(currentUserId: string, query: string, page: string): Promise<{data:{
+        users: UserType [],
+        total_users:  number,
+        current_page: number,
+        total_pages: number,
+    }}>
+
+    filterByStatus(currentUserId: string, query: string, page: string): Promise<{data:{
+        users: UserType [],
+        total_users:  number,
+        current_page: number,
+        total_pages: number,
+    }}>
 };
 
 export default UserRepository;

@@ -4,6 +4,8 @@ import Logger         from '../utils/Logger';
 import CloudImage     from '../utils/CloudImage';
 import UserType       from "../types/userType";
 import AuthRepository from '../repositories/AuthRepository';
+import Pagination     from "../utils/Pagination";
+
 class UserService implements UserRepository{
     private authService: AuthRepository;
     constructor(authService: AuthRepository){
@@ -89,20 +91,14 @@ class UserService implements UserRepository{
         total_pages: number,
     }}> {
         try{
-            const limit = 10;
-            const currentPage  = parseInt(page) || 1;
-            const skip  = (currentPage - 1) * limit;
-
-            const totalUsers = await User.countDocuments();
-            const totalPages = Math.ceil(totalUsers / limit);
-
-            const users = await User.find().skip(skip).limit(limit);
+            const pagination = await Pagination(page, User);
+            const users = await User.find().skip(pagination.skip).limit(pagination.limit);
             return {
                 data:{
                     users: users as UserType[],
-                    total_users: totalUsers,
-                    current_page: currentPage,
-                    total_pages: totalPages,
+                    total_users: pagination.totalObj,
+                    current_page: pagination.currentPage,
+                    total_pages: pagination.totalPages,
                 }
             };
         }catch(error: unknown){
@@ -268,6 +264,94 @@ class UserService implements UserRepository{
         }
         return null;
     };
+
+    public async filterUsers(currentUserId: string,query: string, page: string): Promise<{data:{
+        users: UserType [],
+        total_users:  number,
+        current_page: number,
+        total_pages: number,
+    }}>{
+        try{
+            const pagination = await Pagination(page, User);
+
+            const users = await User.find({
+                $and:[
+                    { _id: { $ne: currentUserId } },
+                    {$or:[
+                        {username: {$regex: query,  $options: 'i' }},
+                        {email   : {$regex: query,  $options: 'i' }}
+                    ]}
+                ]
+            })
+            .skip(pagination.skip).limit(pagination.limit);
+
+            return {
+                data:{
+                    users: users as UserType[],
+                    total_users : users.length,
+                    current_page: pagination.currentPage,
+                    total_pages :  Math.ceil(users.length / pagination.limit),
+                }
+            };
+        }catch(error: unknown){
+            if(error instanceof Error)
+                Logger.error(error)
+            else
+                Logger.error('Unknown error');
+
+            return {
+                data:{
+                    users: [],
+                    total_users: 0,
+                    current_page: 1,
+                    total_pages: 0,
+                }
+            };
+        };
+    };
+
+
+    public async filterByStatus(currentUserId: string, query: string, page: string): Promise<{data:{
+        users: UserType [],
+        total_users:  number,
+        current_page: number,
+        total_pages: number,
+    }}>{
+        try{
+            const pagination = await Pagination(page, User);
+
+            const users = await User.find({
+                $and:[
+                    { _id: { $ne: currentUserId } },
+                    {active: query === 'active' ? true : false}
+                ]
+            })
+                .skip(pagination.skip).limit(pagination.limit);
+
+            return {
+                data:{
+                    users: users as UserType[],
+                    total_users : users.length,
+                    current_page: pagination.currentPage,
+                    total_pages :  Math.ceil(users.length / pagination.limit),
+                }
+            };
+        }catch(error: unknown){
+            if(error instanceof Error)
+                Logger.error(error)
+            else
+                Logger.error('Unknown error');
+
+            return {
+                data:{
+                    users: [],
+                    total_users: 0,
+                    current_page: 1,
+                    total_pages: 0,
+                }
+            };
+        };
+    }
 
 };
 export default UserService;
