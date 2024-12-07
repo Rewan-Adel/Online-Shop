@@ -25,6 +25,7 @@ export const emailValidate = (req: Request)=>{
 
     const profileSchema = Joi.object({
     username: Joi.string().min(8).max(200).trim().messages({
+        "string.empty" : "Username is not allowed to be empty.",    
         "string.min" : "Username must be 8 characters at least.",
         "string.max" : "Username must be 200 characters at most.",
         }),
