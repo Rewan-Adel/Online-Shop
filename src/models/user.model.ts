@@ -21,11 +21,11 @@ const userSchema = new mongoose.Schema({
     avatar:{
         url:{
             type: String,
-            default:"https://res-console.cloudinary.com/dt6idcgyw/thumbnails/v1/image/upload/v1733598735/ZGVmYXVsdF9qNWZ0YnlfcGdyd2g5/drilldown"
+            default: process.env.DEFAULT_AVATAR_URL
         },
         public_id:{
             type: String,
-            default:"default_j5ftby_pgrwh9"
+            default:process.env.DEFAULT_AVATAR_PUBLIC_ID
         },
     },
     gender: { 

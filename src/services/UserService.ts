@@ -209,10 +209,13 @@ class UserService implements UserRepository{
             if(!user) return null;
             
             await new CloudImage().deleteImage(user.avatar.public_id);
+            
+            if(user.avatar.url === process.env.DEFAULT_AVATAR_URL) 
+                return user;
             const updatedUser = await this.updateUser(userID, {
                 avatar: {
-                    url       : "https://res-console.cloudinary.com/dt6idcgyw/thumbnails/v1/image/upload/v1733598735/ZGVmYXVsdF9qNWZ0YnlfcGdyd2g5/drilldown",
-                    public_id : "default_j5ftby_pgrwh9"
+                    url       : process.env.DEFAULT_AVATAR_URL,
+                    public_id : process.env.DEFAULT_PUBLIC_ID
                 }
             });
 
