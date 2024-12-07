@@ -16,6 +16,7 @@ const userService    = new UserService(authService);
 const userController = new UserController(userService);
 
 userRoutes.use(auth.authenticated);
+userRoutes.get("/is-active/:userID", (req, res) => userController.checkUserActivity(req, res));
 userRoutes.get("/profile", (req, res) => userController.getProfile(req, res));
 userRoutes.put("/profile", (req, res) => userController.updateProfile(req, res));
 userRoutes.delete("/profile", (req, res) => userController.deleteProfile(req, res));

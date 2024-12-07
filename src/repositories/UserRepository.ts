@@ -22,7 +22,7 @@ interface UserRepository {
         
     changeAvatar(userID: string, avatar: string): Promise<UserType | null >;
     deleteAvatar(userID: string): Promise<UserType | null>
-    
+    isActiveUser(userID: string): Promise<{data:{message:string,active: boolean | null}}>
     enableUser(userID: string): Promise<UserType  | null>;    
     disableUser(userID: string): Promise<UserType | null>
 

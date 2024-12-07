@@ -223,25 +223,38 @@ class UserService implements UserRepository{
         }
         catch(error: unknown){
             if(error instanceof Error)
-               Logger.error(error)
+                Logger.error(error)
             else
                 Logger.error('Unknown error');
         }
         return null;
     }
 
-    public async isActiveUser(userID: string): Promise<boolean>{
+    public async isActiveUser(userID: string): Promise<{data:{message:string,active: boolean|null}}>{
         try{
             const user = await User.findById(userID);
-            return user && user.active ? true : false;
-
+            if(!user) return {
+                data:{
+                    message: "User not found", 
+                    active: null}
+            }
+            return {
+                data:{ 
+                    message: "User found",
+                    active: user && user.active ? true : false}
+            };
         }catch(error: unknown){
             if(error instanceof Error)
-               Logger.error(error)
+                Logger.error(error)
             else
                 Logger.error('Unknown error');
         }
-        return false;
+        return {
+            data:{
+                message: "an error occurred",
+                active:  null
+            }
+        };
     };
 
     public async enableUser(userID: string): Promise<UserType | null>{

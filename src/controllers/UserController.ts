@@ -105,6 +105,17 @@ class UserController {
         }
     };
 
+    async checkUserActivity(req: Request, res: Response): Promise<void>{
+        try{
+            const { userID } = req.params;
+            const response = await this.userRepository.isActiveUser(userID);
+            return successResponse(res, 200, "User Activity Checked.",  response.data);
+        }
+        catch(error: unknown){
+            handleError(error, res);
+        }
+    }
+
     /**
      * Only Admins can access this route
      */
