@@ -54,6 +54,7 @@ npm run dev
 or
 npm start
 ```
-
+### ERD Model
+![db](./images/Online%20Shop%20(1).png)
 
 
