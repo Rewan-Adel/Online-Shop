@@ -5,7 +5,7 @@ interface UserRepository {
 
     findById(id: string): Promise<UserType | null>;
     findByEmail(email: string): Promise<UserType | null>;
-    findAll(page:string): Promise<{data:{
+    findAll(currentUserId: string,page:string): Promise<{data:{
         users: UserType [] | null,
         total_users:  number,
         current_page: number,

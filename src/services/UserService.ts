@@ -84,7 +84,7 @@ class UserService implements UserRepository{
         }
     };
 
-    public async findAll(page:string): Promise<{data:{
+    public async findAll(currentUserId: string, page:string): Promise<{data:{
         users: UserType [],
         total_users:  number,
         current_page: number,
@@ -92,11 +92,13 @@ class UserService implements UserRepository{
     }}> {
         try{
             const pagination = await Pagination(page, User);
-            const users = await User.find().skip(pagination.skip).limit(pagination.limit);
+            const users = await User.find({
+                _id: { $ne: currentUserId }
+            }).skip(pagination.skip).limit(pagination.limit);
             return {
                 data:{
                     users: users as UserType[],
-                    total_users: pagination.totalObj,
+                    total_users: pagination.totalObj - 1,
                     current_page: pagination.currentPage,
                     total_pages: pagination.totalPages,
                 }

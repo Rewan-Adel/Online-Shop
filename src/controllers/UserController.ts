@@ -123,7 +123,7 @@ class UserController {
     };
     async getAllUsers(req: Request, res: Response): Promise<void>{
         try{
-            const response = await this.userRepository.findAll(req.query.page as string);
+            const response = await this.userRepository.findAll(req.user.userID.toString(), req.query.page as string);
             return successResponse(res, 200, "All Users Fetched.",  response.data);
         }
         catch(error: unknown){
