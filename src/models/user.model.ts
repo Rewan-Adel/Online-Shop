@@ -30,7 +30,7 @@ const userSchema = new mongoose.Schema({
     },
     gender: { 
         type: String,
-        enum: ["male", "Male", "Female", "female"] 
+        enum: ["male", "female"] 
     },
     role:{
         type: String,
