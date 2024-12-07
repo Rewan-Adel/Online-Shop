@@ -26,9 +26,9 @@ export const emailValidate = (req: Request)=>{
     const profileSchema = Joi.object({
     username: Joi.string().min(8).max(200).trim().messages({
         "string.min" : "Username must be 8 characters at least.",
-        "string.empty": "Username is required.",
+        "string.max" : "Username must be 200 characters at most.",
         }),
-    gender:Joi.string().min(8).max(200).trim().valid("Female", "female", "male", "Male").messages({
+    gender:Joi.string().trim().valid("Female", "female", "male", "Male").messages({
         "string.valid": "Gender must be only female or male"
         }),
 
