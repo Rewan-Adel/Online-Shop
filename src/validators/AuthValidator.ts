@@ -36,9 +36,9 @@ class AuthValidator{
 
 
     private signupSchema = Joi.object({
-    username: Joi.string().min(8).max(200).required().trim().messages({
+    username: Joi.string().min(6).max(200).required().trim().messages({
         "string.empty" : "Username is required.",
-        "string.min" : "Username must be 8 characters at least.",
+        "string.min" : "Username must be 6 characters at least.",
     }),
     email: Joi.string().email().max(200).required().trim().messages({
         "string.empty" : "Email is required.",
