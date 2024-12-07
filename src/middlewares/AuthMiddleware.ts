@@ -63,11 +63,11 @@ class AuthMiddleware {
     public async  isAdmin(req: Request, res: Response, next: NextFunction): Promise<void> {
         try {
             if (!req.user) {
-                return failedResponse(res, 401, "Unauthorized: User not authenticated");
+                return failedResponse(res, 401, "Please, login to get access.");
             };
         const user = await User.findById(req.user.userID);
         if (user && user.role !== "admin") {
-            return failedResponse(res, 403, "Forbidden: Insufficient permissions");
+            return failedResponse(res, 401, "Unauthorized");
         }
         next();
     } catch (error) {
