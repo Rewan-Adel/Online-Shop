@@ -29,7 +29,9 @@ export const emailValidate = (req: Request)=>{
         "string.min" : "Username must be 8 characters at least.",
         "string.max" : "Username must be 200 characters at most.",
         }),
-    gender:Joi.string().trim().valid("Female", "female", "male", "Male").messages({
+    gender:Joi.string().trim()
+    .lowercase()
+    .valid("female", "male").messages({
         "any.only": "Gender must be only female or male"
         }),
 
