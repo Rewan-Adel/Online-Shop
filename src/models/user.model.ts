@@ -46,12 +46,15 @@ const userSchema = new mongoose.Schema({
         },
         city: {
             type: String,
+            allowNull: true
         },
         state: {
             type: String,
+            allowNull: true
         },
         country: {
             type: String,
+            allowNull: true
         },
         fullAddress: {
             type: String,
