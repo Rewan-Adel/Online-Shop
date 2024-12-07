@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { successResponse, failedResponse, handleError} from "../middlewares/responseHandler";
 
 import AuthRepository from "../repositories/AuthRepository";
-import AuthValidator  from "../utils/AuthValidator";
+import AuthValidator  from "../validators/AuthValidator";
 import { ValidationResult } from "joi";
 
 class AuthController{

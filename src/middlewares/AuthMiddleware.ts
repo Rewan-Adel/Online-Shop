@@ -9,7 +9,6 @@ declare module "express-serve-static-core" {
     interface Request {
         user: {
             userID: string;
-            [key: string]: unknown;
         };
     }
 }
@@ -47,7 +46,6 @@ class AuthMiddleware {
             
             req.user = {
                 userID: user._id.toString(),
-                ...user.toObject(),
             };
             next();
         }catch (error: unknown) {
@@ -62,12 +60,21 @@ class AuthMiddleware {
         };
     };
 
-
-    public async isAdmin(req: Request, res: Response, next: NextFunction): Promise<void> {
-        if (!req.user) return failedResponse(res, 401, "Unauthorized");
-        if (req.user.role !== "admin") return failedResponse(res, 401, "Unauthorized");
+    public async  isAdmin(req: Request, res: Response, next: NextFunction): Promise<void> {
+        try {
+            if (!req.user) {
+                return failedResponse(res, 401, "Unauthorized: User not authenticated");
+            };
+        const user = await User.findById(req.user.userID);
+        if (user && user.role !== "admin") {
+            return failedResponse(res, 403, "Forbidden: Insufficient permissions");
+        }
         next();
-    };
+    } catch (error) {
+        Logger.error("Error in isAdmin middleware:", error);
+        return failedResponse(res, 500, "Internal Server Error");
+    }
+};
 
     generateToken(userId:string){
         const token = jwt.sign({

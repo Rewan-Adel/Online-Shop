@@ -111,6 +111,7 @@ const userSchema = new mongoose.Schema({
             delete ret.orders;
             delete ret.wishlist;
             delete ret.resetPasswordToken;
+            delete ret.role;
             return ret;
         }
     }

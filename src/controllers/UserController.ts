@@ -1,7 +1,7 @@
 import UserRepository from "../repositories/UserRepository";
 import { Request, Response } from "express";
 import { successResponse, failedResponse, handleError} from "../middlewares/responseHandler";
-
+import { emailValidate, profileValidate } from "../validators/UserValidator";
 class UserController {
     private userRepository: UserRepository;
 
@@ -10,8 +10,12 @@ class UserController {
     };
     async changeEmail(req: Request, res: Response): Promise<void>{
         try{
+            const {error, value} = emailValidate(req.body);
+            if(error) 
+                return failedResponse(res, 400, error.details[0].message );
+            
             const { userID } = req.user;
-            const { newEmail } = req.body;
+            const { newEmail } = value;
             const response = await this.userRepository.changeEmail(userID, newEmail);
 
             if(response.isSent)
@@ -43,7 +47,11 @@ class UserController {
     async updateProfile(req: Request, res: Response): Promise<void>{
         try{
             const { userID } = req.user;            
-            const response = await this.userRepository.updateUser(userID, req.body);
+            const {error, value} = profileValidate(req.body);            
+            if(error) {
+                return failedResponse(res, 400, error.details[0].message );
+}
+            const response = await this.userRepository.updateUser(userID, value);
             if(response != null)
                 return successResponse(res, 200, "Profile Updated.",  response);
             else
