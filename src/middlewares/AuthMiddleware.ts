@@ -41,8 +41,8 @@ class AuthMiddleware {
             if(user.otpExpires instanceof Date && user.otpExpires.getTime() < Date.now())
                 return failedResponse(res, 400, "Token has expired.");
             
-            // if (!user.verified) 
-            //     return failedResponse(res, 401, "Please, verify your email.");
+            if (!user.verified) 
+                return failedResponse(res, 401, "Please, verify your email.");
             
             req.user = {
                 userID: user._id.toString(),
