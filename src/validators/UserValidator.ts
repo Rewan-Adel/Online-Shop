@@ -43,12 +43,15 @@ export const emailValidate = (req: Request)=>{
             "number.base": "Latitude must be a number",
         }),
         city   : Joi.string().messages({
+            "string.empty" : "City is not allowed to be empty.",
             "string.base": "City must be a string",
         }),
         state  : Joi.string().messages({
+            "string.empty" : "State is not allowed to be empty.",
             "string.base": "State must be a string",
         }),
         country: Joi.string().messages({
+            "string.empty" : "Country is not allowed to be empty.",
             "string.base": "Country must be a string",
         }),
         fullAddress: Joi.string().required().messages({
