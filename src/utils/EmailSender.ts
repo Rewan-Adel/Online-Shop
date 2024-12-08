@@ -20,7 +20,7 @@ class EmailSender implements INotification{
             return true;
         }catch (error: unknown) {
             if (error instanceof Error) {
-               Logger.error(error)
+                Logger.error(error)
             } else {
                 Logger.error('Unknown error');
             }

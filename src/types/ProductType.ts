@@ -1,23 +1,42 @@
 import { Types } from "mongoose";
+import Image from "./ImageType";
 
-type Image = {
-    url: string;
-    public_id: string;
-}
+type Color = {
+    id         : number, 
+    hexadecimal: string, 
+    plus_price : number, 
+    stock_num  : number 
+}; 
+
+type Variation = {
+    color  : Color,  
+    size   : string
+};
 
 type ProductType = {
     _id:  Types.ObjectId;
-    name: string,
-    description:string,
-    category: string,
-    brand: string,
-    price: number,
-    images:[Image],
-    stock_num: number;
-    active: boolean;
-    isOffered: boolean;
-    offer: Types.ObjectId;
-    reviews: Types.ObjectId[];
+    variations: [Variation];
+    
+    name       : string,
+    slug       : string,
+    brand      : string,
+    description: string,
+
+    original_price: number,
+    stock_num     : number;
+    avg_rating    : number;
+
+    available   : boolean;
+    isOffered   : boolean;
+    
+    main_image: Image;
+    images    : [Image];
+    
+
+    category : Types.ObjectId;
+    offer    : Types.ObjectId;
+    reviews  : Types.ObjectId[];
+
     createdAt: Date;
     updatedAt: Date;
 };

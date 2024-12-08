@@ -156,6 +156,7 @@ class UserService implements UserRepository{
 
     public async deleteUser(userID: string): Promise<void> {
         try{
+            await this.deleteAvatar(userID);
             await User.findByIdAndDelete(userID);
         }catch(error: unknown){
             if(error instanceof Error)

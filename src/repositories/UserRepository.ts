@@ -26,8 +26,6 @@ interface UserRepository {
     enableUser(userID: string): Promise<UserType  | null>;    
     disableUser(userID: string): Promise<UserType | null>
 
-    
-
     filterUsers(currentUserId: string, query: string, page: string): Promise<{data:{
         users: UserType [],
         total_users:  number,

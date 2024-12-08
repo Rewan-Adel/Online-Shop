@@ -1,4 +1,5 @@
 import { Types } from "mongoose";
+import Image from "./ImageType";
 
 type Location = {
     longitude?: number;
@@ -9,19 +10,16 @@ type Location = {
     fullAddress?: string;
 }
 
-type Avatar = {
-    url: string;
-    public_id: string;
-}
+
 
 type UserType = {
     _id:  Types.ObjectId;
     username: string;
     email: string;
     password: string;
-    avatar: Avatar;
-    gender?: "male" | "female" | "Male" | "Female";
-    role: "user" | "admin" | "User" | "Admin";
+    avatar: Image;
+    gender?: "male" | "female" ;
+    role: "user" | "admin" ;
     location?: Location;
     verified: boolean;
     active: boolean;

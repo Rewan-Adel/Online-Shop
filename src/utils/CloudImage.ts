@@ -15,10 +15,10 @@ class CloudImage{
             };
         } catch (error) {
             if (error instanceof Error) {
-               Logger.error(error)
+                Logger.error(error)
                 return undefined;
             }else{
-               Logger.error(error)
+                Logger.error(error)
                 throw new Error("Image upload failed");
             }
         }
@@ -32,10 +32,10 @@ class CloudImage{
             return result;
         } catch (error) {
             if (error instanceof Error) {
-               Logger.error(error)
+                Logger.error(error)
                 return error;
             }else{
-               Logger.error(error)
+                Logger.error(error)
                 throw new Error("Image delete failed");
             }
         }
