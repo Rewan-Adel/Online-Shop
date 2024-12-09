@@ -19,7 +19,7 @@ export const failedResponse = (res:Response, statusCode?:number, msg? : string, 
 
 export const handleError = (error: unknown, res: Response) =>{
     if (error instanceof Error) {
-       Logger.error(error)
+        Logger.error(error)
         failedResponse(res, 500, error.message);
     } else {
         Logger.error('Unknown error');

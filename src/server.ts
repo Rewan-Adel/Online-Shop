@@ -12,8 +12,9 @@ import {failedResponse} from "./middlewares/responseHandler";
 import dbConnection from "./config/dbConnection";
 import BackgroundJob from "./utils/BackgroundJob";
 
-import authRoutes from "./routes/authRoute";
-import userRoutes from "./routes/userRoute";
+import authRoutes     from "./routes/authRoute";
+import userRoutes     from "./routes/userRoute";
+import categoryRoutes from "./routes/categoryRoue";
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -42,8 +43,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 
-app.use("/api/auth", authRoutes);
-app.use("/api/user", userRoutes);
+app.use("/api/auth",     authRoutes);
+app.use("/api/user",     userRoutes);
+app.use("/api/category", categoryRoutes);
 
 
 app.all("*", (req: Request, res: Response) => {

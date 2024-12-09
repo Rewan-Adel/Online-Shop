@@ -1,0 +1,26 @@
+import { Router } from "express";
+import {uploadSingle} from "../utils/multer";
+import CategoryController from "../controllers/CategoryController";
+import CategoryService from "../services/CategoryService";
+import authMiddleware from "../middlewares/AuthMiddleware";
+
+const categoryRoutes = Router();
+const auth = new authMiddleware();
+const categoryService = new CategoryService();
+const categoryController = new CategoryController(categoryService);
+
+categoryRoutes.use(auth.authenticated);
+
+categoryRoutes.post("/", uploadSingle, (req, res) => categoryController.addCategory(req, res));
+categoryRoutes.get("/",    (req, res) => categoryController.getCategories(req, res));
+categoryRoutes.delete("/", (req, res) => categoryController.deleteAllCategories(req, res));
+
+categoryRoutes.get("/:categoryID",    (req, res) => categoryController.getCategory(req, res));
+categoryRoutes.delete("/:categoryID", (req, res) => categoryController.deleteCategory(req, res));
+
+categoryRoutes.put("/change-image/:categoryID", uploadSingle, (req, res) => categoryController.changeImage(req, res));
+categoryRoutes.put("/:categoryID", (req, res) => categoryController.updateCategory(req, res));
+
+categoryRoutes.use(auth.isAdmin);
+
+export default categoryRoutes;

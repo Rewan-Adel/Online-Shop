@@ -9,14 +9,13 @@ interface CategoryRepository{
         total_pages   :  number,
     }| null}>;
 
-    // createCategory(name: string, price: number, image: string): Promise<{message: string, data: CategoryType | null}>;
-    // updateCategory(CategoryID: string, data:object): Promise<{message: string, data: CategoryType | null}>
+    createCategory(name: string, image: string, parent?: string): Promise<{message: string, data: CategoryType | null}>;
+    updateCategory(categoryID: string, data:{name?: string, parent?:string}): Promise<{message: string, data: CategoryType | null}>
     
     deleteCategory(CategoryID: string): Promise<{message: string, data: null}>;
     deleteAll(): Promise<{message: string, data:  null}>;
     
     changeImage(CategoryID: string, image: string): Promise<{message: string, data: CategoryType | null}>;
-    // deleteImage(public_id: string): Promise<CategoryType | null>;
 };
 
 export default CategoryRepository;

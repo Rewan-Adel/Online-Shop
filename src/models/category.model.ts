@@ -10,10 +10,17 @@ const CategorySchema = new mongoose.Schema({
         public_id: String
     },
     parent:{
-        type: mongoose.Types.ObjectId
+        type: mongoose.Types.ObjectId,
+        ref: 'category' 
     }
 },{
-    timestamps: true
+    timestamps: true,
+    toJSON:{
+        transform: function(doc, ret){
+            delete ret.__v;
+            return ret;
+        }
+    }
 });
 
 const Category = mongoose.model("category", CategorySchema);

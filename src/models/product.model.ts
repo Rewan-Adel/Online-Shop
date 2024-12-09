@@ -62,7 +62,13 @@ const ProductSchema = new mongoose.Schema({
         type: mongoose.Types.ObjectId
     }
 },{
-    timestamps: true
+    timestamps: true,
+    toJSON:{
+        transform: function(doc, ret){
+            delete ret.__v;
+            return ret;
+        }
+    }
 });
 
 ProductSchema.index({ slug: 1 }, { unique: true, sparse: true });
