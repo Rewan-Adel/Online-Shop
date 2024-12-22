@@ -9,11 +9,11 @@ const auth = new authMiddleware();
 const categoryService = new CategoryService();
 const categoryController = new CategoryController(categoryService);
 
-categoryRoutes.use(auth.authenticated);
 
 categoryRoutes.get("/",    (req, res) => categoryController.getCategories(req, res));
 categoryRoutes.get("/:categoryID",    (req, res) => categoryController.getCategory(req, res));
 
+categoryRoutes.use(auth.authenticated);
 categoryRoutes.use(auth.isAdmin);
 categoryRoutes.post("/", uploadSingle, (req, res) => categoryController.addCategory(req, res));
 categoryRoutes.delete("/:categoryID", (req, res) => categoryController.deleteCategory(req, res));
