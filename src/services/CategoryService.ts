@@ -4,7 +4,6 @@ import Pagination     from "../utils/Pagination";
 import CategoryRepository from '../repositories/CategoryRepository';
 import CategoryType from '../types/CategoryType';
 import Category           from '../models/category.model';
-
 class CategoryService implements CategoryRepository{
     private cloudImage =  new CloudImage();
 
@@ -42,7 +41,7 @@ class CategoryService implements CategoryRepository{
                 },
                 parent: parentCategory?._id
             });
-
+            console.log(newCategory)
             await newCategory.save();
             return {
                 message: "Category Added Successfully",
@@ -62,9 +61,14 @@ class CategoryService implements CategoryRepository{
         }
     };
 
-    public async findOne(categoryID: string): Promise<{message: string, data: CategoryType | null}>{
+    public async findOne(cat: string): Promise<{message: string, data: CategoryType | null}>{
         try{
-            const category = await Category.findById(categoryID).populate('parent');
+            const category = await Category.findOne({
+                $or: [
+                    { name: RegExp(cat, 'i') },
+                    { _id: cat.match(/^[0-9a-fA-F]{24}$/) ? cat : null }
+                ]
+            }).populate('parent');
             if(!category){
                 return {
                     message: "Category Not Found",
@@ -232,17 +236,17 @@ class CategoryService implements CategoryRepository{
         };
     };
 
-    public async updateCategory(categoryID: string, data:{name?: string, parent?:string}): Promise<{message: string, data: CategoryType | null}>{
+    public async updateCategory(categoryID: string, data:{name?: string, parent?:string, imagePath?:string}): Promise<{message: string, data: CategoryType | null}>{
         try{
-            const category = await Category.findById(categoryID);
-            if(!category) 
+            const category = await this.findOne(categoryID);
+            if(category.data == null) 
                 return{
                     message: "Category not found.",
                     data: null
                 };
 
-                let parentCategory: CategoryType | null = null;
-                if(data.parent && data.parent != ''){
+            let parentCategory: CategoryType | null = null;
+            if(data.parent && data.parent != ''){
                     parentCategory = await Category.findOne({name: parent}) ;
                     if(!parentCategory ){
                         return {
@@ -250,12 +254,25 @@ class CategoryService implements CategoryRepository{
                             data: null
                         };
                     };
-                };
-
-            const updatedCategory = await Category.findByIdAndUpdate
-            (categoryID, {
-                name  : data.name? data.name : category.name,
-                parent: parentCategory?._id
+            };
+            
+            if(data.imagePath && category.data){
+                const image = await this.cloudImage.changeImage(category.data.image.public_id, data.imagePath);
+                if (!image?.secure_url) {
+                    return {
+                        message: "Failed to update image",
+                        data: null
+                    };
+                }
+                category.data.image = {
+                    url       : image.secure_url,
+                    public_id : image.public_id || ''
+                }
+            }
+            const updatedCategory = await Category.findByIdAndUpdate(category.data?._id, {
+                name  : data.name? data.name : category.data?.name,
+                parent: parentCategory?._id,
+                image : category.data?.image
             }, {new: true});
 
             return {

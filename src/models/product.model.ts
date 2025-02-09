@@ -1,9 +1,9 @@
+import { required } from "joi";
 import mongoose from "mongoose";
 
 const ProductSchema = new mongoose.Schema({
     name:{
-        type: String,
-        require
+        type: String
     },
     slug:{
         type: String
@@ -15,12 +15,10 @@ const ProductSchema = new mongoose.Schema({
         type: String
     },
     original_price:{
-        type: Number,
-        require
+        type: Number
     },
     stock_num:{
-        type: Number,
-        require
+        type: Number
     },
     avg_rating:{
         type: Number
@@ -34,8 +32,7 @@ const ProductSchema = new mongoose.Schema({
 
     main_image:{
         url: String,
-        public_id: String,
-        require
+        public_id: String
     },
     images:[{
         url: String,
@@ -44,14 +41,12 @@ const ProductSchema = new mongoose.Schema({
     
     variations:[{
         color:{
-            id         : Number, 
             hexadecimal: String, 
             plus_price : Number, 
             stock_num  : Number 
         },
         size: String
     }],
-
     category:{
         type: mongoose.Types.ObjectId
     },

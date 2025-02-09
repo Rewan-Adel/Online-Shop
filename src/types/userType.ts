@@ -8,9 +8,7 @@ type Location = {
     state?: string;
     country?: string;
     fullAddress?: string;
-}
-
-
+};
 
 type UserType = {
     _id:  Types.ObjectId;

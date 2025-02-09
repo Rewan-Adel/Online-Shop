@@ -42,9 +42,9 @@ class CategoryController{
     async getCategory(req: Request, res: Response): Promise<void>{
         try{
             if(!req.params.categoryID || req.params.categoryID == null|| req.params.categoryID == undefined|| 
-                req.params.categoryID == "" || req.params.categoryID == ":categoryID"
+                req.params.categoryID == ""
             ) 
-                return failedResponse(res, 400, "Category ID is required.");
+                return failedResponse(res, 400, "Category ID or name is required.");
 
             const response = await this.categoryRepository.findOne(req.params.categoryID);
             if(response.data != null)
@@ -94,40 +94,40 @@ class CategoryController{
 
             const { name, parent } = req.body;
             
-            if(!name && !parent)
-                return failedResponse(res, 400, "Please provide category name or parent category.");
+            if(!name && !parent && !req.file)
+                return failedResponse(res, 400, "Please provide category name or parent or image category.");
 
-            const response = await this.categoryRepository.updateCategory(req.params.categoryID, { name,  parent });
+            const response = await this.categoryRepository.updateCategory(req.params.categoryID, { name,  parent, imagePath:req.file?.path });
             if(response.data != null)
                 successResponse(res, 200, response.message, response.data);
             else
-                failedResponse(res, 404, response.message);
+                failedResponse(res, 500, response.message);
         }
         catch(error: unknown){
             handleError(error, res);
         }
     };
 
-    async changeImage(req: Request, res: Response): Promise<void>{
-        try{
-            if(!req.file)
-                return failedResponse(res, 400, "Category image is required.");
+    // async changeImage(req: Request, res: Response): Promise<void>{
+    //     try{
+    //         if(!req.file)
+    //             return failedResponse(res, 400, "Category image is required.");
 
-            if(!req.params.categoryID || req.params.categoryID == null|| req.params.categoryID == undefined|| 
-                req.params.categoryID == "" || req.params.categoryID == ":categoryID"
-            )                 
-                return failedResponse(res, 400, "Category ID is required.");
+    //         if(!req.params.categoryID || req.params.categoryID == null|| req.params.categoryID == undefined|| 
+    //             req.params.categoryID == "" || req.params.categoryID == ":categoryID"
+    //         )                 
+    //             return failedResponse(res, 400, "Category ID is required.");
 
-            const response = await this.categoryRepository.changeImage(req.params.categoryID, req.file.path);
-            if(response.data != null)
-                successResponse(res, 200, response.message, response.data);
-            else
-                failedResponse(res, 404, response.message);
+    //         const response = await this.categoryRepository.changeImage(req.params.categoryID, req.file.path);
+    //         if(response.data != null)
+    //             successResponse(res, 200, response.message, response.data);
+    //         else
+    //             failedResponse(res, 404, response.message);
 
-        }catch(error: unknown){
-            handleError(error, res);
-        }
-    };
+    //     }catch(error: unknown){
+    //         handleError(error, res);
+    //     }
+    // };
 };
 
 export default CategoryController;

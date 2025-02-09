@@ -3,18 +3,19 @@ import { Request, Response } from "express";
 import cookieParser from "cookie-parser";
 import rateLimit    from "express-rate-limit";
 import compression  from "compression";
-import helmet from "helmet";
-import cors   from "cors";
-import path   from "path";
+import helmet       from "helmet";
+import cors         from "cors";
+import path         from "path";
 import "dotenv/config";
 
 import {failedResponse} from "./middlewares/responseHandler";
-import dbConnection from "./config/dbConnection";
-import BackgroundJob from "./utils/BackgroundJob";
+import dbConnection     from "./config/dbConnection";
+import BackgroundJob    from "./utils/BackgroundJob";
 
 import authRoutes     from "./routes/authRoute";
 import userRoutes     from "./routes/userRoute";
 import categoryRoutes from "./routes/categoryRoue";
+import productRoutes  from "./routes/productRoute";
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -46,6 +47,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/api/auth",     authRoutes);
 app.use("/api/user",     userRoutes);
 app.use("/api/category", categoryRoutes);
+app.use("/api/product",  productRoutes);
 
 
 app.all("*", (req: Request, res: Response) => {

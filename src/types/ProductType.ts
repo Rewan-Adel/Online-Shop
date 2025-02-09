@@ -2,7 +2,6 @@ import { Types } from "mongoose";
 import Image from "./ImageType";
 
 type Color = {
-    id         : number, 
     hexadecimal: string, 
     plus_price : number, 
     stock_num  : number 

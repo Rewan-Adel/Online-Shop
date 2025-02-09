@@ -1,148 +1,16 @@
 {
 	"info": {
-		"_postman_id": "1c468566-1df4-485b-b471-b48531896726",
+		"_postman_id": "cf151ce0-6296-4f37-939c-387cc65e2e6e",
 		"name": "Online-Shop",
-		"description": "# 🛍️Online-Shop API Documentation\n\nThis API provides all the necessary endpoints for managing and interacting with an e-commerce platform. Below is an overview of its main features:\n\n#### **Key Features**\n\n1. **User Management**\n    \n    - User registration, login, and logout.\n        \n    - Authentication via email/password.\n        \n    - Profile management and updates.\n        \n2. **Product Management**\n    \n    - List all available products with filtering and sorting options.\n        \n    - Retrieve detailed product information.\n        \n    - Create, update, or delete products (Admin only).\n        \n3. **Cart and Checkout**\n    \n    - Add, update, or remove items from the cart.\n        \n    - Retrieve cart details.\n        \n    - Process orders and handle payments.\n        \n4. **Order Management**\n    \n    - View order history for users.\n        \n    - Update order status (Admin only).\n        \n5. **Marketplace Features**\n    \n    - View and manage product reviews.\n        \n    - Display bestsellers and trending products.\n        \n6. **Social Features**\n    \n    - Wishlist management.\n        \n    - Share products on social media platforms.\n        \n\n### Authentication\n\nThe API supports two methods for managing authentication:\n\nJWT (JSON Web Tokens) via the Authorization header and\n\n- HTTP-only cookies. Use either method to access protected endpoints.\n    \n\n1\\. JWT in Authorization Header  \nInclude a valid JWT token in the Authorization header for endpoints that require authentication. This method is commonly used for mobile and non-browser clients.\n\nExample:\n\n``` json\nAuthorization: Bearer <your_token_here>\n\n ```\n\n2\\. Cookies  \nFor browser-based clients, the server can manage authentication through HTTP-only cookies for enhanced security. This cookie is automatically sent with each request after login.\n\nThe cookie will store the JWT or session token securely.  \nEnsure your client handles CSRF tokens if required by the server for cookie-based authentication.  \nExample Request Flow with Cookies:\n\nLogin Endpoint: Authenticate using credentials, and the server sends an HTTP-only cookie.  \nSubsequent Requests: The cookie is automatically sent by the browser, eliminating the need to manually include the Authorization header.\n\n#### **Response Format**\n\nAll responses follow this structure:\n\n``` json\n{\n  \"status\": true,\n  \"message\": \"Optional descriptive message\"\n  \"data\": { ... },\n }\n\n ```\n\n#### **Error Handling**\n\nErrors are returned in the following format:\n\n``` json\njsonCopy code{\n  \"status\": false,\n  \"message\": \"Error description\"\n  \"data\": null\n}\n\n ```\n\n#### **Usage Notes**\n\n- Use the provided environment variables for base URLs and tokens.\n    \n- Follow rate limits to avoid throttling.\n    \n\n#### **API Categories in Postman**\n\nThe Postman collection is organized into the following folders for easy navigation:\n\n1. **Auth** – User registration, login, logout.\n    \n2. **Products** – CRUD operations for products.\n    \n3. **Cart** – Managing user cart.\n    \n4. **Orders** – Placing and viewing orders.\n    \n5. User - Managing user profile\n    \n6. **Admin** – Admin-specific functionalities.",
+		"description": "# 🛍️Online-Shop API Documentation\n\nThis API provides all the necessary endpoints for managing and interacting with an e-commerce platform. Below is an overview of its main features:\n\n#### **Key Features**\n\n1. **User Management**\n    \n    - User registration, login, and logout.\n        \n    - Authentication via email/password.\n        \n    - Profile management and updates.\n        \n2. **Product Management**\n    \n    - List all available products with filtering and sorting options.\n        \n    - Retrieve detailed product information.\n        \n    - Create, update, or delete products (Admin only).\n        \n3. **Cart and Checkout**\n    \n    - Add, update, or remove items from the cart.\n        \n    - Retrieve cart details.\n        \n    - Process orders and handle payments.\n        \n4. **Order Management**\n    \n    - View order history for users.\n        \n    - Update order status (Admin only).\n        \n5. **Marketplace Features**\n    \n    - View and manage product reviews.\n        \n    - Display bestsellers and trending products.\n        \n6. **Social Features**\n    \n    - Wishlist management.\n        \n    - Share products on social media platforms.\n        \n\n### Authentication\n\nThe API supports two methods for managing authentication:\n\nJWT (JSON Web Tokens) via the Authorization header and\n\n- HTTP-only cookies. Use either method to access protected endpoints.\n    \n\n1\\. JWT in Authorization Header  \nInclude a valid JWT token in the Authorization header for endpoints that require authentication. This method is commonly used for mobile and non-browser clients.\n\nExample:\n\n``` json\nAuthorization: Bearer <your_token_here>\n\n ```\n\n2\\. Cookies  \nFor browser-based clients, the server can manage authentication through HTTP-only cookies for enhanced security. This cookie is automatically sent with each request after login.\n\nThe cookie will store the JWT or session token securely.  \nEnsure your client handles CSRF tokens if required by the server for cookie-based authentication.  \nExample Request Flow with Cookies:\n\nLogin Endpoint: Authenticate using credentials, and the server sends an HTTP-only cookie.  \nSubsequent Requests: The cookie is automatically sent by the browser, eliminating the need to manually include the Authorization header.\n\n#### **Response Format**\n\nAll responses follow this structure:\n\n``` json\n{\n  \"status\": true,\n  \"message\": \"Optional descriptive message\"\n  \"data\": { ... },\n }\n\n ```\n\n#### **Error Handling**\n\nErrors are returned in the following format:\n\n#### **Usage Notes**\n\n- Use the provided environment variables for base URLs and tokens.\n    \n- Follow rate limits to avoid throttling.\n    \n\n#### **API Categories in Postman**\n\nThe Postman collection is organized into the following folders for easy navigation:\n\n1. **Auth** – User registration, login, logout.\n    \n2. **Products** – CRUD operations for products.\n    \n3. **Cart** – Managing user cart.\n    \n4. **Orders** – Placing and viewing orders.\n    \n5. User - Managing user profile\n    \n6. **Admin** – Admin-specific functionalities.",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "25350743"
+		"_exporter_id": "25350743",
+		"_collection_link": "https://www.postman.com/notnull-7187/workspace/notnull/collection/25350743-cf151ce0-6296-4f37-939c-387cc65e2e6e?action=share&source=collection_link&creator=25350743"
 	},
 	"item": [
 		{
 			"name": "Authentication",
 			"item": [
-				{
-					"name": "Reset Password",
-					"item": [
-						{
-							"name": "Forgot Pass",
-							"request": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"email\":\"rewanmahrous0@gmail.com\"\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{LOCAL_URL}}/api/auth/forgot-password",
-									"host": [
-										"{{LOCAL_URL}}"
-									],
-									"path": [
-										"api",
-										"auth",
-										"forgot-password"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Verify Email Copy",
-							"request": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"email\":\"rewanmahrous0@gmail.com\",\r\n    \"code\":  332016\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{LOCAL_URL}}/api/auth/verify-email",
-									"host": [
-										"{{LOCAL_URL}}"
-									],
-									"path": [
-										"api",
-										"auth",
-										"verify-email"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Reset Pass",
-							"request": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"newPassword\":\"12345678r\"\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{LOCAL_URL}}/api/auth/reset-password/:userID/:resetToken",
-									"host": [
-										"{{LOCAL_URL}}"
-									],
-									"path": [
-										"api",
-										"auth",
-										"reset-password",
-										":userID",
-										":resetToken"
-									],
-									"variable": [
-										{
-											"key": "userID",
-											"value": "6748f018c3843857ac4e0591"
-										},
-										{
-											"key": "resetToken",
-											"value": "9e1ebab46bb3fb39deda6d8983a8d1288054844f"
-										}
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Resend Reset Code",
-							"request": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"email\":\"rewanadel1266@gmail.com\"\r\n }",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "https://online-shop-tau-liart.vercel.app/api/auth/signup/resend-code",
-									"protocol": "https",
-									"host": [
-										"online-shop-tau-liart",
-										"vercel",
-										"app"
-									],
-									"path": [
-										"api",
-										"auth",
-										"signup",
-										"resend-code"
-									]
-								}
-							},
-							"response": []
-						}
-					]
-				},
 				{
 					"name": "Signup",
 					"item": [
@@ -153,7 +21,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"username\":\"user_name\",\r\n    \"email\":\"rewanadel1266@gmail.com\",\r\n    \"password\":\"12345678\"\r\n}",
+									"raw": "{\r\n    \"username\":\"user_name\",\r\n    \"email\":\"user@gmail.com\",\r\n    \"password\":\"12345678\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -161,12 +29,9 @@
 									}
 								},
 								"url": {
-									"raw": "https://online-shop-tau-liart.vercel.app/api/auth/signup",
-									"protocol": "https",
+									"raw": "{{URL}}/api/auth/signup",
 									"host": [
-										"online-shop-tau-liart",
-										"vercel",
-										"app"
+										"{{URL}}"
 									],
 									"path": [
 										"api",
@@ -184,7 +49,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"email\":\"rewanadel1266@gmail.com\",\r\n    \"code\":  462257\r\n}",
+									"raw": "{\r\n    \"email\":\"user@gmail.com\",\r\n    \"code\":  111111\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -192,12 +57,9 @@
 									}
 								},
 								"url": {
-									"raw": "https://online-shop-tau-liart.vercel.app/api/auth/verify-email",
-									"protocol": "https",
+									"raw": "{{URL}}/api/auth/verify-email",
 									"host": [
-										"online-shop-tau-liart",
-										"vercel",
-										"app"
+										"{{URL}}"
 									],
 									"path": [
 										"api",
@@ -215,7 +77,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"email\":\"rewanadel1266@gmail.com\"\r\n}",
+									"raw": "{\r\n    \"email\":\"user@gmail.com\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -223,24 +85,152 @@
 									}
 								},
 								"url": {
-									"raw": "https://online-shop-tau-liart.vercel.app/api/auth/signup/resend-code",
-									"protocol": "https",
+									"raw": "{{URL}}/api/auth/resend-code",
 									"host": [
-										"online-shop-tau-liart",
-										"vercel",
-										"app"
+										"{{URL}}"
 									],
 									"path": [
 										"api",
 										"auth",
-										"signup",
 										"resend-code"
 									]
 								}
 							},
 							"response": []
 						}
-					]
+					],
+					"description": "### 1\\. Signup (Register a New User)\n\n- **Method**: `POST`\n    \n- **URL**: `/api/auth/signup`\n    \n- **Body** (JSON):\n    \n\n``` json\n{\n \"name\": \"User Name\",\n \"email\": \"user@example.com\",\n \"password\": \"password123\" \n}\n\n ```\n\n**Expected Response**:\n\n``` json\n{\n  \"status\": true,\n  \"message\": \"Verification code sent.\",\n   \"data\": {\n        \"user\": {\n            \"username\": \"Username\",\n            \"email\": \"user@example.com\",\n            \"_id\": \"\",\n            \"createdAt\": \"\",\n            \"updatedAt\": \"\",\n            .................\n        }\n    }\n}\n\n ```\n\n### **2.Email Verifecation**\n\n- **Method**: `POST`\n    \n- **URL**: `/api/uth/verify-email`\n    \n- **Body** (JSON):\n    \n\n``` json\n{\n    \"email\":\"user@example.com\",\n    \"code\":  123456\n}\n\n ```\n\n**Expected Response**:\n\n``` json\n{\n  \"status\": true,\n  \"message\": \"Email verified successfully\",\n   \"data\": {\n        \"user\": {\n            \"username\": \"Username\",\n            \"email\": \"user@example.com\",\n            \"_id\": \"\",\n            \"createdAt\": \"\",\n            \"updatedAt\": \"\"\n                  ......\n        }\n        \"token\":\"Token\"\n    }\n}\n\n ```\n\n### 3.Resend **Verifecation** Code\n\n- **Method**: `POST`\n    \n- **URL**: `/api/auth/resend-code`\n    \n- **Body** (JSON):\n    \n\n``` json\n{\n \"email\": \"user@example.com\"\n}\n\n ```"
+				},
+				{
+					"name": "Reset Password",
+					"item": [
+						{
+							"name": "Forgot Pass",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\":\"user@gmail.com\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/api/auth/forgot-password",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"api",
+										"auth",
+										"forgot-password"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Verify Email Copy",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\":\"user@gmail.com\",\r\n    \"code\":  111111\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/api/auth/verify-email",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"api",
+										"auth",
+										"verify-email"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Reset Pass",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"newPassword\":\"12345678\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/api/auth/reset-password/:userID/:resetToken",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"api",
+										"auth",
+										"reset-password",
+										":userID",
+										":resetToken"
+									],
+									"variable": [
+										{
+											"key": "userID",
+											"value": ""
+										},
+										{
+											"key": "resetToken",
+											"value": ""
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Resend Reset Code",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\":\"user@gmail.com\"\r\n }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/api/auth/reset-password/resend-code",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"api",
+										"auth",
+										"reset-password",
+										"resend-code"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"description": "### 1.Forgot Password\n\n- **Method**: `POST`\n    \n- **URL**: `/api/auth/forgot-password`\n    \n- **Body** (JSON):\n    \n\n``` json\n{\n \"email\": \"user@example.com\"\n}\n\n ```\n\n- **Expected Response**:\n    \n\n``` json\n{\n    \"status\": true,\n    \"message\": \"Reset password code sent\",\n    \"data\": {\n        \"userID\": \"6750c83b9ea7fd6a0e951250\",\n        \"resetToken\": \"e81cebc3aa6092dbea8fadb6552c4001ba0d0d1a\"\n    }\n}\n\n ```\n\n### **2.Email Verifecation**\n\n- **Method**: `POST`\n    \n- **URL**: `/api/auth/verify-email`\n    \n- **Body** (JSON):\n    \n\n``` json\n{\n    \"email\":\"user@example.com\",\n    \"code\":  123456\n}\n\n ```\n\n- **Expected Response**:\n    \n\n``` json\n{\n  \"status\": true,\n  \"message\": \"Email verified successfully\",\n   \"data\": {\n        \"user\": {\n            \"username\": \"Username\",\n            \"email\": \"user@example.com\",\n            \"_id\": \"\",\n            \"createdAt\": \"\",\n            \"updatedAt\": \"\"\n                  ......\n        }\n        \"token\":\"Token\"\n    }\n}\n\n ```\n\n### 3.Reset Password\n\n- **Method**: `POST`\n    \n- **URL**: `/api/auth/reset-password/:userID/:resetToken`\n    \n- **Body** (JSON):\n    \n\n``` json\n{\n \"newPassword\": \"password123\" \n}\n\n ```\n\n### 4.Resend Code For Reset Pass\n\n- **Method**: `POST`\n    \n- **URL**: `/api/auth/reset-password/resend-code`\n    \n- **Body** (JSON):\n    \n\n``` json\n{\n \"email\": \"user@example.com\"\n}\n\n ```\n\n**Expected Response**:\n\n``` json\n{\n    \"status\": true,\n    \"message\": \"Reset Password code sent.\",\n    \"data\": null\n}\n\n ```"
 				},
 				{
 					"name": "Login",
@@ -249,7 +239,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\":\"rewanmahrous0@gmail.com\",\r\n    \"password\":\"12345678r\"\r\n}",
+							"raw": "{\r\n    \"email\":\"rewanmahrous0@gmail.com\",\r\n    \"password\":\"12345678\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -257,9 +247,9 @@
 							}
 						},
 						"url": {
-							"raw": "{{LOCAL_URL}}/api/auth/login",
+							"raw": "{{URL}}/api/auth/login",
 							"host": [
-								"{{LOCAL_URL}}"
+								"{{URL}}"
 							],
 							"path": [
 								"api",
@@ -271,7 +261,2866 @@
 					"response": []
 				}
 			],
-			"description": "### 1\\. Signup (Register a New User)\n\n- **Method**: `POST`\n    \n- **URL**: `/api/auth/signup`\n    \n- **Body** (JSON):\n    \n\n``` json\n{\n \"name\": \"User Name\",\n \"email\": \"user@example.com\",\n \"password\": \"password123\" \n}\n\n ```\n\n**Expected Response**:\n\n``` json\n{\n  \"status\": true,\n  \"message\": \"Verification code sent.\",\n   \"data\": {\n        \"user\": {\n            \"username\": \"Username\",\n            \"email\": \"user@example.com\",\n            \"_id\": \"\",\n            \"createdAt\": \"\",\n            \"updatedAt\": \"\",\n            .................\n        }\n    }\n}\n\n ```\n\n### **2.Email Verifecation**\n\n- **Method**: `POST`\n    \n- **URL**: `http://localhost:8000/api/auth/verify-email`\n    \n- **Body** (JSON):\n    \n\n``` json\n{\n    \"email\":\"user@example.com\",\n    \"code\":  123456\n}\n\n ```\n\n**Expected Response**:\n\n``` json\n{\n  \"status\": true,\n  \"message\": \"Email verified successfully\",\n   \"data\": {\n        \"user\": {\n            \"username\": \"Username\",\n            \"email\": \"user@example.com\",\n            \"_id\": \"\",\n            \"createdAt\": \"\",\n            \"updatedAt\": \"\"\n                  ......\n        }\n        \"token\":\"Token\"\n    }\n}\n\n ```\n\n### 2\\. Login\n\n- **Method**: `POST`\n    \n- **URL**: `/api/auth/login`\n    \n- **Body** (JSON):\n    \n\n``` json\n{\n \"email\": \"user@example.com\",\n \"password\": \"password123\" \n}\n\n ```\n\n- **Expected Response**\n    \n\n``` json\n{\n  \"status\": \"success\",\n  \"code\": 200,\n  \"message\":\"login successfully\",\n  \"token\": \"your_jwt_token\",\n  \"data\": {\n        \"user\": {\n            \"username\": \"Username\",\n            \"email\": \"user@example.com\",\n            \"_id\": \"\",\n            \"createdAt\": \"\",\n            \"updatedAt\": \"\"\n        }\n    }\n}\n\n ```\n\n### 3.Forgot Password\n\n- **Method**: `POST`\n    \n- **URL**: `/api/auth/forgot-password`\n    \n- **Body** (JSON):\n    \n\n``` json\n{\n \"email\": \"user@example.com\"\n}\n\n ```\n\n### 4.Reset Password\n\n- **Method**: `POST`\n    \n- **URL**: `http://localhost:8000/api/auth/reset-password/:userID/:resetToken`\n    \n- **Body** (JSON):\n    \n\n``` json\n{\n \"newPassword\": \"password123\" \n}\n\n ```\n\n### 5.Resend Code For Signup\n\n- **Method**: `POST`\n    \n- **URL**: `/api/auth/signup/resend-code`\n    \n- **Body** (JSON):\n    \n\n``` json\n{\n \"email\": \"user@example.com\"\n}\n\n ```\n\n**Expected Response**:\n\n``` json\n{\n \"status\": true,\n    \"message\": \"Verification code sent.\",\n    \"data\": null\n}\n\n ```\n\n### 5.Resend Code For Signup\n\n- **Method**: `POST`\n    \n- **URL**: `/api/auth/reset-password/resend-code`\n    \n- **Body** (JSON):\n    \n\n``` json\n{\n \"email\": \"user@example.com\"\n}\n\n ```\n\n**Expected Response**:\n\n``` json\n{\n    \"status\": true,\n    \"message\": \"Reset Password code sent.\",\n    \"data\": null\n}\n\n ```"
+			"description": "### 1\\. Signup (Register a New User)\n\n- **Method**: `POST`\n    \n- **URL**: `/api/auth/signup`\n    \n- **Body** (JSON):\n    \n\n``` json\n{\n \"name\": \"User Name\",\n \"email\": \"user@example.com\",\n \"password\": \"password123\" \n}\n\n ```\n\n**Expected Response**:\n\n``` json\n{\n  \"status\": true,\n  \"message\": \"Verification code sent.\",\n   \"data\": {\n        \"user\": {\n            \"username\": \"Username\",\n            \"email\": \"user@example.com\",\n            \"_id\": \"\",\n            \"createdAt\": \"\",\n            \"updatedAt\": \"\",\n            .................\n        }\n    }\n}\n\n ```\n\n### **2.Email Verifecation**\n\n- **Method**: `POST`\n    \n- **URL**: `http://localhost:8000/api/auth/verify-email`\n    \n- **Body** (JSON):\n    \n\n``` json\n{\n    \"email\":\"user@example.com\",\n    \"code\":  123456\n}\n\n ```\n\n**Expected Response**:\n\n``` json\n{\n  \"status\": true,\n  \"message\": \"Email verified successfully\",\n   \"data\": {\n        \"user\": {\n            \"username\": \"Username\",\n            \"email\": \"user@example.com\",\n            \"_id\": \"\",\n            \"createdAt\": \"\",\n            \"updatedAt\": \"\"\n                  ......\n        }\n        \"token\":\"Token\"\n    }\n}\n\n ```\n\n### 2\\. Login\n\n- **Method**: `POST`\n    \n- **URL**: `/api/auth/login`\n    \n- **Body** (JSON):\n    \n\n``` json\n{\n \"email\": \"user@example.com\",\n \"password\": \"password123\" \n}\n\n ```\n\n- **Expected Response**\n    \n\n``` json\n{\n  \"status\": \"success\",\n  \"code\": 200,\n  \"message\":\"login successfully\",\n  \"token\": \"your_jwt_token\",\n  \"data\": {\n        \"user\": {\n            \"username\": \"Username\",\n            \"email\": \"user@example.com\",\n            \"_id\": \"\",\n            \"createdAt\": \"\",\n            \"updatedAt\": \"\"\n        }\n    }\n}\n\n ```\n\n### 3.Forgot Password\n\n- **Method**: `POST`\n    \n- **URL**: `/api/auth/forgot-password`\n    \n- **Body** (JSON):\n    \n\n``` json\n{\n \"email\": \"user@example.com\"\n}\n\n ```\n\n### 4.Reset Password\n\n- **Method**: `POST`\n    \n- **URL**: `http://localhost:8000/api/auth/reset-password/:userID/:resetToken`\n    \n- **Body** (JSON):\n    \n\n``` json\n{\n \"newPassword\": \"password123\" \n}\n\n ```\n\n### 5.Resend Code For Signup\n\n- **Method**: `POST`\n    \n- **URL**: `/api/auth/resend-code`\n    \n- **Body** (JSON):\n    \n\n``` json\n{\n \"email\": \"user@example.com\"\n}\n\n ```\n\n**Expected Response**:\n\n``` json\n{\n \"status\": true,\n    \"message\": \"Verification code sent.\",\n    \"data\": null\n}\n\n ```\n\n### 5.Resend Code For Reset Pass\n\n- **Method**: `POST`\n    \n- **URL**: `/api/auth/reset-password/resend-code`\n    \n- **Body** (JSON):\n    \n\n``` json\n{\n \"email\": \"user@example.com\"\n}\n\n ```\n\n**Expected Response**:\n\n``` json\n{\n    \"status\": true,\n    \"message\": \"Reset Password code sent.\",\n    \"data\": null\n}\n\n ```"
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Change Email",
+					"item": [
+						{
+							"name": "New Email",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"newEmail\":\"user@gmail.com\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/api/user/change-email",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"api",
+										"user",
+										"change-email"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Verify Email Copy",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"user@gmail.com\",\r\n    \"code\" :  111111\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/api/auth/verify-email",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"api",
+										"auth",
+										"verify-email"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Resend Verification Code Copy",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\":\"rewanmahrous0@gmail.com\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/api/auth/resend-code",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"api",
+										"auth",
+										"resend-code"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"description": "### 1\\. Change Email\n\n- **Method**: `PUT`\n    \n- **URL**: `/api/auth/change-email`\n    \n- **Headers**:\n    \n    - `Authorization: Bearer .`\n        \n- **Body** (JSON):\n    \n\n``` json\n{\n    \"newEmail\":\"newEmail@gmail.com\"\n}\n\n ```\n\n- **Expected Response**:\n    \n\n``` json\n{\n    \"status\": true,\n    \"message\": \"Verification code sent.\",\n    \"data\": null\n}\n\n ```\n\n### **2.Email Verifecation**\n\n- **Method**: `POST`\n    \n- **URL**: `/api/uth/verify-email`\n    \n- **Headers**:\n    \n    - `Authorization: Bearer .`\n        \n- **Body** (JSON):\n    \n\n``` json\n{\n    \"email\":\"user@example.com\",\n    \"code\":  123456\n}\n\n ```\n\n**Expected Response**:\n\n``` json\n{\n  \"status\": true,\n  \"message\": \"Email verified successfully\",\n   \"data\": {\n        \"user\": {\n            \"username\": \"Username\",\n            \"email\": \"user@example.com\",\n            \"_id\": \"\",\n            \"createdAt\": \"\",\n            \"updatedAt\": \"\"\n                  ......\n        }\n        \"token\":\"Token\"\n    }\n}\n\n ```\n\n### 3.Resend **Verifecation** Code\n\n- **Method**: `POST`\n    \n- **URL**: `/api/auth/resend-code`\n    \n- **Headers**:\n    \n    - `Authorization: Bearer .`\n        \n- **Body** (JSON):\n    \n\n``` json\n{\n \"email\": \"user@example.com\"\n}\n\n ```"
+				},
+				{
+					"name": "Profile",
+					"item": [
+						{
+							"name": "Get Profile",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/api/user/profile",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"api",
+										"user",
+										"profile"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Profile",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": \"\",\r\n    \"gender\": \"\",\r\n    \"location\": {\r\n        \"city\": \"\",\r\n        \"country\": \"\",\r\n        \"fullAddress\": \"\"\r\n    }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/api/user/profile",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"api",
+										"user",
+										"profile"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Avatar",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiI2NzUwNTYyZTAwMGMxODZjODI1NmZmOTYiLCJpYXQiOjE3MzMzMTgyMDZ9.1hddBorYcy8sx678uCleL69xMAQ7xllkOovNBK1eItM",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "image",
+											"type": "file",
+											"src": []
+										}
+									]
+								},
+								"url": {
+									"raw": "{{URL}}/api/user/avatar",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"api",
+										"user",
+										"avatar"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Avatar",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/api/user/avatar",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"api",
+										"user",
+										"avatar"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Profile",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/api/user/profile",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"api",
+										"user",
+										"profile"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"description": "### 1\\. Get Profile\n\n- **Method**: `GET`\n    \n- **URL**: `/api/user/profile`\n    \n- **Headers**:\n    \n    - `Authorization: Bearer .`\n        \n- **Expected Response:**\n    \n\n``` json\n{\n    \"status\": true,\n    \"message\": \"Profile Details Fetched.\",\n    \"data\": {\n        \"avatar\": {\n            \"url\": \"https://res.cloudinary.com/dt6idcgyw/image/upload/v1725752451/default_j5ftby_jspjve.jpg\",\n            \"public_id\": \"default_j5ftby_jspjve\"\n        },\n        \"location\": {\n            \"city\": \"alex\",\n            \"country\": \"egypt\",\n            \"fullAddress\": \"alex,egypt\"\n        },\n        \"_id\": \"6750d4df89243738af69a000\",\n        \"username\": \"user_name\",\n        \"email\": \"user@gmail.com\",\n        \"role\": \"user\",\n        \"verified\": true,\n        \"active\": true,\n        \"createdAt\": \"2024-12-04T22:17:03.111Z\",\n        \"updatedAt\": \"2024-12-05T15:11:21.767Z\",\n         \"gender\": \"female\"\n    }\n}\n\n ```\n\n### 2\\. Update Profile:\n\n- **Method**: `PUT`\n    \n- **URL**: `/api/user/profile`\n    \n- **Headers**:\n    \n    - `Authorization: Bearer .`\n        \n- **Body** (JSON):\n    \n\n``` json\n{\n    \"username\": \"user\",\n    \"gender\": \"female\",\n    \"location\": {\n        \"city\": \"alex\",\n        \"country\": \"egypt\",\n        \"fullAddress\": \"alex,egypt\"\n    }\n}\n\n ```\n\n- **Expected Response:**\n    \n\n``` json\n{\n    \"status\": true,\n    \"message\": \"Profile Updated.\",\n    \"data\": {\n        \"avatar\": {\n            \"url\": \"https://res.cloudinary.com/dt6idcgyw/image/upload/v1725752451/default_j5ftby_jspjve.jpg\",\n            \"public_id\": \"default_j5ftby_jspjve\"\n        },\n        \"location\": {\n            \"city\": \"alex\",\n            \"country\": \"egypt\",\n            \"fullAddress\": \"alex,egypt\"\n        },\n        \"_id\": \"6750d4df89243738af69a000\",\n        \"username\": \"user_name\",\n        \"email\": \"user@gmail.com\",\n        \"role\": \"user\",\n        \"verified\": true,\n        \"active\": true,\n        \"createdAt\": \"2024-12-04T22:17:03.111Z\",\n        \"updatedAt\": \"2024-12-05T15:11:21.767Z\",\n         \"gender\": \"female\"\n    }\n}\n\n ```\n\n### 4\\. Delete Profile\n\n- **Method**: `DELETE`\n    \n- **URL**: `/api/user/profile`\n    \n- **Headers**:\n    \n    - `Authorization: Bearer .`\n        \n- **Expected Response:**\n    \n\n``` json\n{\n    \"status\": true,\n    \"message\": \"Profile Deleted.\",\n    \"data\": null\n}\n\n ```\n\n### 5.Update Avatar\n\n- **Method**: `PUT`\n    \n- **URL**: `/api/user/avatar`\n    \n- **Headers**:\n    \n    - `Authorization: Bearer .`\n        \n- **Body** (Form-Data):\n    \n    - **Key**: `image`\n        \n- **Expected Response:**\n    \n\n```\n{\n    \"status\": true,\n    \"message\": \"Avatar Changed.\",\n    \"data\": {\n        \"avatar\": {\n            \"url\": \"https://res.cloudinary.com/dt6idcgyw/image/upload/v1733412699/oexcpsmqf5asocprysiv.png\",\n            \"public_id\": \"oexcpsmqf5asocprysiv\"\n        },\n        \"_id\": \"6750c8949ea7fd6a0e951258\",\n        \"username\": \"user_name\",\n        \"email\": \"user@gmail.com\",\n        \"role\": \"user\",\n        \"verified\": true,\n        \"active\": true,\n        \"createdAt\": \"2024-12-04T21:24:36.516Z\",\n        \"updatedAt\": \"2024-12-05T15:31:39.895Z\"\n    }\n}\n\n ```\n\n### 6.Delete Avatar\n\n- **Method**: delete\n    \n- **URL**: `/api/user/avatar`\n    \n- **Headers**:\n    \n    - `Authorization: Bearer .`\n        \n- Expected Response:\n    \n\n``` json\n{\n    \"status\": true,\n    \"message\": \"Avatar Deleted.\",\n    \"data\": {\n        \"avatar\": {\n            \"url\": \"https://res.cloudinary.com/dt6idcgyw/image/upload/v1725752451/default_j5ftby_jspjve.jpg\",\n            \"public_id\": \"default_j5ftby_jspjve\"\n        },\n        \"_id\": \"6750c8949ea7fd6a0e951258\",\n        \"username\": \"user_name\",\n        \"email\": \"user@gmail.com\",\n        \"role\": \"user\",\n        \"verified\": true,\n        \"active\": true,\n        \"createdAt\": \"2024-12-04T21:24:36.516Z\",\n        \"updatedAt\": \"2024-12-05T15:31:39.895Z\"\n    }\n}\n\n ```"
+				},
+				{
+					"name": "Check is active acc",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/api/user/is-active/:userID",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"is-active",
+								":userID"
+							],
+							"variable": [
+								{
+									"key": "userID",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "not found user",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL_URL}}/api/user/is-active/:userID",
+									"host": [
+										"{{LOCAL_URL}}"
+									],
+									"path": [
+										"api",
+										"user",
+										"is-active",
+										":userID"
+									],
+									"variable": [
+										{
+											"key": "userID",
+											"value": "6751b2be821bd18a4bf88d2a"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "100"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "99"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 07 Dec 2024 20:31:50 GMT"
+								},
+								{
+									"key": "X-RateLimit-Reset",
+									"value": "1733604411"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Resource-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Origin-Agent-Cluster",
+									"value": "?1"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=31536000; includeSubDomains"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-DNS-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "100"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"64-DqNyL4CH6MdJSJWhDL4OAW3cKZc\""
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": true,\n    \"message\": \"User Activity Checked.\",\n    \"data\": {\n        \"message\": \"User not found\",\n        \"active\": null\n    }\n}"
+						},
+						{
+							"name": "active acc",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/api/user/is-active/:userID",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"api",
+										"user",
+										"is-active",
+										":userID"
+									],
+									"variable": [
+										{
+											"key": "userID",
+											"value": "675494d4ddf936a1130a6898"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Age",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "public, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Content-Length",
+									"value": "96"
+								},
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Resource-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 07 Dec 2024 20:36:03 GMT"
+								},
+								{
+									"key": "Etag",
+									"value": "W/\"60-mKi1Sn1n/yliUQSKoRB66z10O/c\""
+								},
+								{
+									"key": "Origin-Agent-Cluster",
+									"value": "?1"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "Server",
+									"value": "Vercel"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=31536000; includeSubDomains"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-Dns-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "X-Ratelimit-Limit",
+									"value": "100"
+								},
+								{
+									"key": "X-Ratelimit-Remaining",
+									"value": "96"
+								},
+								{
+									"key": "X-Ratelimit-Reset",
+									"value": "1733604605"
+								},
+								{
+									"key": "X-Vercel-Cache",
+									"value": "MISS"
+								},
+								{
+									"key": "X-Vercel-Id",
+									"value": "fra1::iad1::6r8b8-1733603763674-a24fed7d1b92"
+								},
+								{
+									"key": "X-Xss-Protection",
+									"value": "0"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": true,\n    \"message\": \"User Activity Checked.\",\n    \"data\": {\n        \"message\": \"User found\",\n        \"active\": true\n    }\n}"
+						},
+						{
+							"name": "inactive acc",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/api/user/is-active/:userID",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"api",
+										"user",
+										"is-active",
+										":userID"
+									],
+									"variable": [
+										{
+											"key": "userID",
+											"value": "6750d23a264a43e85c602a6a"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Age",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "public, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Content-Length",
+									"value": "97"
+								},
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Resource-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 07 Dec 2024 20:36:40 GMT"
+								},
+								{
+									"key": "Etag",
+									"value": "W/\"61-smyFYwxbjhvCiMA3tyIUmpgIoqY\""
+								},
+								{
+									"key": "Origin-Agent-Cluster",
+									"value": "?1"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "Server",
+									"value": "Vercel"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=31536000; includeSubDomains"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-Dns-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "X-Ratelimit-Limit",
+									"value": "100"
+								},
+								{
+									"key": "X-Ratelimit-Remaining",
+									"value": "95"
+								},
+								{
+									"key": "X-Ratelimit-Reset",
+									"value": "1733604605"
+								},
+								{
+									"key": "X-Vercel-Cache",
+									"value": "MISS"
+								},
+								{
+									"key": "X-Vercel-Id",
+									"value": "fra1::iad1::g77bj-1733603800664-bc8837a60950"
+								},
+								{
+									"key": "X-Xss-Protection",
+									"value": "0"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": true,\n    \"message\": \"User Activity Checked.\",\n    \"data\": {\n        \"message\": \"User found\",\n        \"active\": false\n    }\n}"
+						}
+					]
+				}
+			],
+			"description": "### 1\\. Get Profile\n\n- **Method**: `GET`\n    \n- **URL**: `/api/user/profile`\n    \n- **Headers**:\n    \n    - `Authorization: Bearer .`\n        \n- **Expected Response:**\n    \n\n``` json\n{\n    \"status\": true,\n    \"message\": \"Profile Details Fetched.\",\n    \"data\": {\n        \"avatar\": {\n            \"url\": \"https://res.cloudinary.com/dt6idcgyw/image/upload/v1725752451/default_j5ftby_jspjve.jpg\",\n            \"public_id\": \"default_j5ftby_jspjve\"\n        },\n        \"location\": {\n            \"city\": \"alex\",\n            \"country\": \"egypt\",\n            \"fullAddress\": \"alex,egypt\"\n        },\n        \"_id\": \"6750d4df89243738af69a000\",\n        \"username\": \"user_name\",\n        \"email\": \"user@gmail.com\",\n        \"role\": \"user\",\n        \"verified\": true,\n        \"active\": true,\n        \"createdAt\": \"2024-12-04T22:17:03.111Z\",\n        \"updatedAt\": \"2024-12-05T15:11:21.767Z\",\n         \"gender\": \"female\"\n    }\n}\n\n ```\n\n### 2\\. Update Profile:\n\n- **Method**: `PUT`\n    \n- **URL**: `/api/user/profile`\n    \n- **Headers**:\n    \n    - `Authorization: Bearer .`\n        \n- **Body** (JSON):\n    \n\n``` json\n{\n    \"username\": \"user\",\n    \"gender\": \"female\",\n    \"location\": {\n        \"city\": \"alex\",\n        \"country\": \"egypt\",\n        \"fullAddress\": \"alex,egypt\"\n    }\n}\n\n ```\n\n- **Expected Response:**\n    \n\n``` json\n{\n    \"status\": true,\n    \"message\": \"Profile Updated.\",\n    \"data\": {\n        \"avatar\": {\n            \"url\": \"https://res.cloudinary.com/dt6idcgyw/image/upload/v1725752451/default_j5ftby_jspjve.jpg\",\n            \"public_id\": \"default_j5ftby_jspjve\"\n        },\n        \"location\": {\n            \"city\": \"alex\",\n            \"country\": \"egypt\",\n            \"fullAddress\": \"alex,egypt\"\n        },\n        \"_id\": \"6750d4df89243738af69a000\",\n        \"username\": \"user_name\",\n        \"email\": \"user@gmail.com\",\n        \"role\": \"user\",\n        \"verified\": true,\n        \"active\": true,\n        \"createdAt\": \"2024-12-04T22:17:03.111Z\",\n        \"updatedAt\": \"2024-12-05T15:11:21.767Z\",\n         \"gender\": \"female\"\n    }\n}\n\n ```\n\n### 4\\. Delete Profile\n\n- **Method**: `DELETE`\n    \n- **URL**: `/api/user/profile`\n    \n- **Headers**:\n    \n    - `Authorization: Bearer .`\n        \n- **Expected Response:**\n    \n\n``` json\n{\n    \"status\": true,\n    \"message\": \"Profile Deleted.\",\n    \"data\": null\n}\n\n ```\n\n### 5.Update Avatar\n\n- **Method**: `PUT`\n    \n- **URL**: `/api/user/avatar`\n    \n- **Headers**:\n    \n    - `Authorization: Bearer .`\n        \n- **Body** (Form-Data):\n    \n    - **Key**: `image`\n        \n- **Expected Response:**\n    \n\n``` json\n{\n    \"status\": true,\n    \"message\": \"Avatar Changed.\",\n    \"data\": {\n        \"avatar\": {\n            \"url\": \"https://res.cloudinary.com/dt6idcgyw/image/upload/v1733412699/oexcpsmqf5asocprysiv.png\",\n            \"public_id\": \"oexcpsmqf5asocprysiv\"\n        },\n        \"_id\": \"6750c8949ea7fd6a0e951258\",\n        \"username\": \"user_name\",\n        \"email\": \"user@gmail.com\",\n        \"role\": \"user\",\n        \"verified\": true,\n        \"active\": true,\n        \"createdAt\": \"2024-12-04T21:24:36.516Z\",\n        \"updatedAt\": \"2024-12-05T15:31:39.895Z\"\n    }\n}\n\n ```\n\n### 6.Delete Avatar\n\n- **Method**: delete\n    \n- **URL**: `/api/user/avatar`\n    \n- **Headers**:\n    \n    - `Authorization: Bearer .`\n        \n- Expected Response:\n    \n\n``` json\n{\n    \"status\": true,\n    \"message\": \"Avatar Deleted.\",\n    \"data\": {\n        \"avatar\": {\n            \"url\": \"https://res.cloudinary.com/dt6idcgyw/image/upload/v1725752451/default_j5ftby_jspjve.jpg\",\n            \"public_id\": \"default_j5ftby_jspjve\"\n        },\n        \"_id\": \"6750c8949ea7fd6a0e951258\",\n        \"username\": \"user_name\",\n        \"email\": \"user@gmail.com\",\n        \"role\": \"user\",\n        \"verified\": true,\n        \"active\": true,\n        \"createdAt\": \"2024-12-04T21:24:36.516Z\",\n        \"updatedAt\": \"2024-12-05T15:31:39.895Z\"\n    }\n}\n\n ```\n\n### 7\\. Change Email\n\n- **Method**: `PUT`\n    \n- **URL**: `/api/auth/change-email`\n    \n- **Headers**:\n    \n    - `Authorization: Bearer .`\n        \n- **Body** (JSON):\n    \n\n``` json\n{\n    \"newEmail\":\"newEmail@gmail.com\"\n}\n\n ```\n\n- **Expected Response**:\n    \n\n``` json\n{\n    \"status\": true,\n    \"message\": \"Verification code sent.\",\n    \"data\": null\n}\n\n ```\n\n### **8.Email Verifecation**\n\n- **Method**: `POST`\n    \n- **URL**: `/api/uth/verify-email`\n    \n- **Headers**:\n    \n    - `Authorization: Bearer .`\n        \n- **Body** (JSON):\n    \n\n``` json\n{\n    \"email\":\"user@example.com\",\n    \"code\":  123456\n}\n\n ```\n\n**Expected Response**:\n\n``` json\n{\n  \"status\": true,\n  \"message\": \"Email verified successfully\",\n   \"data\": {\n        \"user\": {\n            \"username\": \"Username\",\n            \"email\": \"user@example.com\",\n            \"_id\": \"\",\n            \"createdAt\": \"\",\n            \"updatedAt\": \"\"\n                  ......\n        }\n        \"token\":\"Token\"\n    }\n}\n\n ```\n\n### 9.Resend **Verifecation** Code\n\n- **Method**: `POST`\n    \n- **URL**: `/api/auth/resend-code`\n    \n- **Headers**:\n    \n    - `Authorization: Bearer .`\n        \n- **Body** (JSON):\n    \n\n``` json\n{\n \"email\": \"user@example.com\"\n}\n\n ```"
+		},
+		{
+			"name": "Admin",
+			"item": [
+				{
+					"name": "Users Controll",
+					"item": [
+						{
+							"name": "Get All users",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/api/user/",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"api",
+										"user",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get One",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/api/user/:userID",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"api",
+										"user",
+										":userID"
+									],
+									"variable": [
+										{
+											"key": "userID",
+											"value": ""
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Enable User",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/api/user/enable/:userID",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"api",
+										"user",
+										"enable",
+										":userID"
+									],
+									"variable": [
+										{
+											"key": "userID",
+											"value": ""
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Disable User",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/api/user/disable/:userID",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"api",
+										"user",
+										"disable",
+										":userID"
+									],
+									"variable": [
+										{
+											"key": "userID",
+											"value": ""
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete One",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/api/user/:userID",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"api",
+										"user",
+										":userID"
+									],
+									"variable": [
+										{
+											"key": "userID",
+											"value": ""
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete ALL Users",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/api/user/",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"api",
+										"user",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Filter By name or email",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/api/user/filter/all?page=&search=",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"api",
+										"user",
+										"filter",
+										"all"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": ""
+										},
+										{
+											"key": "search",
+											"value": ""
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Filter By name or email",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{URL}}/api/user/filter/all?page=1&search=sigiy",
+											"host": [
+												"{{URL}}"
+											],
+											"path": [
+												"api",
+												"user",
+												"filter",
+												"all"
+											],
+											"query": [
+												{
+													"key": "page",
+													"value": "1"
+												},
+												{
+													"key": "search",
+													"value": "sigiy"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Age",
+											"value": "0"
+										},
+										{
+											"key": "Cache-Control",
+											"value": "public, max-age=0, must-revalidate"
+										},
+										{
+											"key": "Content-Length",
+											"value": "487"
+										},
+										{
+											"key": "Content-Security-Policy",
+											"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Cross-Origin-Opener-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "Cross-Origin-Resource-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "Date",
+											"value": "Fri, 06 Dec 2024 20:10:27 GMT"
+										},
+										{
+											"key": "Etag",
+											"value": "W/\"1e7-IQxc8GwUjwxzUasA7/3vtTsgQY0\""
+										},
+										{
+											"key": "Origin-Agent-Cluster",
+											"value": "?1"
+										},
+										{
+											"key": "Referrer-Policy",
+											"value": "no-referrer"
+										},
+										{
+											"key": "Server",
+											"value": "Vercel"
+										},
+										{
+											"key": "Strict-Transport-Security",
+											"value": "max-age=31536000; includeSubDomains"
+										},
+										{
+											"key": "X-Content-Type-Options",
+											"value": "nosniff"
+										},
+										{
+											"key": "X-Dns-Prefetch-Control",
+											"value": "off"
+										},
+										{
+											"key": "X-Download-Options",
+											"value": "noopen"
+										},
+										{
+											"key": "X-Frame-Options",
+											"value": "SAMEORIGIN"
+										},
+										{
+											"key": "X-Permitted-Cross-Domain-Policies",
+											"value": "none"
+										},
+										{
+											"key": "X-Ratelimit-Limit",
+											"value": "100"
+										},
+										{
+											"key": "X-Ratelimit-Remaining",
+											"value": "92"
+										},
+										{
+											"key": "X-Ratelimit-Reset",
+											"value": "1733516429"
+										},
+										{
+											"key": "X-Vercel-Cache",
+											"value": "MISS"
+										},
+										{
+											"key": "X-Vercel-Id",
+											"value": "fra1::iad1::8mjx9-1733515827657-76c7236d07c8"
+										},
+										{
+											"key": "X-Xss-Protection",
+											"value": "0"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"status\": true,\n    \"message\": \"Users Fetched.\",\n    \"data\": {\n        \"data\": {\n            \"users\": [\n                {\n                    \"avatar\": {\n                        \"url\": \"https://res.cloudinary.com/dt6idcgyw/image/upload/v1725752451/default_j5ftby_jspjve.jpg\",\n                        \"public_id\": \"default_j5ftby_jspjve\"\n                    },\n                    \"_id\": \"6750db46e8bb4233e29a6aac\",\n                    \"username\": \"sigiy47237@luxyss.com\",\n                    \"email\": \"sigiy47237@luxyss.com\",\n                    \"role\": \"admin\",\n                    \"verified\": true,\n                    \"active\": true,\n                    \"createdAt\": \"2024-12-04T22:44:22.341Z\",\n                    \"updatedAt\": \"2024-12-04T23:01:54.186Z\"\n                }\n            ],\n            \"total_users\": 1,\n            \"current_page\": 1,\n            \"total_pages\": 1\n        }\n    }\n}"
+								},
+								{
+									"name": "Filter By name or email",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{URL}}/api/user/filter/all?page=1&search=yodex25341@luxyss.com",
+											"host": [
+												"{{URL}}"
+											],
+											"path": [
+												"api",
+												"user",
+												"filter",
+												"all"
+											],
+											"query": [
+												{
+													"key": "page",
+													"value": "1"
+												},
+												{
+													"key": "search",
+													"value": "yodex25341@luxyss.com"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Age",
+											"value": "0"
+										},
+										{
+											"key": "Cache-Control",
+											"value": "public, max-age=0, must-revalidate"
+										},
+										{
+											"key": "Content-Length",
+											"value": "487"
+										},
+										{
+											"key": "Content-Security-Policy",
+											"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Cross-Origin-Opener-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "Cross-Origin-Resource-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "Date",
+											"value": "Fri, 06 Dec 2024 20:12:19 GMT"
+										},
+										{
+											"key": "Etag",
+											"value": "W/\"1e7-IAZcNyCfYoonk51pJ6A/XammeLg\""
+										},
+										{
+											"key": "Origin-Agent-Cluster",
+											"value": "?1"
+										},
+										{
+											"key": "Referrer-Policy",
+											"value": "no-referrer"
+										},
+										{
+											"key": "Server",
+											"value": "Vercel"
+										},
+										{
+											"key": "Strict-Transport-Security",
+											"value": "max-age=31536000; includeSubDomains"
+										},
+										{
+											"key": "X-Content-Type-Options",
+											"value": "nosniff"
+										},
+										{
+											"key": "X-Dns-Prefetch-Control",
+											"value": "off"
+										},
+										{
+											"key": "X-Download-Options",
+											"value": "noopen"
+										},
+										{
+											"key": "X-Frame-Options",
+											"value": "SAMEORIGIN"
+										},
+										{
+											"key": "X-Permitted-Cross-Domain-Policies",
+											"value": "none"
+										},
+										{
+											"key": "X-Ratelimit-Limit",
+											"value": "100"
+										},
+										{
+											"key": "X-Ratelimit-Remaining",
+											"value": "86"
+										},
+										{
+											"key": "X-Ratelimit-Reset",
+											"value": "1733516429"
+										},
+										{
+											"key": "X-Vercel-Cache",
+											"value": "MISS"
+										},
+										{
+											"key": "X-Vercel-Id",
+											"value": "fra1::iad1::xbbt8-1733515938993-e34ad8ecd212"
+										},
+										{
+											"key": "X-Xss-Protection",
+											"value": "0"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"status\": true,\n    \"message\": \"Users Fetched.\",\n    \"data\": {\n        \"data\": {\n            \"users\": [\n                {\n                    \"avatar\": {\n                        \"url\": \"https://res.cloudinary.com/dt6idcgyw/image/upload/v1725752451/default_j5ftby_jspjve.jpg\",\n                        \"public_id\": \"default_j5ftby_jspjve\"\n                    },\n                    \"_id\": \"6750d23a264a43e85c602a6a\",\n                    \"username\": \"yodex25341@luxyss.com\",\n                    \"email\": \"yodex25341@luxyss.com\",\n                    \"role\": \"user\",\n                    \"verified\": true,\n                    \"active\": false,\n                    \"createdAt\": \"2024-12-04T22:05:46.340Z\",\n                    \"updatedAt\": \"2024-12-05T18:01:48.760Z\"\n                }\n            ],\n            \"total_users\": 1,\n            \"current_page\": 1,\n            \"total_pages\": 1\n        }\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Filter By Status",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/api/user/filter/status?page&status=",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"api",
+										"user",
+										"filter",
+										"status"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": null
+										},
+										{
+											"key": "status",
+											"value": ""
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Filter By Status (Active)",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{URL}}/api/user/filter/status?page=1&status=active",
+											"host": [
+												"{{URL}}"
+											],
+											"path": [
+												"api",
+												"user",
+												"filter",
+												"status"
+											],
+											"query": [
+												{
+													"key": "page",
+													"value": "1"
+												},
+												{
+													"key": "status",
+													"value": "active"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Age",
+											"value": "0"
+										},
+										{
+											"key": "Cache-Control",
+											"value": "public, max-age=0, must-revalidate"
+										},
+										{
+											"key": "Content-Length",
+											"value": "858"
+										},
+										{
+											"key": "Content-Security-Policy",
+											"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Cross-Origin-Opener-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "Cross-Origin-Resource-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "Date",
+											"value": "Fri, 06 Dec 2024 20:15:10 GMT"
+										},
+										{
+											"key": "Etag",
+											"value": "W/\"35a-cvo+uePGMpeoiKLFm6FemW0NVEQ\""
+										},
+										{
+											"key": "Origin-Agent-Cluster",
+											"value": "?1"
+										},
+										{
+											"key": "Referrer-Policy",
+											"value": "no-referrer"
+										},
+										{
+											"key": "Server",
+											"value": "Vercel"
+										},
+										{
+											"key": "Strict-Transport-Security",
+											"value": "max-age=31536000; includeSubDomains"
+										},
+										{
+											"key": "X-Content-Type-Options",
+											"value": "nosniff"
+										},
+										{
+											"key": "X-Dns-Prefetch-Control",
+											"value": "off"
+										},
+										{
+											"key": "X-Download-Options",
+											"value": "noopen"
+										},
+										{
+											"key": "X-Frame-Options",
+											"value": "SAMEORIGIN"
+										},
+										{
+											"key": "X-Permitted-Cross-Domain-Policies",
+											"value": "none"
+										},
+										{
+											"key": "X-Ratelimit-Limit",
+											"value": "100"
+										},
+										{
+											"key": "X-Ratelimit-Remaining",
+											"value": "82"
+										},
+										{
+											"key": "X-Ratelimit-Reset",
+											"value": "1733516429"
+										},
+										{
+											"key": "X-Vercel-Cache",
+											"value": "MISS"
+										},
+										{
+											"key": "X-Vercel-Id",
+											"value": "fra1::iad1::dph75-1733516110568-885c22eb4da7"
+										},
+										{
+											"key": "X-Xss-Protection",
+											"value": "0"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"status\": true,\n    \"message\": \"Users Fetched.\",\n    \"data\": {\n        \"data\": {\n            \"users\": [\n                {\n                    \"avatar\": {\n                        \"url\": \"https://res.cloudinary.com/dt6idcgyw/image/upload/v1725752451/default_j5ftby_jspjve.jpg\",\n                        \"public_id\": \"default_j5ftby_jspjve\"\n                    },\n                    \"_id\": \"6750db46e8bb4233e29a6aac\",\n                    \"username\": \"sigiy47237@luxyss.com\",\n                    \"email\": \"sigiy47237@luxyss.com\",\n                    \"role\": \"admin\",\n                    \"verified\": true,\n                    \"active\": true,\n                    \"createdAt\": \"2024-12-04T22:44:22.341Z\",\n                    \"updatedAt\": \"2024-12-04T23:01:54.186Z\"\n                },\n                {\n                    \"avatar\": {\n                        \"url\": \"https://res.cloudinary.com/dt6idcgyw/image/upload/v1725752451/default_j5ftby_jspjve.jpg\",\n                        \"public_id\": \"default_j5ftby_jspjve\"\n                    },\n                    \"_id\": \"6751f4b2fa9b099f2d69b5b1\",\n                    \"username\": \"tibasih813@rustetic.com\",\n                    \"email\": \"tibasih813@rustetic.com\",\n                    \"role\": \"user\",\n                    \"verified\": true,\n                    \"active\": true,\n                    \"createdAt\": \"2024-12-05T18:45:06.130Z\",\n                    \"updatedAt\": \"2024-12-05T18:55:08.313Z\"\n                }\n            ],\n            \"total_users\": 2,\n            \"current_page\": 1,\n            \"total_pages\": 1\n        }\n    }\n}"
+								},
+								{
+									"name": "Filter By Status (Inactive)",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{URL}}/api/user/filter/status?page=1&status=inactive",
+											"host": [
+												"{{URL}}"
+											],
+											"path": [
+												"api",
+												"user",
+												"filter",
+												"status"
+											],
+											"query": [
+												{
+													"key": "page",
+													"value": "1"
+												},
+												{
+													"key": "status",
+													"value": "inactive"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Age",
+											"value": "0"
+										},
+										{
+											"key": "Cache-Control",
+											"value": "public, max-age=0, must-revalidate"
+										},
+										{
+											"key": "Content-Length",
+											"value": "487"
+										},
+										{
+											"key": "Content-Security-Policy",
+											"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Cross-Origin-Opener-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "Cross-Origin-Resource-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "Date",
+											"value": "Fri, 06 Dec 2024 20:16:48 GMT"
+										},
+										{
+											"key": "Etag",
+											"value": "W/\"1e7-IAZcNyCfYoonk51pJ6A/XammeLg\""
+										},
+										{
+											"key": "Origin-Agent-Cluster",
+											"value": "?1"
+										},
+										{
+											"key": "Referrer-Policy",
+											"value": "no-referrer"
+										},
+										{
+											"key": "Server",
+											"value": "Vercel"
+										},
+										{
+											"key": "Strict-Transport-Security",
+											"value": "max-age=31536000; includeSubDomains"
+										},
+										{
+											"key": "X-Content-Type-Options",
+											"value": "nosniff"
+										},
+										{
+											"key": "X-Dns-Prefetch-Control",
+											"value": "off"
+										},
+										{
+											"key": "X-Download-Options",
+											"value": "noopen"
+										},
+										{
+											"key": "X-Frame-Options",
+											"value": "SAMEORIGIN"
+										},
+										{
+											"key": "X-Permitted-Cross-Domain-Policies",
+											"value": "none"
+										},
+										{
+											"key": "X-Ratelimit-Limit",
+											"value": "100"
+										},
+										{
+											"key": "X-Ratelimit-Remaining",
+											"value": "80"
+										},
+										{
+											"key": "X-Ratelimit-Reset",
+											"value": "1733516429"
+										},
+										{
+											"key": "X-Vercel-Cache",
+											"value": "MISS"
+										},
+										{
+											"key": "X-Vercel-Id",
+											"value": "fra1::iad1::5zrxd-1733516208918-4373c4705a1a"
+										},
+										{
+											"key": "X-Xss-Protection",
+											"value": "0"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"status\": true,\n    \"message\": \"Users Fetched.\",\n    \"data\": {\n        \"data\": {\n            \"users\": [\n                {\n                    \"avatar\": {\n                        \"url\": \"https://res.cloudinary.com/dt6idcgyw/image/upload/v1725752451/default_j5ftby_jspjve.jpg\",\n                        \"public_id\": \"default_j5ftby_jspjve\"\n                    },\n                    \"_id\": \"6750d23a264a43e85c602a6a\",\n                    \"username\": \"yodex25341@luxyss.com\",\n                    \"email\": \"yodex25341@luxyss.com\",\n                    \"role\": \"user\",\n                    \"verified\": true,\n                    \"active\": false,\n                    \"createdAt\": \"2024-12-04T22:05:46.340Z\",\n                    \"updatedAt\": \"2024-12-05T18:01:48.760Z\"\n                }\n            ],\n            \"total_users\": 1,\n            \"current_page\": 1,\n            \"total_pages\": 1\n        }\n    }\n}"
+								}
+							]
+						}
+					],
+					"description": "### 1\\. Get All Users\n\n- **Method**: `GET`\n    \n- **URL**: `/api/user/`\n    \n- **Headers**:\n    \n    - `Authorization: Bearer .`\n        \n- **Expected Response:**\n    \n\n``` json\n{\n    \"status\": true,\n    \"message\": \"All Users Fetched.\",\n    \"data\": {\n        \"users\": [\n            {\n                \"avatar\": {\n                    \"url\": \"https://res.cloudinary.com/dt6idcgyw/image/upload/v1725752451/default_j5ftby_jspjve.jpg\",\n                    \"public_id\": \"default_j5ftby_jspjve\"\n                },\n                \"_id\": \"6750d4df89243738af69a000\",\n                ...\n                },\n                {},.... {}\n        },\n        \"total_users\" : 20,\n        \"current_page\": 1,\n        \"total_pages\" : 2\n    }\n}\n\n ```\n\n### 2\\. Get One\n\n- **Method**: `GET`\n    \n- **URL**: `/api/user/:userID`\n    \n- **Headers**:\n    \n    - `Authorization: Bearer .`\n        \n- **Expected Response:**\n    \n\n``` json\n{\n    \"status\": true,\n    \"message\": \"User Fetched.\",\n    \"data\": {\n        \"avatar\": {\n            \"url\": \"https://res.cloudinary.com/dt6idcgyw/image/upload/v1725752451/default_j5ftby_jspjve.jpg\",\n            \"public_id\": \"default_j5ftby_jspjve\"\n        },\n        \"location\": {\n            \"city\": \"\",\n            \"country\": \"\",\n            \"fullAddress\": \"\"\n        },\n        \"_id\": \"6750c8949ea7fd6a0e951258\",\n             .....\n        },\n}\n\n ```\n\n### 3\\. Enable user\n\n- **Method**: `PUT`\n    \n- **URL**: `/api/user/enable/:userID`\n    \n- **Headers**:\n    \n    - `Authorization: Bearer .`\n        \n- **Expected Response:**\n    \n\n``` json\n{\n    \"status\": true,\n    \"message\": \"User Enabled.\",\n    \"data\": {\n        \"avatar\": {\n            \"url\": \"https://res.cloudinary.com/dt6idcgyw/image/upload/v1725752451/default_j5ftby_jspjve.jpg\",\n            \"public_id\": \"default_j5ftby_jspjve\"\n        },\n        \"location\": {\n            \"city\": \"\",\n            \"country\": \"\",\n            \"fullAddress\": \"\"\n        },\n        \"_id\": \"6750c8949ea7fd6a0e951258\",\n        \"active\": true,\n         ....\n    }\n}\n\n ```\n\n### 4.Disable user\n\n- **Method**: `PUT`\n    \n- **URL**: `/api/user/disable/:userID`\n    \n- **Headers**:\n    \n    - `Authorization: Bearer .`\n        \n- **Expected Response:**\n    \n\n``` json\n{\n    \"status\": true,\n    \"message\": \"User Disabled.\",\n    \"data\": {\n        \"avatar\": {\n            \"url\": \"https://res.cloudinary.com/dt6idcgyw/image/upload/v1725752451/default_j5ftby_jspjve.jpg\",\n            \"public_id\": \"default_j5ftby_jspjve\"\n        },\n        \"location\": {\n            \"city\": \"\",\n            \"country\": \"\",\n            \"fullAddress\": \"\"\n        },\n        \"_id\": \"6750c8949ea7fd6a0e951258\",\n        \"active\": false,\n         ....\n    }\n}\n\n ```\n\n### 5\\. Delete All\n\n- **Method**: `DELETE`\n    \n- **URL**: `/api/user`\n    \n- **Headers**:\n    \n    - `Authorization: Bearer .`\n        \n- **Expected Response:**\n    \n\n``` json\n{\n    \"status\": true,\n    \"message\": \"All Users Deleted.\",\n    \"data\": null\n}\n\n ```\n\n### 6.Delete One\n\n- **Method**: `DELETE`\n    \n- **URL**: `/api/user/:userID`\n    \n- **Headers**:\n    \n    - `Authorization: Bearer .`\n        \n- **Expected Response:**\n    \n\n``` json\n{\n    \"status\": true,\n    \"message\": \"User Deleted.\",\n    \"data\": null\n}\n\n ```\n\n### 7.Filter By username or email\n\n- **Method**: `GET`\n    \n- **URL**: `/api/user/filter/all`\n    \n- **Query Parameters**\n    \n    - `page` (optional): The page number for pagination.\n        \n    - `search` (required): The search term to filter users by username or email.\n        \n- **Headers**:\n    \n    - `Authorization: Bearer .`\n        \n- Expected Response:\n    \n\n``` json\n{\n    \"status\": true,\n    \"message\": \"Users Fetched.\",\n    \"data\": {\n        \"users\": [\n            {\n                \"avatar\": {\n                    \"url\": \"https://res.cloudinary.com/dt6idcgyw/image/upload/v1725752451/default_j5ftby_jspjve.jpg\",\n                    \"public_id\": \"default_j5ftby_jspjve\"\n                },\n                \"_id\": \"6750d4df89243738af69a000\",\n                ...\n                },\n        },\n        \"total_users\" : 1,\n        \"current_page\": 1,\n        \"total_pages\" : 1\n    }\n}\n\n ```\n\n### 8\\. Filter By Status\n\n- **Method**: `GET`\n    \n- **URL**: `/api/auth/change-email`\n    \n- **Query Parameters**\n    \n    - `page` (optional): The page number for pagination.\n        \n    - `status`(required): The statusterm to filter users by active or inactive\n        \n- **Headers**:\n    \n    - `Authorization: Bearer .`\n        \n- **Expected Response**:\n    \n\n``` json\n{\n    \"status\": true,\n    \"message\": \"Users Fetched.\",\n    \"data\": {\n        \"users\": [\n            {\n                \"avatar\": {\n                    \"url\": \"https://res.cloudinary.com/dt6idcgyw/image/upload/v1725752451/default_j5ftby_jspjve.jpg\",\n                    \"public_id\": \"default_j5ftby_jspjve\"\n                },\n                \"_id\": \"6750d4df89243738af69a000\",\n                ...\n                },\n        },\n        \"total_users\" : 1,\n        \"current_page\": 1,\n        \"total_pages\" : 1\n    }\n}\n\n\n ```"
+				},
+				{
+					"name": "Category Conterol",
+					"item": [
+						{
+							"name": "Add New Category",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "name",
+											"value": "",
+											"type": "text"
+										},
+										{
+											"key": "image",
+											"type": "file",
+											"src": []
+										},
+										{
+											"key": "parent",
+											"value": "",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{URL}}/api/category",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"api",
+										"category"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "add exist category",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "name",
+													"value": "chair",
+													"type": "text"
+												},
+												{
+													"key": "image",
+													"type": "file",
+													"src": "pexels-hormel-1431176-2762247.jpg"
+												},
+												{
+													"key": "parent",
+													"value": "",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "{{LOCAL_URL}}/api/category",
+											"host": [
+												"{{LOCAL_URL}}"
+											],
+											"path": [
+												"api",
+												"category"
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-RateLimit-Limit",
+											"value": "100"
+										},
+										{
+											"key": "X-RateLimit-Remaining",
+											"value": "98"
+										},
+										{
+											"key": "Date",
+											"value": "Mon, 09 Dec 2024 10:38:14 GMT"
+										},
+										{
+											"key": "X-RateLimit-Reset",
+											"value": "1733741584"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Content-Security-Policy",
+											"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+										},
+										{
+											"key": "Cross-Origin-Opener-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "Cross-Origin-Resource-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "Origin-Agent-Cluster",
+											"value": "?1"
+										},
+										{
+											"key": "Referrer-Policy",
+											"value": "no-referrer"
+										},
+										{
+											"key": "Strict-Transport-Security",
+											"value": "max-age=31536000; includeSubDomains"
+										},
+										{
+											"key": "X-Content-Type-Options",
+											"value": "nosniff"
+										},
+										{
+											"key": "X-DNS-Prefetch-Control",
+											"value": "off"
+										},
+										{
+											"key": "X-Download-Options",
+											"value": "noopen"
+										},
+										{
+											"key": "X-Frame-Options",
+											"value": "SAMEORIGIN"
+										},
+										{
+											"key": "X-Permitted-Cross-Domain-Policies",
+											"value": "none"
+										},
+										{
+											"key": "X-XSS-Protection",
+											"value": "0"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "67"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"43-fUBlL7unKhKd/Vdv45z7pvzzg6k\""
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"status\": false,\n    \"message\": \"Category is already exist.\",\n    \"data\": null\n}"
+								},
+								{
+									"name": "Add New Category",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "name",
+													"value": "light",
+													"type": "text"
+												},
+												{
+													"key": "image",
+													"type": "file",
+													"src": "pexels-hormel-1431176-2762247.jpg"
+												},
+												{
+													"key": "parent",
+													"value": "",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "{{LOCAL_URL}}/api/category",
+											"host": [
+												"{{LOCAL_URL}}"
+											],
+											"path": [
+												"api",
+												"category"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-RateLimit-Limit",
+											"value": "100"
+										},
+										{
+											"key": "X-RateLimit-Remaining",
+											"value": "97"
+										},
+										{
+											"key": "Date",
+											"value": "Mon, 09 Dec 2024 10:39:02 GMT"
+										},
+										{
+											"key": "X-RateLimit-Reset",
+											"value": "1733741584"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Content-Security-Policy",
+											"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+										},
+										{
+											"key": "Cross-Origin-Opener-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "Cross-Origin-Resource-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "Origin-Agent-Cluster",
+											"value": "?1"
+										},
+										{
+											"key": "Referrer-Policy",
+											"value": "no-referrer"
+										},
+										{
+											"key": "Strict-Transport-Security",
+											"value": "max-age=31536000; includeSubDomains"
+										},
+										{
+											"key": "X-Content-Type-Options",
+											"value": "nosniff"
+										},
+										{
+											"key": "X-DNS-Prefetch-Control",
+											"value": "off"
+										},
+										{
+											"key": "X-Download-Options",
+											"value": "noopen"
+										},
+										{
+											"key": "X-Frame-Options",
+											"value": "SAMEORIGIN"
+										},
+										{
+											"key": "X-Permitted-Cross-Domain-Policies",
+											"value": "none"
+										},
+										{
+											"key": "X-XSS-Protection",
+											"value": "0"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "352"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"160-+8YSFkQFck8++My6BVc2SamEebw\""
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"status\": true,\n    \"message\": \"Category Added Successfully\",\n    \"data\": {\n        \"name\": \"light\",\n        \"image\": {\n            \"url\": \"https://res.cloudinary.com/dt6idcgyw/image/upload/v1733740938/ptwpeabumqmp8qpszfl2.jpg\",\n            \"public_id\": \"ptwpeabumqmp8qpszfl2\"\n        },\n        \"parent\": null,\n        \"_id\": \"6756c98bee63fa3b6bae1b51\",\n        \"createdAt\": \"2024-12-09T10:42:19.420Z\",\n        \"updatedAt\": \"2024-12-09T10:42:19.420Z\",\n        \"__v\": 0\n    }\n}"
+								},
+								{
+									"name": "Parent not exists",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "name",
+													"value": "lighting",
+													"type": "text"
+												},
+												{
+													"key": "image",
+													"type": "file",
+													"src": "pexels-diimejii-2397351.jpg"
+												},
+												{
+													"key": "parent",
+													"value": "light",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "{{LOCAL_URL}}/api/category",
+											"host": [
+												"{{LOCAL_URL}}"
+											],
+											"path": [
+												"api",
+												"category"
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-RateLimit-Limit",
+											"value": "100"
+										},
+										{
+											"key": "X-RateLimit-Remaining",
+											"value": "99"
+										},
+										{
+											"key": "Date",
+											"value": "Mon, 09 Dec 2024 12:59:30 GMT"
+										},
+										{
+											"key": "X-RateLimit-Reset",
+											"value": "1733750071"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Content-Security-Policy",
+											"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+										},
+										{
+											"key": "Cross-Origin-Opener-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "Cross-Origin-Resource-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "Origin-Agent-Cluster",
+											"value": "?1"
+										},
+										{
+											"key": "Referrer-Policy",
+											"value": "no-referrer"
+										},
+										{
+											"key": "Strict-Transport-Security",
+											"value": "max-age=31536000; includeSubDomains"
+										},
+										{
+											"key": "X-Content-Type-Options",
+											"value": "nosniff"
+										},
+										{
+											"key": "X-DNS-Prefetch-Control",
+											"value": "off"
+										},
+										{
+											"key": "X-Download-Options",
+											"value": "noopen"
+										},
+										{
+											"key": "X-Frame-Options",
+											"value": "SAMEORIGIN"
+										},
+										{
+											"key": "X-Permitted-Cross-Domain-Policies",
+											"value": "none"
+										},
+										{
+											"key": "X-XSS-Protection",
+											"value": "0"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "65"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"41-ampFZYvD9IUARJPn5sPSJt0UP/4\""
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"status\": false,\n    \"message\": \"light category not found\",\n    \"data\": null\n}"
+								}
+							]
+						},
+						{
+							"name": "Update Category",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\":\"\"\r\n    ,\"parent\":\"\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/api/category/:categoryID",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"api",
+										"category",
+										":categoryID"
+									],
+									"variable": [
+										{
+											"key": "categoryID",
+											"value": ""
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Add New Category Copy",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"name\":\"chair\"\r\n    ,\"parent\":\"\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{LOCAL_URL}}/api/category/:categoryID",
+											"host": [
+												"{{LOCAL_URL}}"
+											],
+											"path": [
+												"api",
+												"category",
+												":categoryID"
+											],
+											"variable": [
+												{
+													"key": "categoryID",
+													"value": "6756f902795af8521fbfa1f3"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-RateLimit-Limit",
+											"value": "100"
+										},
+										{
+											"key": "X-RateLimit-Remaining",
+											"value": "99"
+										},
+										{
+											"key": "Date",
+											"value": "Mon, 09 Dec 2024 14:15:49 GMT"
+										},
+										{
+											"key": "X-RateLimit-Reset",
+											"value": "1733754650"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Content-Security-Policy",
+											"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+										},
+										{
+											"key": "Cross-Origin-Opener-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "Cross-Origin-Resource-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "Origin-Agent-Cluster",
+											"value": "?1"
+										},
+										{
+											"key": "Referrer-Policy",
+											"value": "no-referrer"
+										},
+										{
+											"key": "Strict-Transport-Security",
+											"value": "max-age=31536000; includeSubDomains"
+										},
+										{
+											"key": "X-Content-Type-Options",
+											"value": "nosniff"
+										},
+										{
+											"key": "X-DNS-Prefetch-Control",
+											"value": "off"
+										},
+										{
+											"key": "X-Download-Options",
+											"value": "noopen"
+										},
+										{
+											"key": "X-Frame-Options",
+											"value": "SAMEORIGIN"
+										},
+										{
+											"key": "X-Permitted-Cross-Domain-Policies",
+											"value": "none"
+										},
+										{
+											"key": "X-XSS-Protection",
+											"value": "0"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "319"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"13f-NOlTiMUbpvOiA4YflgBDqj4WyxM\""
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"status\": true,\n    \"message\": \"Category updated\",\n    \"data\": {\n        \"image\": {\n            \"url\": \"https://res.cloudinary.com/dt6idcgyw/image/upload/v1733753090/hz88kzk6avnwpdjqanxx.jpg\",\n            \"public_id\": \"hz88kzk6avnwpdjqanxx\"\n        },\n        \"_id\": \"6756f902795af8521fbfa1f3\",\n        \"name\": \"chair\",\n        \"createdAt\": \"2024-12-09T14:04:50.358Z\",\n        \"updatedAt\": \"2024-12-09T14:15:49.406Z\"\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Change Category image",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "image",
+											"type": "file",
+											"src": []
+										}
+									]
+								},
+								"url": {
+									"raw": "{{URL}}/api/category/change-image/:categoryID",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"api",
+										"category",
+										"change-image",
+										":categoryID"
+									],
+									"variable": [
+										{
+											"key": "categoryID",
+											"value": ""
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Update Category Copy",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "image",
+													"type": "file",
+													"src": "pexels-olly-842811.jpg"
+												}
+											]
+										},
+										"url": {
+											"raw": "{{LOCAL_URL}}/api/category/change-image/:categoryID",
+											"host": [
+												"{{LOCAL_URL}}"
+											],
+											"path": [
+												"api",
+												"category",
+												"change-image",
+												":categoryID"
+											],
+											"variable": [
+												{
+													"key": "categoryID",
+													"value": "6756f902795af8521fbfa1f3"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-RateLimit-Limit",
+											"value": "100"
+										},
+										{
+											"key": "X-RateLimit-Remaining",
+											"value": "98"
+										},
+										{
+											"key": "Date",
+											"value": "Mon, 09 Dec 2024 14:16:19 GMT"
+										},
+										{
+											"key": "X-RateLimit-Reset",
+											"value": "1733754650"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Content-Security-Policy",
+											"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+										},
+										{
+											"key": "Cross-Origin-Opener-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "Cross-Origin-Resource-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "Origin-Agent-Cluster",
+											"value": "?1"
+										},
+										{
+											"key": "Referrer-Policy",
+											"value": "no-referrer"
+										},
+										{
+											"key": "Strict-Transport-Security",
+											"value": "max-age=31536000; includeSubDomains"
+										},
+										{
+											"key": "X-Content-Type-Options",
+											"value": "nosniff"
+										},
+										{
+											"key": "X-DNS-Prefetch-Control",
+											"value": "off"
+										},
+										{
+											"key": "X-Download-Options",
+											"value": "noopen"
+										},
+										{
+											"key": "X-Frame-Options",
+											"value": "SAMEORIGIN"
+										},
+										{
+											"key": "X-Permitted-Cross-Domain-Policies",
+											"value": "none"
+										},
+										{
+											"key": "X-XSS-Protection",
+											"value": "0"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "325"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"145-cD+RYOW9N0Jnclxuddm9//yAuw0\""
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"status\": true,\n    \"message\": \"Category image updated\",\n    \"data\": {\n        \"image\": {\n            \"url\": \"https://res.cloudinary.com/dt6idcgyw/image/upload/v1733753946/c0dssw8vpichfey4vuey.jpg\",\n            \"public_id\": \"c0dssw8vpichfey4vuey\"\n        },\n        \"_id\": \"6756f902795af8521fbfa1f3\",\n        \"name\": \"chair\",\n        \"createdAt\": \"2024-12-09T14:04:50.358Z\",\n        \"updatedAt\": \"2024-12-09T14:19:06.326Z\"\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Delete Category",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/api/category/:categoryID",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"api",
+										"category",
+										":categoryID"
+									],
+									"variable": [
+										{
+											"key": "categoryID",
+											"value": ""
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Delete Category",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{LOCAL_URL}}/api/category/:categoryID",
+											"host": [
+												"{{LOCAL_URL}}"
+											],
+											"path": [
+												"api",
+												"category",
+												":categoryID"
+											],
+											"variable": [
+												{
+													"key": "categoryID",
+													"value": "6756c98bee63fa3b6bae1b51"
+												}
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-RateLimit-Limit",
+											"value": "100"
+										},
+										{
+											"key": "X-RateLimit-Remaining",
+											"value": "93"
+										},
+										{
+											"key": "Date",
+											"value": "Mon, 09 Dec 2024 10:45:36 GMT"
+										},
+										{
+											"key": "X-RateLimit-Reset",
+											"value": "1733741584"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Content-Security-Policy",
+											"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+										},
+										{
+											"key": "Cross-Origin-Opener-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "Cross-Origin-Resource-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "Origin-Agent-Cluster",
+											"value": "?1"
+										},
+										{
+											"key": "Referrer-Policy",
+											"value": "no-referrer"
+										},
+										{
+											"key": "Strict-Transport-Security",
+											"value": "max-age=31536000; includeSubDomains"
+										},
+										{
+											"key": "X-Content-Type-Options",
+											"value": "nosniff"
+										},
+										{
+											"key": "X-DNS-Prefetch-Control",
+											"value": "off"
+										},
+										{
+											"key": "X-Download-Options",
+											"value": "noopen"
+										},
+										{
+											"key": "X-Frame-Options",
+											"value": "SAMEORIGIN"
+										},
+										{
+											"key": "X-Permitted-Cross-Domain-Policies",
+											"value": "none"
+										},
+										{
+											"key": "X-XSS-Protection",
+											"value": "0"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "58"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"3a-BE9RcMBN+At/ktBUbBoXhpJnBYI\""
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"status\": false,\n    \"message\": \"Category deleted.\",\n    \"data\": null\n}"
+								},
+								{
+									"name": "not found category",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{LOCAL_URL}}/api/category/:categoryID",
+											"host": [
+												"{{LOCAL_URL}}"
+											],
+											"path": [
+												"api",
+												"category",
+												":categoryID"
+											],
+											"variable": [
+												{
+													"key": "categoryID",
+													"value": "6756c4fd9cd900e8c94f3049"
+												}
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-RateLimit-Limit",
+											"value": "100"
+										},
+										{
+											"key": "X-RateLimit-Remaining",
+											"value": "95"
+										},
+										{
+											"key": "Date",
+											"value": "Mon, 09 Dec 2024 10:23:16 GMT"
+										},
+										{
+											"key": "X-RateLimit-Reset",
+											"value": "1733740497"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Content-Security-Policy",
+											"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+										},
+										{
+											"key": "Cross-Origin-Opener-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "Cross-Origin-Resource-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "Origin-Agent-Cluster",
+											"value": "?1"
+										},
+										{
+											"key": "Referrer-Policy",
+											"value": "no-referrer"
+										},
+										{
+											"key": "Strict-Transport-Security",
+											"value": "max-age=31536000; includeSubDomains"
+										},
+										{
+											"key": "X-Content-Type-Options",
+											"value": "nosniff"
+										},
+										{
+											"key": "X-DNS-Prefetch-Control",
+											"value": "off"
+										},
+										{
+											"key": "X-Download-Options",
+											"value": "noopen"
+										},
+										{
+											"key": "X-Frame-Options",
+											"value": "SAMEORIGIN"
+										},
+										{
+											"key": "X-Permitted-Cross-Domain-Policies",
+											"value": "none"
+										},
+										{
+											"key": "X-XSS-Protection",
+											"value": "0"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "60"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"3c-ASYiKHPG9SBE/rgGkSmKU99TlVs\""
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"status\": false,\n    \"message\": \"Category not found.\",\n    \"data\": null\n}"
+								}
+							]
+						},
+						{
+							"name": "Delete All Categories",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/api/category",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"api",
+										"category"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			],
+			"description": "#### User Control.\n\n- get all\n    \n- get one\n    \n- enable (active)\n    \n- disable (inactive)\n    \n- delete one user\n    \n- delete all users\n    \n- Filteration by username or email\n    \n- Filteration by status ( active or inactive)"
+		},
+		{
+			"name": "Categories",
+			"item": [
+				{
+					"name": "Get All Categories",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/api/category?page=",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"category"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get All Categories",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL_URL}}/api/category?page=",
+									"host": [
+										"{{LOCAL_URL}}"
+									],
+									"path": [
+										"api",
+										"category"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": ""
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "100"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "99"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 09 Dec 2024 12:55:16 GMT"
+								},
+								{
+									"key": "X-RateLimit-Reset",
+									"value": "1733749817"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Resource-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Origin-Agent-Cluster",
+									"value": "?1"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=31536000; includeSubDomains"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-DNS-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "973"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"3cd-8GJzprL6FBTxtOGihZtmWFBduJM\""
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": true,\n    \"message\": \"Categories Fetched.\",\n    \"data\": {\n        \"categories\": [\n            {\n                \"image\": {\n                    \"url\": \"https://res.cloudinary.com/dt6idcgyw/image/upload/v1733740209/hp8rleoxyreenqdwivoc.jpg\",\n                    \"public_id\": \"hp8rleoxyreenqdwivoc\"\n                },\n                \"_id\": \"6756c6b112c499007b20c9a4\",\n                \"name\": \"chair\",\n                \"parent\": null,\n                \"createdAt\": \"2024-12-09T10:30:09.596Z\",\n                \"updatedAt\": \"2024-12-09T10:30:09.596Z\"\n            },\n            {\n                \"image\": {\n                    \"url\": \"https://res.cloudinary.com/dt6idcgyw/image/upload/v1733748619/xsso28dlspy3wk6zayev.jpg\",\n                    \"public_id\": \"xsso28dlspy3wk6zayev\"\n                },\n                \"_id\": \"6756e78aa94af1346517c8e8\",\n                \"name\": \"wooden chair\",\n                \"parent\": {\n                    \"image\": {\n                        \"url\": \"https://res.cloudinary.com/dt6idcgyw/image/upload/v1733740209/hp8rleoxyreenqdwivoc.jpg\",\n                        \"public_id\": \"hp8rleoxyreenqdwivoc\"\n                    },\n                    \"_id\": \"6756c6b112c499007b20c9a4\",\n                    \"name\": \"chair\",\n                    \"parent\": null,\n                    \"createdAt\": \"2024-12-09T10:30:09.596Z\",\n                    \"updatedAt\": \"2024-12-09T10:30:09.596Z\"\n                },\n                \"createdAt\": \"2024-12-09T12:50:18.582Z\",\n                \"updatedAt\": \"2024-12-09T12:50:18.582Z\"\n            }\n        ],\n        \"total_categories\": 2,\n        \"current_page\": 1,\n        \"total_pages\": 1\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Get One",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/api/category/:categoryID",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"category",
+								":categoryID"
+							],
+							"variable": [
+								{
+									"key": "categoryID",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "not found",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL_URL}}/api/category/:categoryID",
+									"host": [
+										"{{LOCAL_URL}}"
+									],
+									"path": [
+										"api",
+										"category",
+										":categoryID"
+									],
+									"variable": [
+										{
+											"key": "categoryID",
+											"value": "6756c98bee63fa3b6bae1b51"
+										}
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "100"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "89"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 09 Dec 2024 10:47:57 GMT"
+								},
+								{
+									"key": "X-RateLimit-Reset",
+									"value": "1733741584"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Resource-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Origin-Agent-Cluster",
+									"value": "?1"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=31536000; includeSubDomains"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-DNS-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "59"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"3b-Mu96gSGby0ahOfTXYDxinad+F/Y\""
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": false,\n    \"message\": \"Category Not Found\",\n    \"data\": null\n}"
+						},
+						{
+							"name": "New Request",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{LOCAL_URL}}/api/category/:categoryID",
+									"host": [
+										"{{LOCAL_URL}}"
+									],
+									"path": [
+										"api",
+										"category",
+										":categoryID"
+									],
+									"variable": [
+										{
+											"key": "categoryID",
+											"value": "6756c6b112c499007b20c9a4"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "100"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "98"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 09 Dec 2024 10:54:16 GMT"
+								},
+								{
+									"key": "X-RateLimit-Reset",
+									"value": "1733742555"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Resource-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Origin-Agent-Cluster",
+									"value": "?1"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=31536000; includeSubDomains"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-DNS-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "342"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"156-D0IEAY6MRmDKx1nyrBnaMgPbBBE\""
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": true,\n    \"message\": \"Category Fetched.\",\n    \"data\": {\n        \"image\": {\n            \"url\": \"https://res.cloudinary.com/dt6idcgyw/image/upload/v1733740209/hp8rleoxyreenqdwivoc.jpg\",\n            \"public_id\": \"hp8rleoxyreenqdwivoc\"\n        },\n        \"_id\": \"6756c6b112c499007b20c9a4\",\n        \"name\": \"chair\",\n        \"parent\": null,\n        \"createdAt\": \"2024-12-09T10:30:09.596Z\",\n        \"updatedAt\": \"2024-12-09T10:30:09.596Z\",\n        \"__v\": 0\n    }\n}"
+						}
+					]
+				}
+			]
 		}
 	],
 	"event": [
@@ -303,8 +3152,8 @@
 			"type": "default"
 		},
 		{
-			"key": "{{URL}}",
-			"value": "https://online-shop-tau-liart.vercel.app/",
+			"key": "URL",
+			"value": "https://online-shop-tau-liart.vercel.app",
 			"type": "string"
 		}
 	]
