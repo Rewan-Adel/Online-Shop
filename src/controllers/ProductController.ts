@@ -1,9 +1,11 @@
-import e, { Request, Response } from "express";
-import ProductRepository     from "../repositories/ProductRepository";
+import { Request, Response } from "express";
 import { successResponse,failedResponse, handleError}  from "../middlewares/responseHandler";
 import { createProductValidate, updateProductValidate} from '../validators/ProductValidator';
+import ProductRepository from "../repositories/ProductRepository";
+import CloudImage        from '../utils/CloudImage';
 class ProductController{
     private ProductRepository: ProductRepository;
+    private cloudImage =  new CloudImage();
 
     constructor(ProductRepository: ProductRepository){
         this.ProductRepository = ProductRepository;
@@ -17,7 +19,7 @@ class ProductController{
             if(!req.file)
                 return failedResponse(res, 400, "Product image is required.");
 
-            value.image = req.file.path;
+            value.main_image = req.file.path;
             const response = await this.ProductRepository.createProduct(value);
             if(response.data != null)
                 successResponse(res, 200, response.message, response.data ?? undefined);
@@ -81,6 +83,9 @@ class ProductController{
             if(error)
                 return failedResponse(res, 400, error.details[0].message as unknown as string);
 
+            if(req.file){
+                value.main_image = req.file.path;
+            }
             const response = await this.ProductRepository.updateProduct(req.params.slug, value);
             if(response != null)
                 successResponse(res, 200, "Product updated.", response);
@@ -97,20 +102,13 @@ class ProductController{
             if(!req.file && !req.files )
                 return failedResponse(res, 400, "Product images are required.");
 
-            let paths: Array<string> = [];
-
-            if (Array.isArray(req.files)) {
-                paths = req.files.map((file: Express.Multer.File) => file.path);
-            }else{
-                paths.push(req.file?.path as string);
-            };
-
-            const response = await this.ProductRepository.addMultipleImage(req.params.slug, paths);
+            const images = Array.isArray(req.files) ? req.files.map((img: { path: string; }) => img.path) : [req.file?.path];
+            const response = await this.ProductRepository.addProductImgs(req.params.slug, images);
             console.log("Response", response);
             if(response != null)
                 successResponse(res, 200, "Product image added.", {product: response});
             else
-                failedResponse(res, 404, "Product not found.");
+                failedResponse(res, 500, `Failed to add product image.`);
         }
         catch(error: unknown){
             handleError(error, res);

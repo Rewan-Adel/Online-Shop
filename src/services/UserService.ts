@@ -8,6 +8,8 @@ import Pagination     from "../utils/Pagination";
 
 class UserService implements UserRepository{
     private authService: AuthRepository;
+    private cloudImage =  new CloudImage();
+
     constructor(authService: AuthRepository){
         this.authService = authService;
     };
@@ -182,14 +184,14 @@ class UserService implements UserRepository{
             const user = await this.findById(userID);
             if(!user) return null;
             
-            const img = await  new CloudImage().uploadImage(avatar);
-            if( img == undefined) return null;
+            const img = await  this.cloudImage.uploadImgs([avatar as string]);
+            if(!img) return null;
 
-            await new CloudImage().deleteImage(user.avatar.public_id);
+            await this.cloudImage.deleteImgs([user.avatar.public_id as string]);
             const updatedUser = await this.updateUser(userID, {
                 avatar: {
-                    url       : img.secure_url,
-                    public_id : img.public_id
+                    url       : img[0].secure_url,
+                    public_id : img[0].public_id
                 }
             });
 
@@ -209,7 +211,7 @@ class UserService implements UserRepository{
             const user = await this.findById(userID);
             if(!user) return null;
             
-            await new CloudImage().deleteImage(user.avatar.public_id);
+            await this.cloudImage.deleteImgs([user.avatar?.public_id as string]);
             
             if(user.avatar.url === process.env.DEFAULT_AVATAR_URL) 
                 return user;

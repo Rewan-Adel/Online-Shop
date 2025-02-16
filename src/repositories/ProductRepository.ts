@@ -4,6 +4,7 @@ interface ProductRepository{
     findAll(page:string): Promise<{message: string, data:{
         products      : ProductType [] | [],
         total_products:  number  | 0,
+        limit         :  number,
         current_page  :  number,
         total_pages   :  number,
     }|null}>;
@@ -12,11 +13,11 @@ interface ProductRepository{
     deleteAll(): Promise<void>;
     
     createProduct(value: object): Promise<{message: string, data: ProductType | null}>;
-    addMultipleImage(slug: string, images: Array<string>): Promise<ProductType | null>
+    updateProduct(slug: string, data:object): Promise<ProductType | null>
+    addProductImgs(slug: string, images: (string | undefined)[]): Promise<ProductType | null>
     
-    updateProduct(productID: string, data:object): Promise<ProductType | null>
-
     // findProductsByCategory(categoryID: string): Promise<{message: string, data: ProductType[] | null}>;
+    // addMultipleImage(slug: string, images: Array<string>): Promise<ProductType | null>
     
 };
 

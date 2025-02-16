@@ -26,8 +26,10 @@ class CategoryService implements CategoryRepository{
                 };
             };
 
-            const img = await this.cloudImage.uploadImage(image);
-            if( img == undefined)
+            const imageUploaded = await this.cloudImage.uploadImgs([image]);
+            console.log('image: ', image)
+            console.log('imageUploaded: ', imageUploaded)
+            if(!imageUploaded)
                 return {
                     message: "Can't upload an image",
                     data: null
@@ -36,8 +38,8 @@ class CategoryService implements CategoryRepository{
             const newCategory = new Category({
                 name,
                 image: {
-                    url       : img.secure_url,
-                    public_id : img.public_id
+                    url       : imageUploaded[0].secure_url,
+                    public_id : imageUploaded[0].public_id
                 },
                 parent: parentCategory?._id
             });
@@ -137,7 +139,7 @@ class CategoryService implements CategoryRepository{
             };
             //Delete images from cloud
             const image = category.image as CategoryType['image'];
-            await this.cloudImage.deleteImage(image.public_id as string);
+            await this.cloudImage.deleteImgs([image.public_id as string]);
 
             await category.deleteOne();
             return{
@@ -170,7 +172,7 @@ class CategoryService implements CategoryRepository{
             //Delete all images from cloud
             categories.forEach((category) => {
                 const image = category?.image as CategoryType['image'];
-                this.cloudImage.deleteImage(image?.public_id);
+                this.cloudImage.deleteImgs([image?.public_id as string]);
             });
             
 
@@ -191,49 +193,6 @@ class CategoryService implements CategoryRepository{
                 data:  null 
             };
         }
-    };
-
-    public async changeImage(categoryID: string, image: string): Promise<{message: string, data: CategoryType | null}>{
-        try{
-            const category = await Category.findById(categoryID);
-            if(!category) 
-                return{
-                    message: "Category not found.",
-                    data: null
-                };
-            
-            const uploadedImage = await this.cloudImage.uploadImage(image);
-            if( uploadedImage == undefined)
-                return {
-                    message: "Can't upload an image",
-                    data: null
-                };
-            
-            const existingImage = category?.image as CategoryType['image'];
-            this.cloudImage.deleteImage(existingImage?.public_id);
-
-            const updatedCategory = await Category.findByIdAndUpdate(categoryID, {
-                image: {
-                    url       : uploadedImage.secure_url,
-                    public_id : uploadedImage.public_id
-                }
-            }, {new: true});
-
-            return {
-                message:  `Category image updated`,
-                data: updatedCategory as unknown as CategoryType
-            };
-        }
-        catch(error: unknown){
-            if(error instanceof Error)
-                Logger.error(error)
-            else
-                Logger.error('Unknown error');
-        }
-        return {
-            message:  "an error occurred",
-            data: null
-        };
     };
 
     public async updateCategory(categoryID: string, data:{name?: string, parent?:string, imagePath?:string}): Promise<{message: string, data: CategoryType | null}>{
@@ -257,16 +216,18 @@ class CategoryService implements CategoryRepository{
             };
             
             if(data.imagePath && category.data){
-                const image = await this.cloudImage.changeImage(category.data.image.public_id, data.imagePath);
-                if (!image?.secure_url) {
+                await this.cloudImage.deleteImgs([(category.data.image as {public_id?: string})?.public_id as string]);
+                const image = await this.cloudImage.uploadImgs([data.imagePath]);
+
+                if (!image?.map((img)=> img.secure_url)) {
                     return {
                         message: "Failed to update image",
                         data: null
                     };
                 }
                 category.data.image = {
-                    url       : image.secure_url,
-                    public_id : image.public_id || ''
+                    url       : image[0].secure_url,
+                    public_id : image[0].public_id || ''
                 }
             }
             const updatedCategory = await Category.findByIdAndUpdate(category.data?._id, {
