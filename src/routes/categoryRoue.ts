@@ -1,5 +1,5 @@
 import { Router } from "express";
-import {uploadSingle} from "../utils/multer";
+import Multer from "../utils/Multer";
 import CategoryController from "../controllers/CategoryController";
 import CategoryService from "../services/CategoryService";
 import authMiddleware from "../middlewares/AuthMiddleware";
@@ -15,11 +15,11 @@ categoryRoutes.get("/:categoryID",    (req, res) => categoryController.getCatego
 
 categoryRoutes.use(auth.authenticated);
 categoryRoutes.use(auth.isAdmin);
-categoryRoutes.post("/", uploadSingle, (req, res) => categoryController.addCategory(req, res));
+categoryRoutes.post("/", Multer.uploadSingle, (req, res) => categoryController.addCategory(req, res));
 categoryRoutes.delete("/:categoryID", (req, res) => categoryController.deleteCategory(req, res));
 
 // categoryRoutes.put("/change-image/:categoryID", uploadSingle, (req, res) => categoryController.changeImage(req, res));
-categoryRoutes.put("/:categoryID",uploadSingle, (req, res) => categoryController.updateCategory(req, res));
+categoryRoutes.put("/:categoryID", Multer.uploadSingle, (req, res) => categoryController.updateCategory(req, res));
 categoryRoutes.delete("/", (req, res) => categoryController.deleteAllCategories(req, res));
 
 

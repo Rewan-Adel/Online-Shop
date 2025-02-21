@@ -1,12 +1,12 @@
 import crypto from "crypto";    
 import User from "../models/user.model";
 import AuthRepository    from "../repositories/AuthRepository";
-import Otp               from "../utils/otp";
+import Otp               from "../utils/Otp";
 import Encryption        from "../utils/Encryption";
 import INotification     from "../utils/INotification";
 import { IToken } from "../utils/Token";
 import Logger            from "../utils/Logger";
-import UserType from "../types/userType";
+import UserType from "../types/UserType";
 
 class AuthService implements AuthRepository {
     private otp = new Otp();

@@ -6,7 +6,6 @@ import ProductRepository from '../repositories/ProductRepository';
 import ProductType       from '../types/ProductType';
 import Product           from '../models/product.model';
 import CategoryService   from './CategoryService';
-import { ObjectId } from 'mongoose';
 
 type ProductValue = {
     name?       : string,
@@ -225,8 +224,18 @@ class ProductService implements ProductRepository{
                 }
             };
             if(value.remove_images){
+                console.log("Remove images: ", value.remove_images);
                 await this.cloudImage.deleteImgs(value.remove_images);
-                product.images = product.images.filter((img) => !value.remove_images?.includes(img.public_id));
+                let image = product.images.filter((img) => value.remove_images?.includes(img.public_id));
+                
+                if(image.length > 0){
+                    product.images = product.images.filter((img) => !value.remove_images?.includes(img.public_id));
+                }else{
+                    const img = product.main_image == value.remove_images;
+                    if(img){
+                        product.main_image = {};
+                    }
+                }
             };
 
             await product.save();

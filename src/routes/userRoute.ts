@@ -2,7 +2,7 @@ import { Router } from "express";
 import UserController from "../controllers/UserController";
 import UserService from "../services/UserService";
 import authMiddleware from "../middlewares/AuthMiddleware"; 
-import {uploadSingle} from "../utils/multer";
+import Multer from "../utils/Multer";
 import AuthService from "../services/AuthService";
 import EmailSender from "../utils/EmailSender";
 import Encryption from "../utils/Encryption";
@@ -21,7 +21,7 @@ userRoutes.get("/profile", (req, res) => userController.getProfile(req, res));
 userRoutes.put("/profile", (req, res) => userController.updateProfile(req, res));
 userRoutes.delete("/profile", (req, res) => userController.deleteProfile(req, res));
 
-userRoutes.put("/avatar",uploadSingle, (req, res) => userController.changeAvatar(req, res));
+userRoutes.put("/avatar",Multer.uploadSingle, (req, res) => userController.changeAvatar(req, res));
 userRoutes.delete("/avatar", (req, res) => userController.deleteAvatar(req, res));
 
 userRoutes.put("/change-email", (req, res) => userController.changeEmail(req, res));
