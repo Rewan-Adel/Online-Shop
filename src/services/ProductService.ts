@@ -5,7 +5,9 @@ import Pagination        from "../utils/Pagination";
 import ProductRepository from '../repositories/ProductRepository';
 import ProductType       from '../types/ProductType';
 import Product           from '../models/product.model';
+import User              from '../models/user.model';
 import CategoryService   from './CategoryService';
+import { Types } from 'mongoose';
 
 type ProductValue = {
     name?       : string,
@@ -22,6 +24,17 @@ type ProductValue = {
 class ProductService implements ProductRepository{
     private cloudImage = new CloudImage();
     private category   = new CategoryService();
+
+    public async findProductById(id: string): Promise<ProductType | null>{
+        try{
+            const product = await Product.findById(id);
+            if(!product) return null
+            return product as unknown as ProductType
+        }catch(error: unknown){
+            Logger.error(error);
+            return null 
+        }
+    };
 
     public async findOne(slug: string): Promise<ProductType | null>{
         try{
@@ -248,5 +261,74 @@ class ProductService implements ProductRepository{
         }
     };
 
+    public async addToWishlist(productID: Types.ObjectId, userID: string): Promise<boolean | null>{
+        try{
+            const product = await Product.findById(productID);
+            if(!product) return null;
+
+            const user = await User.findById(userID);
+            if(!user) return null;
+
+            const productIndex = user.wishlist.findIndex((product) => product == productID);
+            if(productIndex !== -1) return true;
+
+            user.wishlist.push(productID);
+            await user.save();
+            return true;
+        }
+        catch(error: unknown){
+            Logger.error(error);
+            return null;
+        }
+    };
+
+    public async removeFromWishlist(productID: Types.ObjectId, userID: string): Promise<boolean | null>{
+        try{
+            const product = await Product.findById(productID);
+            if(!product) return null;
+
+            const user = await User.findById(userID);
+            if(!user) return null;
+
+            const productIndex = user.wishlist.findIndex((product) => product == productID);
+            if(productIndex == -1) return null;
+
+            user.wishlist.splice(productIndex, 1);
+            await user.save();
+            return true;
+        }
+        catch(error: unknown){
+            Logger.error(error);
+            return null;
+        }
+    };
+
+    public async removeAllFromWishlist(userID: string): Promise<boolean>{
+        try{
+            const user = await User.findById(userID);
+            if(!user) return false;
+
+            user.wishlist = [];
+            await user.save();
+            return true;
+        }
+        catch(error: unknown){
+            Logger.error(error);
+            return false;
+        }
+    };
+
+    public async getWishlist(userID: string): Promise<ProductType[] | null>{
+        try{
+            const user = await User.findById(userID).populate('wishlist');
+            if(!user) return null;
+
+            return user.wishlist as unknown as ProductType[];
+        }
+        catch(error: unknown){
+            Logger.error(error);
+            return null;
+        }
+    }
 };
 export default ProductService;
