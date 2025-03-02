@@ -1,29 +1,28 @@
 import CartRepository from "../repositories/CartRepository";
-import ProductService     from "./ProductService";
-import Cart from "../models/Cart.model";
-import { ObjectId } from "mongoose";
-import CartType from "../types/CartType";
-
+import ProductService from "./ProductService";
+import CartType       from "../types/CartType";
+import Logger         from "../utils/Logger";
+import Cart           from "../models/Cart.model";
 class CartServices implements CartRepository{
     private productService: ProductService = new ProductService();
 
-    async addProductToCart(productID: string, quantity: number, userId: ObjectId ): Promise<boolean | null>{
+    async addProductToCart(slug: string, quantity: number, userId: string ): Promise<CartType | null>{
         try{
-            const product = await this.productService.findProductById(productID);
+            const product = await this.productService.findOne(slug);
             if(!product) return null;
 
             const cart = await Cart.findOne({userId: userId});
             if(!cart){
                 await Cart.create({
                     userId,
-                    products: [{product: productID, quantity}],
+                    products: [{product: product._id, quantity}],
                     total_price: product.original_price * quantity,
                     total_quantity: quantity
                 });
             }else{
-                const productIndex = cart.products.findIndex((product) => product.product == productID);
+                const productIndex = cart.products.findIndex((p) => String(p.product) ===  String(product._id));
                 if(productIndex == -1){
-                    cart.products.push({product: productID, quantity});
+                    cart.products.push({product:  product._id, quantity});
                 }else{
                     cart.products[productIndex].quantity += quantity;
                 }
@@ -31,22 +30,25 @@ class CartServices implements CartRepository{
                 cart.total_price += product.original_price * quantity;
                 await cart.save();
             }
-            return true;
+
+            const updatedCart = await Cart.findOne({userId: userId}).populate("products.product");
+            return updatedCart as unknown as CartType;
         }
         catch(error){
+            Logger.error(error);
             return null;
         }
     };
 
-    async removeProductFromCart(productID: string, userId: string): Promise<boolean | null>{
+    async removeProductFromCart(slug: string, userId: string): Promise<CartType | null>{
         try{
-            const product = await this.productService.findProductById(productID);
+            const product = await this.productService.findOne(slug);
             if(!product) return null;
 
             const cart = await Cart.findOne({userId: userId});
             if(!cart) return null;
 
-            const productIndex = cart.products.findIndex((p) =>p.product == productID);
+            const productIndex = cart.products.findIndex((p) => String(p.product) ===  String(product._id));
             if(productIndex == -1) return null;
 
             cart.products[productIndex].quantity --;
@@ -57,16 +59,25 @@ class CartServices implements CartRepository{
             };
 
             await cart.save();
-            return true;
+            const updatedCart = await Cart.findOne({userId: userId}).populate("products.product");
+            return updatedCart as unknown as CartType;
         }
         catch(error){
+            Logger.error(error);
             return null;
         }
     };
 
-    async removeAllProductsFromCart(userId?: string): Promise<void>{
-        if (userId) {
+    async removeAllProductsFromCart(userId?: string): Promise<Boolean>{
+        try{
+            const cart = await Cart.findOne({userId: userId});
+            if(!cart) return false;
+            
             await Cart.deleteOne({userId: userId});
+            return true;
+        }catch(error){
+            Logger.error(error);
+            return false;
         }
     };
 
@@ -77,6 +88,7 @@ class CartServices implements CartRepository{
             return cart as unknown as  CartType ;
         }
         catch(error){
+            Logger.error(error);
             return null;    
         }
     };

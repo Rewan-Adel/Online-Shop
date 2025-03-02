@@ -1,10 +1,8 @@
 import CartType from "../types/CartType";
-import { ObjectId } from "mongoose";
-
 interface CartRepository{
-    addProductToCart(productID: string, quantity: number, userId: ObjectId ): Promise<boolean | null>;
-    removeProductFromCart(productID: string, userId: string): Promise<boolean | null>;    removeAllProductsFromCart(): Promise<void>;
-    removeAllProductsFromCart(userId: string): Promise<void>;
+    addProductToCart(slug: string, quantity: number, userId: string ): Promise<CartType | null>;
+    removeProductFromCart(slug: string, userId: string): Promise<CartType | null>; 
+    removeAllProductsFromCart(userId: string): Promise<Boolean>;
     getCart(userId: string): Promise< CartType | null >;
 }
 

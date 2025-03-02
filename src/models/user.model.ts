@@ -74,12 +74,6 @@ const userSchema = new mongoose.Schema({
             default: []
         }
     ],
-    cart:[
-        {
-            type: mongoose.Schema.ObjectId,
-            ref: 'cart'
-        }
-    ],
     orders:[
         {
             type: mongoose.Schema.ObjectId,
@@ -109,7 +103,6 @@ const userSchema = new mongoose.Schema({
             delete ret.otpCounter;
             delete ret.otpExpires
             delete ret.__v;
-            delete ret.cart;
             delete ret.orders;
             delete ret.wishlist;
             delete ret.resetPasswordToken;

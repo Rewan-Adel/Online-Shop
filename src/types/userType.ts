@@ -22,7 +22,6 @@ type UserType = {
     verified: boolean;
     active: boolean;
     wishlist: Types.ObjectId[];
-    cart: Types.ObjectId[];
     orders: Types.ObjectId[];
     otp?: string;
     otpCounter?: number;

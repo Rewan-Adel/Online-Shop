@@ -1,8 +1,8 @@
-import { Router }                  from "express";
-import Multer from "../utils/Multer";
-import ProductController           from "../controllers/ProductController";
-import ProductService              from "../services/ProductService";
-import authMiddleware              from "../middlewares/AuthMiddleware";
+import { Router }        from "express";
+import Multer            from "../utils/Multer";
+import ProductController from "../controllers/ProductController";
+import ProductService    from "../services/ProductService";
+import authMiddleware    from "../middlewares/AuthMiddleware";
 
 const productRoutes     = Router();
 const auth              = new authMiddleware();
