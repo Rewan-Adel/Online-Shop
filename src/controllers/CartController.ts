@@ -38,7 +38,7 @@ class CartController{
     async removeAllProductsFromCart(req: Request, res: Response): Promise<void>{
         try {
             const response = await this.cartRepository.removeAllProductsFromCart(req.user.userID);
-            if(!response) return failedResponse(res, 404, "Cart not found");
+            if(!response) return failedResponse(res, 400, "Cart is empty");
             return successResponse(res, 200, "All products removed from cart");
         } catch (error) {
             handleError(error, res);

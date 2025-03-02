@@ -73,7 +73,15 @@ class CartServices implements CartRepository{
             const cart = await Cart.findOne({userId: userId});
             if(!cart) return false;
             
-            await Cart.deleteOne({userId: userId});
+            // await Cart.deleteOne({userId: userId});
+            // await Cart.create({userId, products: [], total_price: 0, total_quantity: 0});
+            cart.products.splice(0, cart.products.length);
+            cart.total_price = 0;
+            cart.total_quantity = 0;
+            cart.discount_number = 0;
+            cart.discount_type = "";
+            await cart.save();
+
             return true;
         }catch(error){
             Logger.error(error);
@@ -83,7 +91,7 @@ class CartServices implements CartRepository{
 
     async getCart(userId: string): Promise< CartType | null >{
         try{
-            const cart = await Cart.findOne({userId: userId});
+            const cart = await Cart.findOne({userId: userId}).populate("products.product");
             if(!cart) return null;
             return cart as unknown as  CartType ;
         }
