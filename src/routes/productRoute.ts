@@ -26,4 +26,12 @@ productRoutes.put("/:slug",         Multer.uploadSingle, (req, res) => productCo
 productRoutes.delete("/",      (req, res) => productController.deleteAllProducts(req, res));
 productRoutes.delete("/:slug", (req, res) => productController.deleteProduct(req, res));
 
+/**
+ * Wishlist routes
+ */
+productRoutes.get("/wishlist/get", (req, res) => productController.getWishlist(req, res));
+productRoutes.post("/wishlist/:slug", (req, res) => productController.addProductToWishlist(req, res));
+productRoutes.delete("/wishlist/remove/:slug", (req, res) => productController.removeProductFromWishlist(req, res));
+productRoutes.delete("/wishlist/clear", (req, res) => productController.removeAllFromWishlist(req, res));
+
 export default productRoutes;

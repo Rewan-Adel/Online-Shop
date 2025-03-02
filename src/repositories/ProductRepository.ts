@@ -20,8 +20,8 @@ interface ProductRepository{
     
     // findProductsByCategory(categoryID: string): Promise<{message: string, data: ProductType[] | null}>;
     // addMultipleImage(slug: string, images: Array<string>): Promise<ProductType | null>
-    addToWishlist(productID: Types.ObjectId, userID: string): Promise<boolean | null>;
-    removeFromWishlist(productID: Types.ObjectId, userID: string): Promise<boolean | null>;
+    addToWishlist(slug: String, userID: string): Promise<ProductType[] | null>;
+    removeFromWishlist(slug: String, userID: string): Promise<ProductType[] | null>;
     removeAllFromWishlist(userID: string): Promise<boolean>;
     getWishlist(userID: string): Promise<ProductType[] | null>;
 };

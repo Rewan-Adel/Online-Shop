@@ -8,6 +8,7 @@ import Product           from '../models/product.model';
 import User              from '../models/user.model';
 import CategoryService   from './CategoryService';
 import { Types } from 'mongoose';
+import { isAwaitExpression } from 'typescript';
 
 type ProductValue = {
     name?       : string,
@@ -261,20 +262,25 @@ class ProductService implements ProductRepository{
         }
     };
 
-    public async addToWishlist(productID: Types.ObjectId, userID: string): Promise<boolean | null>{
+    public async addToWishlist(slug: String, userID: string): Promise<ProductType[] | null>{
         try{
-            const product = await Product.findById(productID);
+            const product = await Product.findOne({slug});
             if(!product) return null;
 
             const user = await User.findById(userID);
             if(!user) return null;
 
-            const productIndex = user.wishlist.findIndex((product) => product == productID);
-            if(productIndex !== -1) return true;
+            const productIndex = user.wishlist.findIndex((p) => String(p) == String(product._id));
+            if(productIndex !== -1){
+                console.log("Product in wishlist.")
+            }else{
+                console.log("Product not in wishlist.")
+                user.wishlist.push(product._id);
+                await user.save();
+            };
 
-            user.wishlist.push(productID);
-            await user.save();
-            return true;
+            const userWishlist = await User.findById(userID).select('wishlist').populate('wishlist') 
+            return userWishlist?.wishlist as unknown as ProductType[];
         }
         catch(error: unknown){
             Logger.error(error);
@@ -282,20 +288,25 @@ class ProductService implements ProductRepository{
         }
     };
 
-    public async removeFromWishlist(productID: Types.ObjectId, userID: string): Promise<boolean | null>{
+    public async removeFromWishlist(slug: String, userID: string): Promise<ProductType[] | null>{
         try{
-            const product = await Product.findById(productID);
+            console.log(slug, userID);
+            const product = await Product.findOne({slug});
             if(!product) return null;
 
             const user = await User.findById(userID);
             if(!user) return null;
 
-            const productIndex = user.wishlist.findIndex((product) => product == productID);
-            if(productIndex == -1) return null;
+            const productIndex = user.wishlist.findIndex((p) => String(p) === String(product._id));
+            if(productIndex == -1){
+                console.log("Product not in wishlist.")
+            }else{
+                user.wishlist.splice(productIndex, 1);
+                await user.save();
+            };
 
-            user.wishlist.splice(productIndex, 1);
-            await user.save();
-            return true;
+            const userWishlist = await User.findById(userID).select('wishlist').populate('wishlist');
+            return userWishlist?.wishlist as unknown as ProductType[];
         }
         catch(error: unknown){
             Logger.error(error);
@@ -306,8 +317,12 @@ class ProductService implements ProductRepository{
     public async removeAllFromWishlist(userID: string): Promise<boolean>{
         try{
             const user = await User.findById(userID);
-            if(!user) return false;
+            if(!user) {
+                console.log("User not found");
+                return false;
+            }
 
+            if(user.wishlist.length == 0) return false;
             user.wishlist = [];
             await user.save();
             return true;

@@ -114,6 +114,61 @@ class ProductController{
             handleError(error, res);
         }
     }
+
+    async addProductToWishlist(req: Request, res: Response): Promise<void>{
+        try{
+            if(!req.params.slug)
+                return failedResponse(res, 400, "Product slug is required.");
+            
+            const response = await this.ProductRepository.addToWishlist(req.params.slug as string, req.user?.userID as string);
+            if(response != null)
+                successResponse(res, 200, "Product added to wishlist.", {wishlist: response});
+            else
+                failedResponse(res, 404, "Product not found.");
+        }
+        catch(error: unknown){
+            handleError(error, res);
+        }
+    };
+
+    async removeProductFromWishlist(req: Request, res: Response): Promise<void>{
+        try{
+            if(!req.params.slug)
+                return failedResponse(res, 400, "Product slug is required.");
+
+            const response = await this.ProductRepository.removeFromWishlist(req.params.slug as string, req.user?.userID as string);  
+            if(response != null)
+                successResponse(res, 200, "Product removed from wishlist.", {wishlist: response});
+            else
+                failedResponse(res, 404, "Product not found.");
+        }catch(error){
+            handleError(error, res);
+        }
+    };
+
+    async removeAllFromWishlist(req: Request, res: Response): Promise<void>{
+        try{
+            const response = await this.ProductRepository.removeAllFromWishlist(req.user?.userID as string);
+            if(response != null)
+                successResponse(res, 200, "All products removed from wishlist.");
+            else
+                failedResponse(res, 404, "Wishlist is empty.");
+        }catch(error){
+            handleError(error, res);
+        }
+    };
+
+    async getWishlist(req: Request, res: Response): Promise<void>{
+        try{
+            const response = await this.ProductRepository.getWishlist(req.user?.userID as string);
+            if(response != null)
+                successResponse(res, 200, "Wishlist fetched.", {wishlist: response});
+            else
+                failedResponse(res, 404, "Wishlist is empty.");
+        }catch(error){
+            handleError(error, res);
+        }
+    };
 };
 
 export default ProductController;
