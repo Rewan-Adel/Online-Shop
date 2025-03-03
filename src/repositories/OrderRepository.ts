@@ -1,11 +1,17 @@
 import OrderType from '../types/OrderType';
+import {Status} from "../utils/Enums";
 
 interface OrderRepository {
-    createOrder(value: object): Promise<OrderType | null>;
-    updateOrder(orderID: string, data: object): Promise<OrderType | null>;
-    deleteOrder(orderID: string): Promise<boolean | null>;
-    getOrders(): Promise<OrderType[]>; // with filter
-    getOrder(orderID: string): Promise<OrderType | null>;
+    createOrder(userId: string, shippingAddress:{
+        address: string,
+        city: string,
+        postalCode: string,
+        country: string
+    },phone:String, paymentMethod?: String): Promise<OrderType | null>
+    updateOrder(orderID: string, paymentStatus?: Status, orderStatus?:String): Promise<OrderType | null>
+    getOrders(userId: string, order_status?:string): Promise<OrderType[] | null>
+    getOrder(orderID: string): Promise<OrderType | null>
+    allUsersOrders(order_status?:string): Promise<OrderType[] | null>
 };
 
 export default OrderRepository;
