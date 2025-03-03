@@ -6,11 +6,14 @@ type CartType = {
     products: {
         product: Types.ObjectId;
         quantity: number;
+        discount_number?: number;
+        discount_type?: string;
+        discount_quantity_limit?: number
     }[];
     total_price: number;
     total_quantity: number;
-    discount_number?: number;
-    discount_type?: string;
+    // discount_number?: number;
+    // discount_type?: string;
     createdAt: Date;
     updatedAt: Date;
 };

@@ -15,7 +15,7 @@ class CartController{
             else if(!quantity) return failedResponse(res, 400, "Missing required quantity");
             
             const response = await this.cartRepository.addProductToCart(slug, quantity, req.user?.userID as string);
-            if(response == null) return failedResponse(res, 404, "Product not found");
+            if (typeof response === "string") return failedResponse(res, 400, response);
             return successResponse(res, 200, "Product added to cart", {cart: response});
         } catch (error) {
             handleError(error, res);
@@ -38,7 +38,7 @@ class CartController{
     async removeAllProductsFromCart(req: Request, res: Response): Promise<void>{
         try {
             const response = await this.cartRepository.removeAllProductsFromCart(req.user.userID);
-            if(!response) return failedResponse(res, 400, "Cart is empty");
+            if(!response) return failedResponse(res, 404, "Cart not found");
             return successResponse(res, 200, "All products removed from cart");
         } catch (error) {
             handleError(error, res);

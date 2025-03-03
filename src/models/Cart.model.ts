@@ -15,6 +15,15 @@ const CartSchema = new mongoose.Schema({
         quantity: {
             type: Number,
             required: true
+        },
+        discount_number:{
+            type: Number
+        },
+        discount_type:{
+            type: String
+        },
+        discount_quantity_limit:{
+            type: Number
         }
     }],
     total_price: {
@@ -25,12 +34,12 @@ const CartSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
-    discount_number:{
-        type: Number
-    },
-    discount_type:{
-        type: String
-    }
+    // discount_number:{
+    //     type: Number
+    // },
+    // discount_type:{
+    //     type: String
+    // }
 },{
     timestamps: true
 });

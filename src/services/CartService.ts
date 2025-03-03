@@ -3,22 +3,43 @@ import ProductService from "./ProductService";
 import CartType       from "../types/CartType";
 import Logger         from "../utils/Logger";
 import Cart           from "../models/Cart.model";
+import {Types }    from "mongoose";
+import Product from "../models/product.model";
 class CartServices implements CartRepository{
     private productService: ProductService = new ProductService();
 
-    async addProductToCart(slug: string, quantity: number, userId: string ): Promise<CartType | null>{
+    private async createCart(productId:Types.ObjectId,product_price:number, quantity: number, userId: string, discountNum?: Number, discountType?: String): Promise<CartType | null>{ 
+        try{
+            const cart = await Cart.create({
+                userId,
+                products: [{
+                    product: productId,
+                    quantity,
+                    discount_number: discountNum,
+                    discount_type: discountType
+                }],
+                total_price: product_price * quantity,
+                total_quantity: quantity
+            });
+            return cart as unknown as CartType;
+        }
+        catch(error){
+            Logger.error(error);
+            return null;
+        }
+    };
+
+    async addProductToCart(slug: string, quantity: number, userId: string, discountNum?: Number, discountType?: String): Promise<CartType | String>{
         try{
             const product = await this.productService.findOne(slug);
-            if(!product) return null;
+            if(!product) return "Product not found";
 
-            const cart = await Cart.findOne({userId: userId});
+            if(quantity > product.stock_num) return `Only ${product.stock_num} left in stock for ${product.name}`;
+            else if(quantity <= 0) return "Invalid quantity";
+            
+            let cart = await Cart.findOne({userId: userId});
             if(!cart){
-                await Cart.create({
-                    userId,
-                    products: [{product: product._id, quantity}],
-                    total_price: product.original_price * quantity,
-                    total_quantity: quantity
-                });
+                await this.createCart(product._id, product.original_price, quantity, userId, discountNum, discountType);
             }else{
                 const productIndex = cart.products.findIndex((p) => String(p.product) ===  String(product._id));
                 if(productIndex == -1){
@@ -30,13 +51,20 @@ class CartServices implements CartRepository{
                 cart.total_price += product.original_price * quantity;
                 await cart.save();
             }
+            // if(discountNum && discountType){
+            //     cart.products.discount_number = discountNum;
+            //     cart.products.discount_type = discountType;
+            //     cart.total_price = product.original_price * quantity * (1 - discountNum);
+            //     await cart.save();
+            // }
 
+            await Product.updateOne({_id: product._id}, {stock_num: product.stock_num - quantity});
             const updatedCart = await Cart.findOne({userId: userId}).populate("products.product");
             return updatedCart as unknown as CartType;
         }
         catch(error){
             Logger.error(error);
-            return null;
+            return "Internal server error";
         }
     };
 
@@ -73,13 +101,11 @@ class CartServices implements CartRepository{
             const cart = await Cart.findOne({userId: userId});
             if(!cart) return false;
             
-            // await Cart.deleteOne({userId: userId});
-            // await Cart.create({userId, products: [], total_price: 0, total_quantity: 0});
             cart.products.splice(0, cart.products.length);
             cart.total_price = 0;
             cart.total_quantity = 0;
-            cart.discount_number = 0;
-            cart.discount_type = "";
+            // cart.discount_number = 0;
+            // cart.discount_type = "";
             await cart.save();
 
             return true;
