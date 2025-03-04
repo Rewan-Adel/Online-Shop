@@ -7,8 +7,6 @@ import ProductType       from '../types/ProductType';
 import Product           from '../models/product.model';
 import User              from '../models/user.model';
 import CategoryService   from './CategoryService';
-import { Types } from 'mongoose';
-import { isAwaitExpression } from 'typescript';
 
 type ProductValue = {
     name?       : string,

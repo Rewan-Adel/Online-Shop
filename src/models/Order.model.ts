@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { PaymentMethod, Status } from '../utils/Enums';
+import { PaymentMethod, PaymentStatus, OrderStatus } from '../utils/Enums';
 
 const orderSchema = new mongoose.Schema({
     user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
@@ -13,9 +13,8 @@ const orderSchema = new mongoose.Schema({
     ],
     shipping_address: {
         address: { type: String, required: true },
-        city: { type: String, required: true },
-        postalCode: { type: String, required: true },
-        country: { type: String, required: true },
+        city: { type: String},
+        country: { type: String},
     },
     items_price: { type: Number, required: true },
     shipping_price: { type: Number,  default: 0  },
@@ -23,8 +22,8 @@ const orderSchema = new mongoose.Schema({
     total_price: { type: Number, required: true },
     total_quantity: { type: Number, required: true },
     payment_method: { type: String, required: true,default: PaymentMethod.CASH, enum: Object.values(PaymentMethod) },
-    payment_status: { type: String, required: true, default: Status.PENDING, enum: Object.values(Status) },
-    order_status: { type: String, required: true, default: Status.PENDING, enum: Object.values(Status) },
+    payment_status: { type: String, required: true, default: PaymentStatus.PENDING, enum: Object.values(PaymentStatus) },
+    order_status: { type: String, required: true, default: OrderStatus.PENDING, enum: Object.values(OrderStatus) },
     paid_at: { type: Date },
     delivered_at: { type: Date },
 }, {

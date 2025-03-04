@@ -4,7 +4,8 @@ import Order           from "../models/Order.model";
 import CartServices    from "./CartService";
 import Cart            from "../models/Cart.model";
 import Logger          from "../utils/Logger";
-import {Status, PaymentMethod} from "../utils/Enums";
+import {OrderStatus, PaymentStatus, PaymentMethod} from "../utils/Enums";
+import { Types } from "mongoose";
 class OrderService implements OrderRepository {
     private cartService: CartServices;
 
@@ -23,14 +24,14 @@ class OrderService implements OrderRepository {
     async createOrder(userId: string, shippingAddress:{
         address: string,
         city: string,
-        postalCode: string,
         country: string
     },phone:String, paymentMethod?: String): Promise<OrderType | null>{
         try {
             // Get cart of user
             const cart = await Cart.findOne({ userId: userId });
             if(!cart) return null;
-            
+            if(cart.products.length === 0) return null;
+
             // Create order
             const order = new Order({
                 user: userId,
@@ -41,7 +42,7 @@ class OrderService implements OrderRepository {
                 total_quantity: cart.total_quantity,
                 shipping_address: shippingAddress,
                 payment_method: paymentMethod || PaymentMethod.CASH,
-                payment_status: Status.PENDING,
+                payment_status: PaymentStatus.PENDING,
             });
 
             // Calculate shipping price
@@ -57,17 +58,18 @@ class OrderService implements OrderRepository {
         }
     };
 
-    async updateOrder(orderID: string, paymentStatus?: Status, orderStatus?:String): Promise<OrderType | null>{
+    async updateOrder(orderID: string, paymentStatus?: string, orderStatus?:String): Promise<OrderType | null>{
         try{
+            if(!Types.ObjectId.isValid(orderID)) return null;
             const order = await Order.findById(orderID);
             if(!order) return null;
 
             // Update payment status
-            if(paymentStatus && paymentStatus === Status.PAID){
-                order.payment_status = Status.PAID;
+            if(paymentStatus && paymentStatus === PaymentStatus.PAID){
+                order.payment_status = PaymentStatus.PAID;
                 order.paid_at = new Date();
-            }else if(orderStatus && orderStatus === Status.DELIVERED){
-                order.order_status = Status.DELIVERED;
+            }else if(orderStatus && orderStatus === OrderStatus.DELIVERED){
+                order.order_status = OrderStatus.DELIVERED;
                 order.delivered_at = new Date();
             }else{
                 await Order.findByIdAndUpdate(orderID, {
@@ -99,6 +101,7 @@ class OrderService implements OrderRepository {
 
     async getOrder(orderID: string): Promise<OrderType | null>{
         try{
+            if (!Types.ObjectId.isValid(orderID)) return null;
             let order = await Order.findById(orderID);
             if(!order) return null; 
             return order as unknown as OrderType;

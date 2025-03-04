@@ -1,10 +1,15 @@
-enum Status {
+enum OrderStatus {
     PENDING   = 'Pending',
-    PAID      = 'Paid',
     SHIPPED   = 'Shipped',
     DELIVERED = 'Delivered',
     CANCELLED = 'Cancelled'
 };
+
+enum PaymentStatus {
+    PENDING   = 'Pending',
+    PAID      = 'Paid',
+    CANCELLED = 'Cancelled'
+}
 
 enum PaymentMethod {
     PAYPAL = 'Paypal',
@@ -13,4 +18,4 @@ enum PaymentMethod {
 }
 
 
-export { Status, PaymentMethod };
+export { OrderStatus, PaymentStatus, PaymentMethod };

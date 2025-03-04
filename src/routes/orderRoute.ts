@@ -12,13 +12,13 @@ const orderController = new OrderController(orderService);
 
 orderRouter.use(auth.authenticated);
 
-orderRouter.post("/", orderController.createOrder);
-orderRouter.get("/", orderController.getOrders);
-orderRouter.get("/", orderController.getOrder);
+orderRouter.post("/", (req, res) => orderController.createOrder(req, res));
+orderRouter.get("/",  (req, res) => orderController.getOrders(req, res));
+orderRouter.get("/one/:id",  (req, res) => orderController.getOrder(req, res));
 
 orderRouter.use(auth.isAdmin);
 
-orderRouter.put("/", orderController.updateOrder);
-orderRouter.get("/all", orderController.getAllOrdersForAdmin);
+orderRouter.get("/all", (req, res) => orderController.getAllOrdersForAdmin(req, res));
+orderRouter.put("/update/:id",    (req, res) => orderController.updateOrder(req, res));
 
 export default orderRouter;
