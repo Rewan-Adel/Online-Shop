@@ -38,4 +38,4 @@ class Multer{
 };
 
 
-export default new Multer;
+export default new Multer();
