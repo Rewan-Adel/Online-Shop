@@ -25,7 +25,7 @@ class OrderService implements OrderRepository {
         address: string,
         city: string,
         country: string
-    },phone:String, paymentMethod?: String): Promise<OrderType | null>{
+    },phone:string, paymentMethod?: string): Promise<OrderType | null>{
         try {
             // Get cart of user
             const cart = await Cart.findOne({ userId: userId });
@@ -58,7 +58,7 @@ class OrderService implements OrderRepository {
         }
     };
 
-    async updateOrder(orderID: string, paymentStatus?: string, orderStatus?:String): Promise<OrderType | null>{
+    async updateOrder(orderID: string, paymentStatus?: string, orderStatus?:string): Promise<OrderType | null>{
         try{
             if(!Types.ObjectId.isValid(orderID)) return null;
             const order = await Order.findById(orderID);
@@ -102,7 +102,7 @@ class OrderService implements OrderRepository {
     async getOrder(orderID: string): Promise<OrderType | null>{
         try{
             if (!Types.ObjectId.isValid(orderID)) return null;
-            let order = await Order.findById(orderID);
+            const order = await Order.findById(orderID);
             if(!order) return null; 
             return order as unknown as OrderType;
         }catch(error){

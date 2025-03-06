@@ -238,7 +238,7 @@ class ProductService implements ProductRepository{
             if(value.remove_images){
                 console.log("Remove images: ", value.remove_images);
                 await this.cloudImage.deleteImgs(value.remove_images);
-                let image = product.images.filter((img) => value.remove_images?.includes(img.public_id));
+                const image = product.images.filter((img) => value.remove_images?.includes(img.public_id));
                 
                 if(image.length > 0){
                     product.images = product.images.filter((img) => !value.remove_images?.includes(img.public_id));
@@ -260,7 +260,7 @@ class ProductService implements ProductRepository{
         }
     };
 
-    public async addToWishlist(slug: String, userID: string): Promise<ProductType[] | null>{
+    public async addToWishlist(slug: string, userID: string): Promise<ProductType[] | null>{
         try{
             const product = await Product.findOne({slug});
             if(!product) return null;
@@ -286,7 +286,7 @@ class ProductService implements ProductRepository{
         }
     };
 
-    public async removeFromWishlist(slug: String, userID: string): Promise<ProductType[] | null>{
+    public async removeFromWishlist(slug: string, userID: string): Promise<ProductType[] | null>{
         try{
             console.log(slug, userID);
             const product = await Product.findOne({slug});

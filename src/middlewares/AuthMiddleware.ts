@@ -30,7 +30,7 @@ class AuthMiddleware {
         }
 
         if (!token || token === "undefined" || token === "null")     
-            return failedResponse(res, 404, "Please, login to get access.");     
+            return failedResponse(res, 400, "Please, login to get access.");     
 
         try {
             const decoded = jwt.verify(token, process.env.JWT_SECRET || "defaultSecret") as JwtPayload;

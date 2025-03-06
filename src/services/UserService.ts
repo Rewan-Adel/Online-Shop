@@ -29,7 +29,7 @@ class UserService implements UserRepository{
                 }
             };
 
-            let isExist = await this.findByEmail(email);
+            const isExist = await this.findByEmail(email);
             if(isExist && !isExist.verified){
                 await this.deleteUser(isExist._id.toString());
             }

@@ -69,7 +69,7 @@ class ProductController{
 
     async deleteAllProducts(req: Request, res: Response): Promise<void>{
         try{
-            const response = await this.ProductRepository.deleteAll();
+            await this.ProductRepository.deleteAll();
             successResponse(res, 200, "All products deleted." );
         }
         catch(error: unknown){

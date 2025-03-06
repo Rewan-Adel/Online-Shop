@@ -72,7 +72,7 @@ class AuthService implements AuthRepository {
 
     public async ValidateUserEmail(email: string, code: string): Promise<{isValid:boolean, message:string, data?:{user:UserType, token:string} | null}> {
         try{
-            let user = await User.findOne({email: email});
+            const user = await User.findOne({email: email});
             if(!user ){
                 return {
                     isValid: false,
@@ -91,7 +91,7 @@ class AuthService implements AuthRepository {
                 }
             };
             
-            let userUpdated = await User.findByIdAndUpdate(user._id, {
+            const userUpdated = await User.findByIdAndUpdate(user._id, {
                 verified: true,
                 active  : true,
                 otpCounter:0,

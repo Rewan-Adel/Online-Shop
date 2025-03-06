@@ -8,7 +8,7 @@ import Product from "../models/product.model";
 class CartServices implements CartRepository{
     private productService: ProductService = new ProductService();
 
-    private async createCart(productId:Types.ObjectId,product_price:number, quantity: number, userId: string, discountNum?: Number, discountType?: String): Promise<CartType | null>{ 
+    private async createCart(productId:Types.ObjectId,product_price:number, quantity: number, userId: string, discountNum?: number, discountType?: string): Promise<CartType | null>{ 
         try{
             const cart = await Cart.create({
                 userId,
@@ -29,7 +29,7 @@ class CartServices implements CartRepository{
         }
     };
 
-    async addProductToCart(slug: string, quantity: number, userId: string, discountNum?: Number, discountType?: String): Promise<CartType | String>{
+    async addProductToCart(slug: string, quantity: number, userId: string, discountNum?: number, discountType?: string): Promise<CartType | string>{
         try{
             const product = await this.productService.findOne(slug);
             if(!product) return "Product not found";
@@ -37,7 +37,7 @@ class CartServices implements CartRepository{
             if(quantity > product.stock_num) return `Only ${product.stock_num} left in stock for ${product.name}`;
             else if(quantity <= 0) return "Invalid quantity";
             
-            let cart = await Cart.findOne({userId: userId});
+            const cart = await Cart.findOne({userId: userId});
             if(!cart){
                 await this.createCart(product._id, product.original_price, quantity, userId, discountNum, discountType);
             }else{
@@ -96,7 +96,7 @@ class CartServices implements CartRepository{
         }
     };
 
-    async removeAllProductsFromCart(userId?: string): Promise<Boolean>{
+    async removeAllProductsFromCart(userId?: string): Promise<boolean>{
         try{
             const cart = await Cart.findOne({userId: userId});
             if(!cart) return false;

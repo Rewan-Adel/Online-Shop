@@ -1,6 +1,4 @@
 import ProductType from "../types/ProductType";
-import { Types } from "mongoose";
-
 interface ProductRepository{
     findOne(slug: string):  Promise<ProductType | null>
     findAll(page:string): Promise<{message: string, data:{
@@ -20,8 +18,8 @@ interface ProductRepository{
     
     // findProductsByCategory(categoryID: string): Promise<{message: string, data: ProductType[] | null}>;
     // addMultipleImage(slug: string, images: Array<string>): Promise<ProductType | null>
-    addToWishlist(slug: String, userID: string): Promise<ProductType[] | null>;
-    removeFromWishlist(slug: String, userID: string): Promise<ProductType[] | null>;
+    addToWishlist(slug: string, userID: string): Promise<ProductType[] | null>;
+    removeFromWishlist(slug: string, userID: string): Promise<ProductType[] | null>;
     removeAllFromWishlist(userID: string): Promise<boolean>;
     getWishlist(userID: string): Promise<ProductType[] | null>;
 };
