@@ -1,5 +1,5 @@
 import { Router } from "express";
-import Multer from "../utils/Multer";
+import Multer from "../utils/multer";
 import CategoryController from "../controllers/CategoryController";
 import CategoryService from "../services/CategoryService";
 import authMiddleware from "../middlewares/AuthMiddleware";

@@ -1,5 +1,5 @@
 import { Router }        from "express";
-import Multer            from "../utils/Multer";
+import Multer            from "../utils/multer";
 import ProductController from "../controllers/ProductController";
 import ProductService    from "../services/ProductService";
 import authMiddleware    from "../middlewares/AuthMiddleware";

@@ -1,7 +1,7 @@
 import crypto from "crypto";    
 import User from "../models/user.model";
 import AuthRepository    from "../repositories/AuthRepository";
-import Otp               from "../utils/Otp";
+import Otp               from "../utils/otp";
 import Encryption        from "../utils/Encryption";
 import INotification     from "../utils/INotification";
 import { IToken } from "../utils/Token";

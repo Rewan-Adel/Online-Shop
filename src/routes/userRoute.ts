@@ -2,7 +2,7 @@ import { Router } from "express";
 import UserController from "../controllers/UserController";
 import UserService from "../services/UserService";
 import authMiddleware from "../middlewares/AuthMiddleware"; 
-import Multer from "../utils/Multer";
+import Multer from "../utils/multer";
 import AuthService from "../services/AuthService";
 import EmailSender from "../utils/EmailSender";
 import Encryption from "../utils/Encryption";

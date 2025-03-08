@@ -2,7 +2,7 @@ import UserRepository from '../repositories/UserRepository';
 import User           from '../models/user.model';
 import Logger         from '../utils/Logger';
 import CloudImage     from '../utils/CloudImage';
-import UserType       from "../types/UserType";
+import UserType       from "../types/userType";
 import AuthRepository from '../repositories/AuthRepository';
 import Pagination     from "../utils/Pagination";
 
