@@ -80,7 +80,7 @@ class AuthMiddleware {
         const token = jwt.sign({
             userID: userId,
         }, this.secret,
-        { expiresIn: this.expiresIn });
+        { expiresIn: this.expiresIn }as jwt.SignOptions);
 
         return token;
     }
