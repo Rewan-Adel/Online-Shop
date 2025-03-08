@@ -1,7 +1,7 @@
 import ProductType from "../types/ProductType";
 interface ProductRepository{
     findOne(slug: string):  Promise<ProductType | null>
-    findAll(page:string): Promise<{message: string, data:{
+    findAll(page:string,name?: string, brand?: string, categoryName?: string, min?: number, max?: number): Promise<{message: string, data:{
         products      : ProductType [] | [],
         total_products:  number  | 0,
         limit         :  number,

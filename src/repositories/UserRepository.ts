@@ -1,4 +1,4 @@
-import UserType from "../types/UserType";
+import UserType from "../types/userType";
 
 interface UserRepository {
     createUser(username: string, email: string, password: string): Promise<UserType | null>;

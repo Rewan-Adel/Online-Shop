@@ -6,7 +6,7 @@ import Encryption        from "../utils/Encryption";
 import INotification     from "../utils/INotification";
 import { IToken } from "../utils/Token";
 import Logger            from "../utils/Logger";
-import UserType from "../types/UserType";
+import UserType from "../types/userType";
 
 class AuthService implements AuthRepository {
     private otp = new Otp();

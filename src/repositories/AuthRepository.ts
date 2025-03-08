@@ -1,4 +1,4 @@
-import UserType from "../types/UserType";
+import UserType from "../types/userType";
 
 interface AuthRepository {
     signup(username:string, email: string, password: string ): Promise<{isSignup:boolean, message:string, data?:object | null}>;

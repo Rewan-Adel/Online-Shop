@@ -47,7 +47,7 @@ class ProductService implements ProductRepository{
         }
     };
 
-    public async findAll(page:string): Promise<{message: string, data:{
+    public async findAll(page:string,name?: string, brand?: string, categoryName?: string, min?: number, max?: number): Promise<{message: string, data:{
         products      : ProductType [] | [],
         total_products:  number  | 0,
         limit         :  number,
@@ -56,9 +56,10 @@ class ProductService implements ProductRepository{
     }| null }>{
         try{
             const pagination = await Pagination(page, Product);
-            const products   = await Product.find().limit(pagination.limit).skip(pagination.skip);
-
-            const total_products = await Product.countDocuments();
+            const filterQuery = await this.filter(name, brand, categoryName, min, max);
+            
+            const products   = await Product.find(filterQuery).limit(pagination.limit).skip(pagination.skip);
+            const total_products = await Product.countDocuments(filterQuery);
             return {
                 message: "Products Fetched.",
                 data:{
@@ -339,6 +340,41 @@ class ProductService implements ProductRepository{
             return user.wishlist as unknown as ProductType[];
         }
         catch(error: unknown){
+            Logger.error(error);
+            return null;
+        }
+    }
+
+
+    private async filter(
+        name?: string,
+        brand?: string,
+        categoryName?: string,
+        min?: number,
+        max?: number
+    ): Promise<any | null> {
+        try {
+            const query: any = {};
+            
+            if (name) {
+                query.name = { $regex: name, $options: 'i' }; 
+            }
+            if (brand) {
+                query.brand = { $regex: brand, $options: 'i' };
+            }
+            if (categoryName) {
+                const category = await this.category.findOne(categoryName as string);
+                if (!category?.data) return null; 
+                query.category = category.data._id; 
+            }
+            if (min || max) {
+                const minPrice = min !== undefined ? min : 0;
+                const maxPrice = max !== undefined ? max : 10000000;
+
+                query.original_price = { $gte: minPrice, $lte: maxPrice };
+            }
+            return query;
+        } catch (error: unknown) {
             Logger.error(error);
             return null;
         }
