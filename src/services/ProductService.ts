@@ -58,7 +58,7 @@ class ProductService implements ProductRepository{
             const pagination = await Pagination(page, Product);
             const filterQuery = await this.filter(name, brand, categoryName, min, max);
             
-            const products   = await Product.find(filterQuery).limit(pagination.limit).skip(pagination.skip);
+            const products   = await Product.find(filterQuery).limit(pagination.limit).skip(pagination.skip).populate('category', 'name').sort({createdAt: -1});
             const total_products = await Product.countDocuments(filterQuery);
             return {
                 message: "Products Fetched.",
