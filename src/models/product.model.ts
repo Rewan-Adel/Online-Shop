@@ -47,7 +47,8 @@ const ProductSchema = new mongoose.Schema({
         size: String
     }],
     category:{
-        type: mongoose.Types.ObjectId
+        type: mongoose.Types.ObjectId,
+        ref: 'category',
     },
     offer:{
         type: mongoose.Types.ObjectId

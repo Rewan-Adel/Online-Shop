@@ -26,7 +26,7 @@ class ProductService implements ProductRepository{
 
     public async findProductById(id: string): Promise<ProductType | null>{
         try{
-            const product = await Product.findById(id);
+            const product = await Product.findById(id).populate('category');
             if(!product) return null
             return product as unknown as ProductType
         }catch(error: unknown){
@@ -37,7 +37,10 @@ class ProductService implements ProductRepository{
 
     public async findOne(slug: string): Promise<ProductType | null>{
         try{
-            const product = await Product.findOne({slug});
+            const product = await Product.findOne({slug}).populate({
+                path: 'category',
+                select: 'name image' // Specify the attributes to select
+            });
             if(!product) return null
     
             return product as unknown as ProductType
@@ -58,7 +61,10 @@ class ProductService implements ProductRepository{
             const pagination = await Pagination(page, Product);
             const filterQuery = await this.filter(name, brand, categoryName, min, max);
             
-            const products   = await Product.find(filterQuery).limit(pagination.limit).skip(pagination.skip).populate('category').sort({createdAt: -1});
+            const products   = await Product.find(filterQuery).populate({
+                path: 'category',
+                select: 'name image'
+            }).limit(pagination.limit).skip(pagination.skip).sort({createdAt: -1});
             const total_products = await Product.countDocuments(filterQuery);
             return {
                 message: "Products Fetched.",
