@@ -19,6 +19,8 @@ class OrderController{
             };
             const response = await this.orderService.createOrder(req.user.userID, shippingAddress, phone, paymentMethod);
             if(!response) return failedResponse(res, 400, "Cart is empty");
+            if(typeof response === "string") return failedResponse(res, 400, response);
+            
             return successResponse(res, 201, "Order created", {order: response});
         } catch (error) {
             console.log(error);

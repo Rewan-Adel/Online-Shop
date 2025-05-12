@@ -3,11 +3,17 @@ import OrderType       from "../types/OrderType";
 import Order           from "../models/Order.model";
 import CartServices    from "./CartService";
 import Cart            from "../models/Cart.model";
+import Product         from "../models/product.model";
 import Logger          from "../utils/Logger";
+import ProductService from "./ProductService";
+
 import {OrderStatus, PaymentStatus, PaymentMethod} from "../utils/Enums";
 import { Types } from "mongoose";
+
 class OrderService implements OrderRepository {
     private cartService: CartServices;
+    private productService: ProductService = new ProductService();
+    
 
     constructor(cartService: CartServices) {
         this.cartService = cartService;
@@ -21,16 +27,28 @@ class OrderService implements OrderRepository {
         }
     };
 
+
     async createOrder(userId: string, shippingAddress:{
         address: string,
         city: string,
         country: string
-    },phone:string, paymentMethod?: string): Promise<OrderType | null>{
+    },phone:string, paymentMethod?: string): Promise<OrderType | null | string>{
         try {
             // Get cart of user
             const cart = await Cart.findOne({ userId: userId });
             if(!cart) return null;
             if(cart.products.length === 0) return null;
+
+            for(const prod of cart.products){
+                const checkProduct = await this.productService.findProductById(prod.product as string);
+                if(!checkProduct) return null;
+
+                const product = await this.productService.checkProductQuantity(checkProduct?.slug as unknown as string, prod.quantity);
+                if(typeof product === "string") return product;
+                if(!product) return product;
+
+                await Product.updateOne({_id: product._id}, {stock_num: product.stock_num - prod.quantity});
+            }
 
             // Create order
             const order = new Order({
@@ -50,7 +68,8 @@ class OrderService implements OrderRepository {
             await order.save();
 
             // Remove all products from cart after creating order
-            await this.cartService.removeAllProductsFromCart(userId);                                            
+            await this.cartService.removeAllProductsFromCart(userId);       
+                                                 
             return await Order.findById(order._id) as OrderType;
         }catch(error){
             Logger.error(`Error creating order for user ${userId}: ${error}`);

@@ -5,7 +5,7 @@ interface OrderRepository {
         address: string,
         city: string,
         country: string
-    },phone:string, paymentMethod?: string): Promise<OrderType | null>
+    },phone:string, paymentMethod?: string): Promise<OrderType | null | string>
     updateOrder(orderID: string, paymentStatus?: string, orderStatus?:string): Promise<OrderType | null>
     getOrders(userId: string, order_status?:string): Promise<OrderType[] | null>
     getOrder(orderID: string): Promise<OrderType | null>

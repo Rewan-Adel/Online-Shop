@@ -22,6 +22,7 @@ interface ProductRepository{
     removeFromWishlist(slug: string, userID: string): Promise<ProductType[] | null>;
     removeAllFromWishlist(userID: string): Promise<boolean>;
     getWishlist(userID: string): Promise<ProductType[] | null>;
+    checkProductQuantity(productId: string, quantity: number): Promise<string | ProductType | null>; 
 };
 
 export default ProductRepository;

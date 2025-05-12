@@ -31,11 +31,15 @@ class CartServices implements CartRepository{
 
     async addProductToCart(slug: string, quantity: number, userId: string, discountNum?: number, discountType?: string): Promise<CartType | string>{
         try{
-            const product = await this.productService.findOne(slug);
-            if(!product) return "Product not found";
+            // const product = await this.productService.findOne(slug);
+            // if(!product) return "Product not found";
 
-            if(quantity > product.stock_num) return `Only ${product.stock_num} left in stock for ${product.name}`;
-            else if(quantity <= 0) return "Invalid quantity";
+            // if(quantity > product.stock_num) return `Only ${product.stock_num} left in stock for ${product.name}`;
+            // else if(quantity <= 0) return "Invalid quantity";
+            
+            const product = await this.productService.checkProductQuantity(slug, quantity);
+            if(typeof product === "string") return product;
+            if(!product) return "Product not found";
             
             const cart = await Cart.findOne({userId: userId});
             if(!cart){
@@ -58,7 +62,7 @@ class CartServices implements CartRepository{
             //     await cart.save();
             // }
 
-            await Product.updateOne({_id: product._id}, {stock_num: product.stock_num - quantity});
+            // await Product.updateOne({_id: product._id}, {stock_num: product.stock_num - quantity});
             const updatedCart = await Cart.findOne({userId: userId}).populate("products.product");
             return updatedCart as unknown as CartType;
         }

@@ -385,5 +385,20 @@ class ProductService implements ProductRepository{
             return null;
         }
     }
+
+    public async checkProductQuantity(slug: string, quantity: number): Promise<string | ProductType | null> {
+        try {
+            const product = await this.findOne(slug);
+            if(!product) return "Product not found";
+            
+            if(quantity > product.stock_num) return `Only ${product.stock_num} left in stock for ${product.name}`;
+            else if(quantity <= 0) return "Invalid quantity";
+
+            return product;
+        } catch (error: unknown) {
+            Logger.error(error);
+            return null;
+        }
+    };
 };
 export default ProductService;
