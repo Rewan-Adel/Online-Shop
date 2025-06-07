@@ -10,14 +10,14 @@ class CloudImage{
             
             for(const img of images){
                 // Compress image
-                const compressedImg = await CompressImg.compress(img);
-                if(!compressedImg) {
-                    Logger.error("Compress image failed: ", compressedImg);
-                    return null;
-                }
+                // const compressedImg = await CompressImg.compress(img);
+                // if(!compressedImg) {
+                //     Logger.error("Compress image failed: ", compressedImg);
+                //     return null;
+                // }
 
                 //upload image
-                const image = await this.cloudinary.upload(compressedImg);
+                const image = await this.cloudinary.upload(img);
                 if(!image) {
                     Logger.error("Upload image failed: ", image);
                     return null;
