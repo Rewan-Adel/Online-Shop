@@ -1,5 +1,5 @@
 const Pagination = async (page: string, Model)=>{
-    const limit = 10;
+    const limit = 15;
     const currentPage  = parseInt(page) || 1;
     const skip  = (currentPage - 1) * limit;
 
