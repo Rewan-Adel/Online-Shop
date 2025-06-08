@@ -17,7 +17,7 @@ class ProductController{
             if(error)
                 return failedResponse(res, 400, error.details[0].message as unknown as string);
             if(!req.file)
-                return failedResponse(res, 400, "Product image is required.");
+                return failedResponse(res, 400, "Product main image is required.");
 
             value.main_image = req.file.path;
             const response = await this.ProductRepository.createProduct(value);
