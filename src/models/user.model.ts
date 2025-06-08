@@ -24,7 +24,7 @@ const userSchema = new mongoose.Schema({
         },
         public_id:{
             type: String,
-            default:process.env.DEFAULT_AVATAR_PUBLIC_ID
+            default: process.env.DEFAULT_AVATAR_PUBLIC_ID
         },
     },
     gender: { 

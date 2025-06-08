@@ -19,7 +19,9 @@ class Cloudinary{
     };
 
     async upload(imgPath: string){ 
-        return await cloudinary.v2.uploader.upload(imgPath);
+        return await cloudinary.v2.uploader.upload(imgPath, {
+            folder: 'Antique'
+        });
     };
 
     async delete(public_id: string){ 

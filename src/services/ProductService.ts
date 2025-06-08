@@ -71,7 +71,7 @@ class ProductService implements ProductRepository{
                 data:{
                     products      : products as unknown as ProductType[],
                     total_products,
-                    limit         : pagination.totalObj,
+                    limit         : pagination.limit,
                     current_page  : pagination.currentPage,
                     total_pages   : pagination.totalPages,
                     }
