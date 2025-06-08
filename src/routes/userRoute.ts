@@ -11,8 +11,9 @@ import Token from "../utils/Token";
 const userRoutes = Router();
 
 const auth           = new authMiddleware();
-const authService    = new AuthService(new Token(), new Encryption(), new EmailSender());
-const userService    = new UserService(authService);
+const encryption     = new Encryption();
+const authService    = new AuthService(new Token(), encryption, new EmailSender());
+const userService    = new UserService(authService, encryption);
 const userController = new UserController(userService);
 
 userRoutes.use(auth.authenticated);
@@ -25,6 +26,8 @@ userRoutes.put("/avatar",Multer.uploadSingle, (req, res) => userController.chang
 userRoutes.delete("/avatar", (req, res) => userController.deleteAvatar(req, res));
 
 userRoutes.put("/change-email", (req, res) => userController.changeEmail(req, res));
+userRoutes.put("/change-password", (req, res) => userController.changePassword(req, res));
+
 /**
  * Admin Routes
  */

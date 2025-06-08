@@ -19,7 +19,10 @@ interface UserRepository {
     changeEmail(userID: string, email: string): Promise<{
         isSent:boolean,
         message: string }>;
-        
+    changePassword(userID: string, currentPassword: string, newPassword: string): Promise<{
+        isChanged: boolean,
+        message: string
+    }>;
     changeAvatar(userID: string, avatar: string): Promise<UserType | null >;
     deleteAvatar(userID: string): Promise<UserType | null>
     isActiveUser(userID: string): Promise<{data:{message:string,active: boolean | null}}>

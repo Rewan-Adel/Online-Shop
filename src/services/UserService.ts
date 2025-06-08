@@ -5,13 +5,16 @@ import CloudImage     from '../utils/CloudImage';
 import UserType       from "../types/userType";
 import AuthRepository from '../repositories/AuthRepository';
 import Pagination     from "../utils/Pagination";
+import Encryption     from "../utils/Encryption";
 
 class UserService implements UserRepository{
     private authService: AuthRepository;
+    private Encryption: Encryption;
     private cloudImage =  new CloudImage();
 
-    constructor(authService: AuthRepository){
+    constructor(authService: AuthRepository,  Encryption: Encryption){
         this.authService = authService;
+        this.Encryption = Encryption;
     };
 
     public async changeEmail(userID: string, email: string): Promise<{isSent:boolean, message: string }>{
@@ -370,6 +373,56 @@ class UserService implements UserRepository{
                     current_page: 1,
                     total_pages: 0,
                 }
+            };
+        };
+    }
+
+    public async changePassword(userID: string, currentPassword: string, newPassword: string): Promise<{
+        isChanged: boolean,
+        message: string
+    }>{
+        try{
+            const user = await User.findById(userID);
+            if(!user){
+                return {
+                    isChanged:false,
+                    message: "User not found"
+                };
+            }
+
+            const isMatch = await this.Encryption.compare(currentPassword, user.password as string);
+            if(!isMatch){
+                return {
+                    isChanged:false,
+                    message: "Current password is incorrect"
+                };
+            }
+              
+            const isSamePassword = await this.Encryption.compare(newPassword, user.password as string);
+            if(isSamePassword){
+                return {
+                    isChanged:false,
+                    message: "New password cannot be the same as the current password"
+                };
+            }
+
+            user.password = newPassword;
+            await user.save();
+
+            return{
+                isChanged:true,
+                message: "Password changed successfully"
+            }
+
+        }catch(error: unknown){
+            if(error instanceof Error)
+                Logger.error(error)
+            else
+                Logger.error('Unknown error');
+
+            return {
+               isChanged:false,
+               message:  error as string
             };
         };
     }

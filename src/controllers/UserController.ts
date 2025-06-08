@@ -214,6 +214,31 @@ class UserController {
             handleError(error, res);
         }
     }
+
+    async changePassword(req: Request, res: Response): Promise<void>{
+        try{
+            const { userID } = req.user;
+            const { currentPassword, newPassword, confirmPassword } = req.body;
+
+            //Validate the request body
+            if(!currentPassword || !newPassword || !confirmPassword)
+                return failedResponse(res, 400, "Please provide current, new and confirm password.");
+            if(newPassword !== confirmPassword)
+                return failedResponse(res, 400, "New password and confirm password do not match.");
+            if(newPassword.length < 8)
+                return failedResponse(res, 400, "New password must be at least 8 characters long.");
+
+            const response = await this.userRepository.changePassword(userID, currentPassword, newPassword);
+
+            if(response.isChanged)
+                return successResponse(res, 200, response.message);
+            else
+                return failedResponse(res, 400, response.message);
+        }
+        catch(error: unknown){
+            handleError(error, res);
+        }
+    };
 };
 
 export default  UserController;
