@@ -355,7 +355,7 @@ class ProductService implements ProductRepository{
     private async filter(
         name?: string,
         brand?: string,
-        categoryName?: string,
+        categoryId?: string,
         min?: number,
         max?: number
     ): Promise<any | null> {
@@ -368,8 +368,8 @@ class ProductService implements ProductRepository{
             if (brand) {
                 query.brand = { $regex: brand, $options: 'i' };
             }
-            if (categoryName) {
-                const category = await this.category.findOne(categoryName as string);
+            if (categoryId) {
+                const category = await this.category.findOne(categoryId);
                 if (!category?.data) return null; 
                 query.category = category.data._id; 
             }

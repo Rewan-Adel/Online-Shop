@@ -65,12 +65,7 @@ class CategoryService implements CategoryRepository{
 
     public async findOne(cat: string): Promise<{message: string, data: CategoryType | null}>{
         try{
-            const category = await Category.findOne({
-                $or: [
-                    { name: RegExp(cat, 'i') },
-                    { _id: cat.match(/^[0-9a-fA-F]{24}$/) ? cat : null }
-                ]
-            }).populate('parent');
+            const category = await Category.findById(cat).populate('parent');
             if(!category){
                 return {
                     message: "Category Not Found",

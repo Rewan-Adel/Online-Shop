@@ -5,7 +5,7 @@
 		"description": "# 🛍️Online-Shop API Documentation\n\nThis API provides all the necessary endpoints for managing and interacting with an e-commerce platform. Below is an overview of its main features:\n\n#### **Key Features**\n\n1. **User Management**\n    \n    - User registration, login, and logout.\n        \n    - Authentication via email/password.\n        \n    - Profile management and updates.\n        \n2. **Product Management**\n    \n    - List all available products with filtering and sorting options.\n        \n    - Retrieve detailed product information.\n        \n    - Create, update, or delete products (Admin only).\n        \n3. **Cart and Checkout**\n    \n    - Add, update, or remove items from the cart.\n        \n    - Retrieve cart details.\n        \n    - Process orders and handle payments.\n        \n4. **Order Management**\n    \n    - View order history for users.\n        \n    - Update order status (Admin only).\n        \n5. **Marketplace Features**\n    \n    - View and manage product reviews.\n        \n    - Display bestsellers and trending products.\n        \n6. **Social Features**\n    \n    - Wishlist management.\n        \n    - Share products on social media platforms.\n        \n\n### Authentication\n\nThe API supports two methods for managing authentication:\n\nJWT (JSON Web Tokens) via the Authorization header and\n\n- HTTP-only cookies. Use either method to access protected endpoints.\n    \n\n1\\. JWT in Authorization Header  \nInclude a valid JWT token in the Authorization header for endpoints that require authentication. This method is commonly used for mobile and non-browser clients.\n\nExample:\n\n``` json\nAuthorization: Bearer <your_token_here>\n\n ```\n\n2\\. Cookies  \nFor browser-based clients, the server can manage authentication through HTTP-only cookies for enhanced security. This cookie is automatically sent with each request after login.\n\nThe cookie will store the JWT or session token securely.  \nEnsure your client handles CSRF tokens if required by the server for cookie-based authentication.  \nExample Request Flow with Cookies:\n\nLogin Endpoint: Authenticate using credentials, and the server sends an HTTP-only cookie.  \nSubsequent Requests: The cookie is automatically sent by the browser, eliminating the need to manually include the Authorization header.\n\n#### **Response Format**\n\nAll responses follow this structure:\n\n``` json\n{\n  \"status\": true,\n  \"message\": \"Optional descriptive message\"\n  \"data\": { ... },\n }\n\n ```\n\n#### **Error Handling**\n\nErrors are returned in the following format:\n\n#### **Usage Notes**\n\n- Use the provided environment variables for base URLs and tokens.\n    \n- Follow rate limits to avoid throttling.\n    \n\n#### **API Categories in Postman**\n\nThe Postman collection is organized into the following folders for easy navigation:\n\n1. **Auth** – User registration, login, logout.\n    \n2. **Products** – CRUD operations for products.\n    \n3. **Cart** – Managing user cart.\n    \n4. **Orders** – Placing and viewing orders.\n    \n5. User - Managing user profile\n    \n6. **Admin** – Admin-specific functionalities.",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "25350743",
-		"_collection_link": "https://www.postman.com/notnull-7187/workspace/notnull/collection/25350743-cf151ce0-6296-4f37-939c-387cc65e2e6e?action=share&source=collection_link&creator=25350743"
+		"_collection_link": "https://www.postman.com/rewan-adel-7187/workspace/13818e35-8c0f-41fa-a3f7-876d845685c0/collection/25350743-cf151ce0-6296-4f37-939c-387cc65e2e6e?action=share&source=collection_link&creator=25350743"
 	},
 	"item": [
 		{
@@ -414,7 +414,7 @@
 									"bearer": [
 										{
 											"key": "token",
-											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiI2NzUwNTYyZTAwMGMxODZjODI1NmZmOTYiLCJpYXQiOjE3MzMzMTgyMDZ9.1hddBorYcy8sx678uCleL69xMAQ7xllkOovNBK1eItM",
+											"value": "{{vault:authorization-secret}}",
 											"type": "string"
 										}
 									]
@@ -478,6 +478,44 @@
 										"api",
 										"user",
 										"profile"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Change Password",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{vault:authorization-secret}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"currentPassword\":\"\",\r\n    \"newPassword\":\"\",\r\n    \"confirmPassword\":\"\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/api/user/change-password",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"api",
+										"user",
+										"change-password"
 									]
 								}
 							},
@@ -1355,7 +1393,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{URL}}/api/user/filter/status?page&status=",
+									"raw": "{{URL}}/api/user/filter/status?page=&status=",
 									"host": [
 										"{{URL}}"
 									],
@@ -1368,7 +1406,7 @@
 									"query": [
 										{
 											"key": "page",
-											"value": null
+											"value": ""
 										},
 										{
 											"key": "status",
@@ -1656,7 +1694,7 @@
 					"description": "### 1\\. Get All Users\n\n- **Method**: `GET`\n    \n- **URL**: `/api/user/`\n    \n- **Headers**:\n    \n    - `Authorization: Bearer .`\n        \n- **Expected Response:**\n    \n\n``` json\n{\n    \"status\": true,\n    \"message\": \"All Users Fetched.\",\n    \"data\": {\n        \"users\": [\n            {\n                \"avatar\": {\n                    \"url\": \"https://res.cloudinary.com/dt6idcgyw/image/upload/v1725752451/default_j5ftby_jspjve.jpg\",\n                    \"public_id\": \"default_j5ftby_jspjve\"\n                },\n                \"_id\": \"6750d4df89243738af69a000\",\n                ...\n                },\n                {},.... {}\n        },\n        \"total_users\" : 20,\n        \"current_page\": 1,\n        \"total_pages\" : 2\n    }\n}\n\n ```\n\n### 2\\. Get One\n\n- **Method**: `GET`\n    \n- **URL**: `/api/user/:userID`\n    \n- **Headers**:\n    \n    - `Authorization: Bearer .`\n        \n- **Expected Response:**\n    \n\n``` json\n{\n    \"status\": true,\n    \"message\": \"User Fetched.\",\n    \"data\": {\n        \"avatar\": {\n            \"url\": \"https://res.cloudinary.com/dt6idcgyw/image/upload/v1725752451/default_j5ftby_jspjve.jpg\",\n            \"public_id\": \"default_j5ftby_jspjve\"\n        },\n        \"location\": {\n            \"city\": \"\",\n            \"country\": \"\",\n            \"fullAddress\": \"\"\n        },\n        \"_id\": \"6750c8949ea7fd6a0e951258\",\n             .....\n        },\n}\n\n ```\n\n### 3\\. Enable user\n\n- **Method**: `PUT`\n    \n- **URL**: `/api/user/enable/:userID`\n    \n- **Headers**:\n    \n    - `Authorization: Bearer .`\n        \n- **Expected Response:**\n    \n\n``` json\n{\n    \"status\": true,\n    \"message\": \"User Enabled.\",\n    \"data\": {\n        \"avatar\": {\n            \"url\": \"https://res.cloudinary.com/dt6idcgyw/image/upload/v1725752451/default_j5ftby_jspjve.jpg\",\n            \"public_id\": \"default_j5ftby_jspjve\"\n        },\n        \"location\": {\n            \"city\": \"\",\n            \"country\": \"\",\n            \"fullAddress\": \"\"\n        },\n        \"_id\": \"6750c8949ea7fd6a0e951258\",\n        \"active\": true,\n         ....\n    }\n}\n\n ```\n\n### 4.Disable user\n\n- **Method**: `PUT`\n    \n- **URL**: `/api/user/disable/:userID`\n    \n- **Headers**:\n    \n    - `Authorization: Bearer .`\n        \n- **Expected Response:**\n    \n\n``` json\n{\n    \"status\": true,\n    \"message\": \"User Disabled.\",\n    \"data\": {\n        \"avatar\": {\n            \"url\": \"https://res.cloudinary.com/dt6idcgyw/image/upload/v1725752451/default_j5ftby_jspjve.jpg\",\n            \"public_id\": \"default_j5ftby_jspjve\"\n        },\n        \"location\": {\n            \"city\": \"\",\n            \"country\": \"\",\n            \"fullAddress\": \"\"\n        },\n        \"_id\": \"6750c8949ea7fd6a0e951258\",\n        \"active\": false,\n         ....\n    }\n}\n\n ```\n\n### 5\\. Delete All\n\n- **Method**: `DELETE`\n    \n- **URL**: `/api/user`\n    \n- **Headers**:\n    \n    - `Authorization: Bearer .`\n        \n- **Expected Response:**\n    \n\n``` json\n{\n    \"status\": true,\n    \"message\": \"All Users Deleted.\",\n    \"data\": null\n}\n\n ```\n\n### 6.Delete One\n\n- **Method**: `DELETE`\n    \n- **URL**: `/api/user/:userID`\n    \n- **Headers**:\n    \n    - `Authorization: Bearer .`\n        \n- **Expected Response:**\n    \n\n``` json\n{\n    \"status\": true,\n    \"message\": \"User Deleted.\",\n    \"data\": null\n}\n\n ```\n\n### 7.Filter By username or email\n\n- **Method**: `GET`\n    \n- **URL**: `/api/user/filter/all`\n    \n- **Query Parameters**\n    \n    - `page` (optional): The page number for pagination.\n        \n    - `search` (required): The search term to filter users by username or email.\n        \n- **Headers**:\n    \n    - `Authorization: Bearer .`\n        \n- Expected Response:\n    \n\n``` json\n{\n    \"status\": true,\n    \"message\": \"Users Fetched.\",\n    \"data\": {\n        \"users\": [\n            {\n                \"avatar\": {\n                    \"url\": \"https://res.cloudinary.com/dt6idcgyw/image/upload/v1725752451/default_j5ftby_jspjve.jpg\",\n                    \"public_id\": \"default_j5ftby_jspjve\"\n                },\n                \"_id\": \"6750d4df89243738af69a000\",\n                ...\n                },\n        },\n        \"total_users\" : 1,\n        \"current_page\": 1,\n        \"total_pages\" : 1\n    }\n}\n\n ```\n\n### 8\\. Filter By Status\n\n- **Method**: `GET`\n    \n- **URL**: `/api/auth/change-email`\n    \n- **Query Parameters**\n    \n    - `page` (optional): The page number for pagination.\n        \n    - `status`(required): The statusterm to filter users by active or inactive\n        \n- **Headers**:\n    \n    - `Authorization: Bearer .`\n        \n- **Expected Response**:\n    \n\n``` json\n{\n    \"status\": true,\n    \"message\": \"Users Fetched.\",\n    \"data\": {\n        \"users\": [\n            {\n                \"avatar\": {\n                    \"url\": \"https://res.cloudinary.com/dt6idcgyw/image/upload/v1725752451/default_j5ftby_jspjve.jpg\",\n                    \"public_id\": \"default_j5ftby_jspjve\"\n                },\n                \"_id\": \"6750d4df89243738af69a000\",\n                ...\n                },\n        },\n        \"total_users\" : 1,\n        \"current_page\": 1,\n        \"total_pages\" : 1\n    }\n}\n\n\n ```"
 				},
 				{
-					"name": "Category Conterol",
+					"name": "Category Control",
 					"item": [
 						{
 							"name": "Add New Category",
@@ -2099,13 +2137,24 @@
 								"method": "PUT",
 								"header": [],
 								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"name\":\"\"\r\n    ,\"parent\":\"\"\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "name",
+											"value": "",
+											"type": "text"
+										},
+										{
+											"key": "image",
+											"type": "file",
+											"src": []
+										},
+										{
+											"key": "parent",
+											"value": "",
+											"type": "text"
 										}
-									}
+									]
 								},
 								"url": {
 									"raw": "{{URL}}/api/category/:categoryID",
@@ -2127,206 +2176,43 @@
 							},
 							"response": [
 								{
-									"name": "Add New Category Copy",
+									"name": "add exist category",
 									"originalRequest": {
-										"method": "PUT",
-										"header": [],
-										"body": {
-											"mode": "raw",
-											"raw": "{\r\n    \"name\":\"chair\"\r\n    ,\"parent\":\"\"\r\n}",
-											"options": {
-												"raw": {
-													"language": "json"
-												}
-											}
-										},
-										"url": {
-											"raw": "{{LOCAL_URL}}/api/category/:categoryID",
-											"host": [
-												"{{LOCAL_URL}}"
-											],
-											"path": [
-												"api",
-												"category",
-												":categoryID"
-											],
-											"variable": [
-												{
-													"key": "categoryID",
-													"value": "6756f902795af8521fbfa1f3"
-												}
-											]
-										}
-									},
-									"status": "OK",
-									"code": 200,
-									"_postman_previewlanguage": "json",
-									"header": [
-										{
-											"key": "X-RateLimit-Limit",
-											"value": "100"
-										},
-										{
-											"key": "X-RateLimit-Remaining",
-											"value": "99"
-										},
-										{
-											"key": "Date",
-											"value": "Mon, 09 Dec 2024 14:15:49 GMT"
-										},
-										{
-											"key": "X-RateLimit-Reset",
-											"value": "1733754650"
-										},
-										{
-											"key": "Access-Control-Allow-Origin",
-											"value": "*"
-										},
-										{
-											"key": "Content-Security-Policy",
-											"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
-										},
-										{
-											"key": "Cross-Origin-Opener-Policy",
-											"value": "same-origin"
-										},
-										{
-											"key": "Cross-Origin-Resource-Policy",
-											"value": "same-origin"
-										},
-										{
-											"key": "Origin-Agent-Cluster",
-											"value": "?1"
-										},
-										{
-											"key": "Referrer-Policy",
-											"value": "no-referrer"
-										},
-										{
-											"key": "Strict-Transport-Security",
-											"value": "max-age=31536000; includeSubDomains"
-										},
-										{
-											"key": "X-Content-Type-Options",
-											"value": "nosniff"
-										},
-										{
-											"key": "X-DNS-Prefetch-Control",
-											"value": "off"
-										},
-										{
-											"key": "X-Download-Options",
-											"value": "noopen"
-										},
-										{
-											"key": "X-Frame-Options",
-											"value": "SAMEORIGIN"
-										},
-										{
-											"key": "X-Permitted-Cross-Domain-Policies",
-											"value": "none"
-										},
-										{
-											"key": "X-XSS-Protection",
-											"value": "0"
-										},
-										{
-											"key": "Content-Type",
-											"value": "application/json; charset=utf-8"
-										},
-										{
-											"key": "Content-Length",
-											"value": "319"
-										},
-										{
-											"key": "ETag",
-											"value": "W/\"13f-NOlTiMUbpvOiA4YflgBDqj4WyxM\""
-										},
-										{
-											"key": "Connection",
-											"value": "keep-alive"
-										},
-										{
-											"key": "Keep-Alive",
-											"value": "timeout=5"
-										}
-									],
-									"cookie": [],
-									"body": "{\n    \"status\": true,\n    \"message\": \"Category updated\",\n    \"data\": {\n        \"image\": {\n            \"url\": \"https://res.cloudinary.com/dt6idcgyw/image/upload/v1733753090/hz88kzk6avnwpdjqanxx.jpg\",\n            \"public_id\": \"hz88kzk6avnwpdjqanxx\"\n        },\n        \"_id\": \"6756f902795af8521fbfa1f3\",\n        \"name\": \"chair\",\n        \"createdAt\": \"2024-12-09T14:04:50.358Z\",\n        \"updatedAt\": \"2024-12-09T14:15:49.406Z\"\n    }\n}"
-								}
-							]
-						},
-						{
-							"name": "Change Category image",
-							"request": {
-								"method": "PUT",
-								"header": [],
-								"body": {
-									"mode": "formdata",
-									"formdata": [
-										{
-											"key": "image",
-											"type": "file",
-											"src": []
-										}
-									]
-								},
-								"url": {
-									"raw": "{{URL}}/api/category/change-image/:categoryID",
-									"host": [
-										"{{URL}}"
-									],
-									"path": [
-										"api",
-										"category",
-										"change-image",
-										":categoryID"
-									],
-									"variable": [
-										{
-											"key": "categoryID",
-											"value": ""
-										}
-									]
-								}
-							},
-							"response": [
-								{
-									"name": "Update Category Copy",
-									"originalRequest": {
-										"method": "PUT",
+										"method": "POST",
 										"header": [],
 										"body": {
 											"mode": "formdata",
 											"formdata": [
 												{
+													"key": "name",
+													"value": "chair",
+													"type": "text"
+												},
+												{
 													"key": "image",
 													"type": "file",
-													"src": "pexels-olly-842811.jpg"
+													"src": "pexels-hormel-1431176-2762247.jpg"
+												},
+												{
+													"key": "parent",
+													"value": "",
+													"type": "text"
 												}
 											]
 										},
 										"url": {
-											"raw": "{{LOCAL_URL}}/api/category/change-image/:categoryID",
+											"raw": "{{LOCAL_URL}}/api/category",
 											"host": [
 												"{{LOCAL_URL}}"
 											],
 											"path": [
 												"api",
-												"category",
-												"change-image",
-												":categoryID"
-											],
-											"variable": [
-												{
-													"key": "categoryID",
-													"value": "6756f902795af8521fbfa1f3"
-												}
+												"category"
 											]
 										}
 									},
-									"status": "OK",
-									"code": 200,
+									"status": "Bad Request",
+									"code": 400,
 									"_postman_previewlanguage": "json",
 									"header": [
 										{
@@ -2339,11 +2225,11 @@
 										},
 										{
 											"key": "Date",
-											"value": "Mon, 09 Dec 2024 14:16:19 GMT"
+											"value": "Mon, 09 Dec 2024 10:38:14 GMT"
 										},
 										{
 											"key": "X-RateLimit-Reset",
-											"value": "1733754650"
+											"value": "1733741584"
 										},
 										{
 											"key": "Access-Control-Allow-Origin",
@@ -2403,11 +2289,11 @@
 										},
 										{
 											"key": "Content-Length",
-											"value": "325"
+											"value": "67"
 										},
 										{
 											"key": "ETag",
-											"value": "W/\"145-cD+RYOW9N0Jnclxuddm9//yAuw0\""
+											"value": "W/\"43-fUBlL7unKhKd/Vdv45z7pvzzg6k\""
 										},
 										{
 											"key": "Connection",
@@ -2419,7 +2305,271 @@
 										}
 									],
 									"cookie": [],
-									"body": "{\n    \"status\": true,\n    \"message\": \"Category image updated\",\n    \"data\": {\n        \"image\": {\n            \"url\": \"https://res.cloudinary.com/dt6idcgyw/image/upload/v1733753946/c0dssw8vpichfey4vuey.jpg\",\n            \"public_id\": \"c0dssw8vpichfey4vuey\"\n        },\n        \"_id\": \"6756f902795af8521fbfa1f3\",\n        \"name\": \"chair\",\n        \"createdAt\": \"2024-12-09T14:04:50.358Z\",\n        \"updatedAt\": \"2024-12-09T14:19:06.326Z\"\n    }\n}"
+									"body": "{\n    \"status\": false,\n    \"message\": \"Category is already exist.\",\n    \"data\": null\n}"
+								},
+								{
+									"name": "Add New Category",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "name",
+													"value": "light",
+													"type": "text"
+												},
+												{
+													"key": "image",
+													"type": "file",
+													"src": "pexels-hormel-1431176-2762247.jpg"
+												},
+												{
+													"key": "parent",
+													"value": "",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "{{LOCAL_URL}}/api/category",
+											"host": [
+												"{{LOCAL_URL}}"
+											],
+											"path": [
+												"api",
+												"category"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-RateLimit-Limit",
+											"value": "100"
+										},
+										{
+											"key": "X-RateLimit-Remaining",
+											"value": "97"
+										},
+										{
+											"key": "Date",
+											"value": "Mon, 09 Dec 2024 10:39:02 GMT"
+										},
+										{
+											"key": "X-RateLimit-Reset",
+											"value": "1733741584"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Content-Security-Policy",
+											"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+										},
+										{
+											"key": "Cross-Origin-Opener-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "Cross-Origin-Resource-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "Origin-Agent-Cluster",
+											"value": "?1"
+										},
+										{
+											"key": "Referrer-Policy",
+											"value": "no-referrer"
+										},
+										{
+											"key": "Strict-Transport-Security",
+											"value": "max-age=31536000; includeSubDomains"
+										},
+										{
+											"key": "X-Content-Type-Options",
+											"value": "nosniff"
+										},
+										{
+											"key": "X-DNS-Prefetch-Control",
+											"value": "off"
+										},
+										{
+											"key": "X-Download-Options",
+											"value": "noopen"
+										},
+										{
+											"key": "X-Frame-Options",
+											"value": "SAMEORIGIN"
+										},
+										{
+											"key": "X-Permitted-Cross-Domain-Policies",
+											"value": "none"
+										},
+										{
+											"key": "X-XSS-Protection",
+											"value": "0"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "352"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"160-+8YSFkQFck8++My6BVc2SamEebw\""
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"status\": true,\n    \"message\": \"Category Added Successfully\",\n    \"data\": {\n        \"name\": \"light\",\n        \"image\": {\n            \"url\": \"https://res.cloudinary.com/dt6idcgyw/image/upload/v1733740938/ptwpeabumqmp8qpszfl2.jpg\",\n            \"public_id\": \"ptwpeabumqmp8qpszfl2\"\n        },\n        \"parent\": null,\n        \"_id\": \"6756c98bee63fa3b6bae1b51\",\n        \"createdAt\": \"2024-12-09T10:42:19.420Z\",\n        \"updatedAt\": \"2024-12-09T10:42:19.420Z\",\n        \"__v\": 0\n    }\n}"
+								},
+								{
+									"name": "Parent not exists",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "name",
+													"value": "lighting",
+													"type": "text"
+												},
+												{
+													"key": "image",
+													"type": "file",
+													"src": "pexels-diimejii-2397351.jpg"
+												},
+												{
+													"key": "parent",
+													"value": "light",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "{{LOCAL_URL}}/api/category",
+											"host": [
+												"{{LOCAL_URL}}"
+											],
+											"path": [
+												"api",
+												"category"
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-RateLimit-Limit",
+											"value": "100"
+										},
+										{
+											"key": "X-RateLimit-Remaining",
+											"value": "99"
+										},
+										{
+											"key": "Date",
+											"value": "Mon, 09 Dec 2024 12:59:30 GMT"
+										},
+										{
+											"key": "X-RateLimit-Reset",
+											"value": "1733750071"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Content-Security-Policy",
+											"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+										},
+										{
+											"key": "Cross-Origin-Opener-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "Cross-Origin-Resource-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "Origin-Agent-Cluster",
+											"value": "?1"
+										},
+										{
+											"key": "Referrer-Policy",
+											"value": "no-referrer"
+										},
+										{
+											"key": "Strict-Transport-Security",
+											"value": "max-age=31536000; includeSubDomains"
+										},
+										{
+											"key": "X-Content-Type-Options",
+											"value": "nosniff"
+										},
+										{
+											"key": "X-DNS-Prefetch-Control",
+											"value": "off"
+										},
+										{
+											"key": "X-Download-Options",
+											"value": "noopen"
+										},
+										{
+											"key": "X-Frame-Options",
+											"value": "SAMEORIGIN"
+										},
+										{
+											"key": "X-Permitted-Cross-Domain-Policies",
+											"value": "none"
+										},
+										{
+											"key": "X-XSS-Protection",
+											"value": "0"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "65"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"41-ampFZYvD9IUARJPn5sPSJt0UP/4\""
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"status\": false,\n    \"message\": \"light category not found\",\n    \"data\": null\n}"
 								}
 							]
 						},
@@ -2700,6 +2850,643 @@
 									"path": [
 										"api",
 										"category"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Product Control",
+					"item": [
+						{
+							"name": "Add New Product",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{vault:authorization-secret}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "name",
+											"value": "Glass Coffee Table",
+											"type": "text"
+										},
+										{
+											"key": "brand",
+											"value": "MinimalistCo",
+											"type": "text"
+										},
+										{
+											"key": "category",
+											"value": "Living Room",
+											"type": "text"
+										},
+										{
+											"key": "description",
+											"value": "Transparent tempered glass coffee table with chrome legs and modern design. Transparent tempered glass coffee table with chrome legs and modern design. Transparent tempered glass coffee table with chrome legs and modern design. Transparent tempered glass coffee table with chrome legs and modern design.",
+											"type": "text"
+										},
+										{
+											"key": "original_price",
+											"value": "250",
+											"type": "text"
+										},
+										{
+											"key": "stock_num",
+											"value": "56",
+											"type": "text"
+										},
+										{
+											"key": "image",
+											"type": "file",
+											"src": "1j_hImw17/bruno-van-der-kraan-hxkduwR6BuE-unsplash.jpg"
+										},
+										{
+											"key": "available",
+											"value": "true",
+											"type": "text"
+										},
+										{
+											"key": "variations[0][color][id]",
+											"value": "1245",
+											"type": "text"
+										},
+										{
+											"key": "variations[0][color][hexadecimal]",
+											"value": "#567893",
+											"type": "text"
+										},
+										{
+											"key": "variations[0][color][plus_price]",
+											"value": "0",
+											"type": "text"
+										},
+										{
+											"key": "variations[0][color][stock_num]",
+											"value": "34",
+											"type": "text"
+										},
+										{
+											"key": "variations[0][size]",
+											"value": "Large",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{URL}}/api/product",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"api",
+										"product"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Add New Product",
+									"originalRequest": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiI2NzU0OTk5ZDBiZmUxYmQxYmEwMjlhZmIiLCJpYXQiOjE3MzkwMzE1OTF9.wv5jeMy78T6xoeWUxtBstF9cAwkD5WYpX8KCnRmqTrw",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "name",
+													"value": "simple dress",
+													"type": "text"
+												},
+												{
+													"key": "brand",
+													"value": "shein",
+													"type": "text"
+												},
+												{
+													"key": "category",
+													"value": "clothes",
+													"type": "text"
+												},
+												{
+													"key": "description",
+													"value": "comfortable dress ",
+													"type": "text"
+												},
+												{
+													"key": "original_price",
+													"value": "1221",
+													"type": "text"
+												},
+												{
+													"key": "stock_num",
+													"value": "21",
+													"type": "text"
+												},
+												{
+													"key": "image",
+													"type": "file",
+													"src": "d:\\Pictures\\4138239 - Copy.jpg"
+												},
+												{
+													"key": "available",
+													"value": "true",
+													"type": "text"
+												},
+												{
+													"key": "variations[0][color][id]",
+													"value": "1",
+													"type": "text"
+												},
+												{
+													"key": "variations[0][color][hexadecimal]",
+													"value": "#ffff",
+													"type": "text"
+												},
+												{
+													"key": "variations[0][color][plus_price]",
+													"value": "12",
+													"type": "text"
+												},
+												{
+													"key": "variations[0][color][stock_num]",
+													"value": "122",
+													"type": "text"
+												},
+												{
+													"key": "variations[0][size]",
+													"value": "m",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "{{LOCAL_URL}}/api/product",
+											"host": [
+												"{{LOCAL_URL}}"
+											],
+											"path": [
+												"api",
+												"product"
+											]
+										}
+									},
+									"_postman_previewlanguage": "Text",
+									"header": null,
+									"cookie": [],
+									"body": "{\r\n    \"status\": true,\r\n    \"message\": \"Product created\",\r\n    \"data\": {\r\n        \"name\": \"chair 1\",\r\n        \"slug\": \"chair-1\",\r\n        \"brand\": \"max\",\r\n        \"description\": \"compfortable chair\",\r\n        \"original_price\": 3245,\r\n        \"stock_num\": 214,\r\n        \"available\": false,\r\n        \"main_image\": {\r\n            \"url\": \"https://res.cloudinary.com/dt6idcgyw/image/upload/v1739139711/gnmyrceisvvc40qwcmg5.jpg\",\r\n            \"public_id\": \"gnmyrceisvvc40qwcmg5\"\r\n        },\r\n        \"variations\": [\r\n            {\r\n                \"color\": {\r\n                    \"hexadecimal\": \"#fff\",\r\n                    \"plus_price\": 0,\r\n                    \"stock_num\": 12\r\n                },\r\n                \"size\": \"45\",\r\n                \"_id\": \"67a92a815cec31f2782ff378\"\r\n            }\r\n        ],\r\n        \"category\": \"67a7981362c655b823a783c6\",\r\n        \"_id\": \"67a92a815cec31f2782ff377\",\r\n        \"images\": [],\r\n        \"createdAt\": \"2025-02-09T22:21:53.158Z\",\r\n        \"updatedAt\": \"2025-02-09T22:21:53.158Z\"\r\n    }\r\n}"
+								}
+							]
+						},
+						{
+							"name": "Upload product images",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "images",
+											"value": "",
+											"type": "file"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{URL}}/api/product/upload/:slug",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"api",
+										"product",
+										"upload",
+										":slug"
+									],
+									"variable": [
+										{
+											"key": "slug",
+											"value": ""
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update product",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/api/product/update/:productID",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"api",
+										"product",
+										"update",
+										":productID"
+									],
+									"variable": [
+										{
+											"key": "productID",
+											"value": ""
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete All Products",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{vault:authorization-secret}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/api/product",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"api",
+										"product"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Product",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{vault:authorization-secret}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/api/product/:slug",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"api",
+										"product",
+										":slug"
+									],
+									"variable": [
+										{
+											"key": "slug",
+											"value": "simple-dress-2"
+										},
+										{
+											"key": "productID",
+											"value": ""
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Order Control",
+					"item": [
+						{
+							"name": "Get all orders",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/api/order/all?order_status=",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"api",
+										"order",
+										"all"
+									],
+									"query": [
+										{
+											"key": "order_status",
+											"value": ""
+										}
+									]
+								},
+								"description": "Get all user orders with filter order by status"
+							},
+							"response": [
+								{
+									"name": "Order status filtred",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{local}}/api/order?order_status=Cancelled",
+											"host": [
+												"{{local}}"
+											],
+											"path": [
+												"api",
+												"order"
+											],
+											"query": [
+												{
+													"key": "order_status",
+													"value": "Cancelled"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-RateLimit-Limit",
+											"value": "100"
+										},
+										{
+											"key": "X-RateLimit-Remaining",
+											"value": "92"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 04 Mar 2025 18:38:41 GMT"
+										},
+										{
+											"key": "X-RateLimit-Reset",
+											"value": "1741114240"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Content-Security-Policy",
+											"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+										},
+										{
+											"key": "Cross-Origin-Opener-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "Cross-Origin-Resource-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "Origin-Agent-Cluster",
+											"value": "?1"
+										},
+										{
+											"key": "Referrer-Policy",
+											"value": "no-referrer"
+										},
+										{
+											"key": "Strict-Transport-Security",
+											"value": "max-age=31536000; includeSubDomains"
+										},
+										{
+											"key": "X-Content-Type-Options",
+											"value": "nosniff"
+										},
+										{
+											"key": "X-DNS-Prefetch-Control",
+											"value": "off"
+										},
+										{
+											"key": "X-Download-Options",
+											"value": "noopen"
+										},
+										{
+											"key": "X-Frame-Options",
+											"value": "SAMEORIGIN"
+										},
+										{
+											"key": "X-Permitted-Cross-Domain-Policies",
+											"value": "none"
+										},
+										{
+											"key": "X-XSS-Protection",
+											"value": "0"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "605"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"25d-0vyj4kWkj5mQtCdri+MNC2aXcOE\""
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"status\": true,\n    \"message\": \"Orders retrieved\",\n    \"data\": {\n        \"orders\": [\n            {\n                \"shipping_address\": {\n                    \"address\": \"alex\",\n                    \"city\": \"Alex\",\n                    \"country\": \"egypt\"\n                },\n                \"_id\": \"67c746271a19497edb9d4064\",\n                \"user\": \"6754999d0bfe1bd1ba029afb\",\n                \"phone\": \"0122964\",\n                \"order_number\": \"ORD-586\",\n                \"order_items\": [\n                    {\n                        \"product\": \"67a92a815cec31f2782ff377\",\n                        \"quantity\": 15,\n                        \"_id\": \"67c746271a19497edb9d4065\"\n                    }\n                ],\n                \"items_price\": 48675,\n                \"shipping_price\": 0,\n                \"tax_price\": 0,\n                \"total_quantity\": 15,\n                \"payment_method\": \"Cash\",\n                \"payment_status\": \"Pending\",\n                \"order_status\": \"Cancelled\",\n                \"total_price\": 48675,\n                \"createdAt\": \"2025-03-04T18:27:51.315Z\",\n                \"updatedAt\": \"2025-03-04T18:27:51.315Z\",\n                \"__v\": 0\n            }\n        ]\n    }\n}"
+								},
+								{
+									"name": "Get all",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{local}}/api/order?order_status=",
+											"host": [
+												"{{local}}"
+											],
+											"path": [
+												"api",
+												"order"
+											],
+											"query": [
+												{
+													"key": "order_status",
+													"value": ""
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-RateLimit-Limit",
+											"value": "100"
+										},
+										{
+											"key": "X-RateLimit-Remaining",
+											"value": "91"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 04 Mar 2025 18:39:25 GMT"
+										},
+										{
+											"key": "X-RateLimit-Reset",
+											"value": "1741114240"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Content-Security-Policy",
+											"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+										},
+										{
+											"key": "Cross-Origin-Opener-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "Cross-Origin-Resource-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "Origin-Agent-Cluster",
+											"value": "?1"
+										},
+										{
+											"key": "Referrer-Policy",
+											"value": "no-referrer"
+										},
+										{
+											"key": "Strict-Transport-Security",
+											"value": "max-age=31536000; includeSubDomains"
+										},
+										{
+											"key": "X-Content-Type-Options",
+											"value": "nosniff"
+										},
+										{
+											"key": "X-DNS-Prefetch-Control",
+											"value": "off"
+										},
+										{
+											"key": "X-Download-Options",
+											"value": "noopen"
+										},
+										{
+											"key": "X-Frame-Options",
+											"value": "SAMEORIGIN"
+										},
+										{
+											"key": "X-Permitted-Cross-Domain-Policies",
+											"value": "none"
+										},
+										{
+											"key": "X-XSS-Protection",
+											"value": "0"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "1050"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"41a-h0HJBmtu9YwtxRImZ9pdCnb/cLc\""
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"status\": true,\n    \"message\": \"Orders retrieved\",\n    \"data\": {\n        \"orders\": [\n            {\n                \"shipping_address\": {\n                    \"address\": \"alex\",\n                    \"city\": \"Alex\",\n                    \"country\": \"egypt\"\n                },\n                \"_id\": \"67c746271a19497edb9d4064\",\n                \"user\": \"6754999d0bfe1bd1ba029afb\",\n                \"phone\": \"0122964\",\n                \"order_number\": \"ORD-586\",\n                \"order_items\": [\n                    {\n                        \"product\": \"67a92a815cec31f2782ff377\",\n                        \"quantity\": 15,\n                        \"_id\": \"67c746271a19497edb9d4065\"\n                    }\n                ],\n                \"items_price\": 48675,\n                \"shipping_price\": 0,\n                \"tax_price\": 0,\n                \"total_quantity\": 15,\n                \"payment_method\": \"Cash\",\n                \"payment_status\": \"Pending\",\n                \"order_status\": \"Cancelled\",\n                \"total_price\": 48675,\n                \"createdAt\": \"2025-03-04T18:27:51.315Z\",\n                \"updatedAt\": \"2025-03-04T18:27:51.315Z\",\n                \"__v\": 0\n            },\n            {\n                \"shipping_address\": {\n                    \"address\": \"alex\",\n                    \"city\": \"Alex\",\n                    \"country\": \"egypt\"\n                },\n                \"_id\": \"67c746f7aef3dc52e88c56b6\",\n                \"user\": \"6754999d0bfe1bd1ba029afb\",\n                \"phone\": \"0122964\",\n                \"order_number\": \"ORD-499\",\n                \"order_items\": [],\n                \"items_price\": 0,\n                \"shipping_price\": 0,\n                \"tax_price\": 0,\n                \"total_quantity\": 0,\n                \"payment_method\": \"Cash\",\n                \"payment_status\": \"Pending\",\n                \"order_status\": \"Pending\",\n                \"total_price\": 0,\n                \"createdAt\": \"2025-03-04T18:31:19.907Z\",\n                \"updatedAt\": \"2025-03-04T18:31:19.907Z\",\n                \"__v\": 0\n            }\n        ]\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Update order",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/api/order/:id?paymentStatus=&orderStatus=",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"api",
+										"order",
+										":id"
+									],
+									"query": [
+										{
+											"key": "paymentStatus",
+											"value": ""
+										},
+										{
+											"key": "orderStatus",
+											"value": ""
+										}
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": ""
+										}
 									]
 								}
 							},
@@ -3117,6 +3904,1789 @@
 							],
 							"cookie": [],
 							"body": "{\n    \"status\": true,\n    \"message\": \"Category Fetched.\",\n    \"data\": {\n        \"image\": {\n            \"url\": \"https://res.cloudinary.com/dt6idcgyw/image/upload/v1733740209/hp8rleoxyreenqdwivoc.jpg\",\n            \"public_id\": \"hp8rleoxyreenqdwivoc\"\n        },\n        \"_id\": \"6756c6b112c499007b20c9a4\",\n        \"name\": \"chair\",\n        \"parent\": null,\n        \"createdAt\": \"2024-12-09T10:30:09.596Z\",\n        \"updatedAt\": \"2024-12-09T10:30:09.596Z\",\n        \"__v\": 0\n    }\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Product",
+			"item": [
+				{
+					"name": "Wishlist",
+					"item": [
+						{
+							"name": "Get wishlist products",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{vault:authorization-secret}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/api/product/wishlist/get",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"api",
+										"product",
+										"wishlist",
+										"get"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Get wishlist products",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{local}}api/product/wishlist/get",
+											"host": [
+												"{{local}}api"
+											],
+											"path": [
+												"product",
+												"wishlist",
+												"get"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-RateLimit-Limit",
+											"value": "100"
+										},
+										{
+											"key": "X-RateLimit-Remaining",
+											"value": "95"
+										},
+										{
+											"key": "Date",
+											"value": "Sun, 02 Mar 2025 20:36:43 GMT"
+										},
+										{
+											"key": "X-RateLimit-Reset",
+											"value": "1740948663"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Content-Security-Policy",
+											"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+										},
+										{
+											"key": "Cross-Origin-Opener-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "Cross-Origin-Resource-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "Origin-Agent-Cluster",
+											"value": "?1"
+										},
+										{
+											"key": "Referrer-Policy",
+											"value": "no-referrer"
+										},
+										{
+											"key": "Strict-Transport-Security",
+											"value": "max-age=31536000; includeSubDomains"
+										},
+										{
+											"key": "X-Content-Type-Options",
+											"value": "nosniff"
+										},
+										{
+											"key": "X-DNS-Prefetch-Control",
+											"value": "off"
+										},
+										{
+											"key": "X-Download-Options",
+											"value": "noopen"
+										},
+										{
+											"key": "X-Frame-Options",
+											"value": "SAMEORIGIN"
+										},
+										{
+											"key": "X-Permitted-Cross-Domain-Policies",
+											"value": "none"
+										},
+										{
+											"key": "X-XSS-Protection",
+											"value": "0"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "803"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"323-B3rQnCWjjqsYLebWeEAMLeEQ7rA\""
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"status\": true,\n    \"message\": \"Wishlist fetched.\",\n    \"data\": {\n        \"wishlist\": [\n            {\n                \"main_image\": {\n                    \"url\": \"https://res.cloudinary.com/dt6idcgyw/image/upload/v1739139711/gnmyrceisvvc40qwcmg5.jpg\",\n                    \"public_id\": \"gnmyrceisvvc40qwcmg5\"\n                },\n                \"_id\": \"67a92a815cec31f2782ff377\",\n                \"name\": \"chair 1\",\n                \"slug\": \"chair-1\",\n                \"brand\": \"bdgtf\",\n                \"description\": \"compfortable chair\",\n                \"original_price\": 3245,\n                \"stock_num\": 214,\n                \"available\": false,\n                \"variations\": [\n                    {\n                        \"color\": {\n                            \"hexadecimal\": \"#fff\",\n                            \"plus_price\": 0,\n                            \"stock_num\": 12\n                        },\n                        \"size\": \"45\",\n                        \"_id\": \"67a92a815cec31f2782ff378\"\n                    }\n                ],\n                \"category\": \"67a7981362c655b823a783c6\",\n                \"images\": [\n                    {\n                        \"url\": \"https://res.cloudinary.com/dt6idcgyw/image/upload/v1739141787/vdrstuwnqqjefncoo1qp.jpg\",\n                        \"public_id\": \"vdrstuwnqqjefncoo1qp\",\n                        \"_id\": \"67a9329c3dbd861d6897a64c\"\n                    }\n                ],\n                \"createdAt\": \"2025-02-09T22:21:53.158Z\",\n                \"updatedAt\": \"2025-02-09T22:56:28.545Z\"\n            }\n        ]\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Add  product to wishlist",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/api/product/wishlist/:slug",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"api",
+										"product",
+										"wishlist",
+										":slug"
+									],
+									"variable": [
+										{
+											"key": "slug",
+											"value": ""
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Add  product to wishlist",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "{{local}}api/product/wishlist/:slug",
+											"host": [
+												"{{local}}api"
+											],
+											"path": [
+												"product",
+												"wishlist",
+												":slug"
+											],
+											"variable": [
+												{
+													"key": "slug",
+													"value": "chair-1"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-RateLimit-Limit",
+											"value": "100"
+										},
+										{
+											"key": "X-RateLimit-Remaining",
+											"value": "96"
+										},
+										{
+											"key": "Date",
+											"value": "Sun, 02 Mar 2025 20:36:38 GMT"
+										},
+										{
+											"key": "X-RateLimit-Reset",
+											"value": "1740948663"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Content-Security-Policy",
+											"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+										},
+										{
+											"key": "Cross-Origin-Opener-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "Cross-Origin-Resource-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "Origin-Agent-Cluster",
+											"value": "?1"
+										},
+										{
+											"key": "Referrer-Policy",
+											"value": "no-referrer"
+										},
+										{
+											"key": "Strict-Transport-Security",
+											"value": "max-age=31536000; includeSubDomains"
+										},
+										{
+											"key": "X-Content-Type-Options",
+											"value": "nosniff"
+										},
+										{
+											"key": "X-DNS-Prefetch-Control",
+											"value": "off"
+										},
+										{
+											"key": "X-Download-Options",
+											"value": "noopen"
+										},
+										{
+											"key": "X-Frame-Options",
+											"value": "SAMEORIGIN"
+										},
+										{
+											"key": "X-Permitted-Cross-Domain-Policies",
+											"value": "none"
+										},
+										{
+											"key": "X-XSS-Protection",
+											"value": "0"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "812"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"32c-LQfafVguQ+HRoYhwCwR2VcOgZCY\""
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"status\": true,\n    \"message\": \"Product added to wishlist.\",\n    \"data\": {\n        \"wishlist\": [\n            {\n                \"main_image\": {\n                    \"url\": \"https://res.cloudinary.com/dt6idcgyw/image/upload/v1739139711/gnmyrceisvvc40qwcmg5.jpg\",\n                    \"public_id\": \"gnmyrceisvvc40qwcmg5\"\n                },\n                \"_id\": \"67a92a815cec31f2782ff377\",\n                \"name\": \"chair 1\",\n                \"slug\": \"chair-1\",\n                \"brand\": \"bdgtf\",\n                \"description\": \"compfortable chair\",\n                \"original_price\": 3245,\n                \"stock_num\": 214,\n                \"available\": false,\n                \"variations\": [\n                    {\n                        \"color\": {\n                            \"hexadecimal\": \"#fff\",\n                            \"plus_price\": 0,\n                            \"stock_num\": 12\n                        },\n                        \"size\": \"45\",\n                        \"_id\": \"67a92a815cec31f2782ff378\"\n                    }\n                ],\n                \"category\": \"67a7981362c655b823a783c6\",\n                \"images\": [\n                    {\n                        \"url\": \"https://res.cloudinary.com/dt6idcgyw/image/upload/v1739141787/vdrstuwnqqjefncoo1qp.jpg\",\n                        \"public_id\": \"vdrstuwnqqjefncoo1qp\",\n                        \"_id\": \"67a9329c3dbd861d6897a64c\"\n                    }\n                ],\n                \"createdAt\": \"2025-02-09T22:21:53.158Z\",\n                \"updatedAt\": \"2025-02-09T22:56:28.545Z\"\n            }\n        ]\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Remove  product from wishlist",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/api/product/wishlist/remove/:slug",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"api",
+										"product",
+										"wishlist",
+										"remove",
+										":slug"
+									],
+									"variable": [
+										{
+											"key": "slug",
+											"value": ""
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Remove  product from wishlist",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{local}}api/product/wishlist/remove/:slug",
+											"host": [
+												"{{local}}api"
+											],
+											"path": [
+												"product",
+												"wishlist",
+												"remove",
+												":slug"
+											],
+											"variable": [
+												{
+													"key": "slug",
+													"value": "chair-1"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-RateLimit-Limit",
+											"value": "100"
+										},
+										{
+											"key": "X-RateLimit-Remaining",
+											"value": "94"
+										},
+										{
+											"key": "Date",
+											"value": "Sun, 02 Mar 2025 20:36:48 GMT"
+										},
+										{
+											"key": "X-RateLimit-Reset",
+											"value": "1740948663"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Content-Security-Policy",
+											"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+										},
+										{
+											"key": "Cross-Origin-Opener-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "Cross-Origin-Resource-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "Origin-Agent-Cluster",
+											"value": "?1"
+										},
+										{
+											"key": "Referrer-Policy",
+											"value": "no-referrer"
+										},
+										{
+											"key": "Strict-Transport-Security",
+											"value": "max-age=31536000; includeSubDomains"
+										},
+										{
+											"key": "X-Content-Type-Options",
+											"value": "nosniff"
+										},
+										{
+											"key": "X-DNS-Prefetch-Control",
+											"value": "off"
+										},
+										{
+											"key": "X-Download-Options",
+											"value": "noopen"
+										},
+										{
+											"key": "X-Frame-Options",
+											"value": "SAMEORIGIN"
+										},
+										{
+											"key": "X-Permitted-Cross-Domain-Policies",
+											"value": "none"
+										},
+										{
+											"key": "X-XSS-Protection",
+											"value": "0"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "81"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"51-QUB8ltqJXVWmvcoatgEyaDFy1Ww\""
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"status\": true,\n    \"message\": \"Product removed from wishlist.\",\n    \"data\": {\n        \"wishlist\": []\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Clear wishlist",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/api/product/wishlist/clear",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"api",
+										"product",
+										"wishlist",
+										"clear"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Get Product",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/api/product/:slug",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"product",
+								":slug"
+							],
+							"variable": [
+								{
+									"key": "slug",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Products",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/api/product/all",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"product",
+								"all"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "brand",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "name",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "categoryId",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "min",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "max",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Cart",
+			"item": [
+				{
+					"name": "Get user cart",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/api/cart",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"cart"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get user cart",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{local}}/api/cart",
+									"host": [
+										"{{local}}"
+									],
+									"path": [
+										"api",
+										"cart"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "100"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "99"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 02 Mar 2025 21:52:43 GMT"
+								},
+								{
+									"key": "X-RateLimit-Reset",
+									"value": "1740953264"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Resource-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Origin-Agent-Cluster",
+									"value": "?1"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=31536000; includeSubDomains"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-DNS-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "436"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1b4-1wNFBGxDNCh+XeZz/gLXwBVEa00\""
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": true,\n    \"message\": \"Cart retrieved\",\n    \"data\": {\n        \"cart\": {\n            \"_id\": \"67c4d7ecc83b14ccd69a5d42\",\n            \"userId\": \"6754999d0bfe1bd1ba029afb\",\n            \"products\": [\n                {\n                    \"product\": {\n                        \"_id\": \"67b2340505f4bb49ac92c11e\",\n                        \"name\": \"cd\",\n                        \"slug\": \"cd\",\n                        \"brand\": \"rfw\",\n                        \"description\": \"e312\",\n                        \"original_price\": 12,\n                        \"stock_num\": 2,\n                        \"available\": true,\n                        \"variations\": [\n                            {\n                                \"color\": {\n                                    \"hexadecimal\": \"f3we\",\n                                    \"plus_price\": 323,\n                                    \"stock_num\": 2\n                                },\n                                \"size\": \"20\",\n                                \"_id\": \"67b2340505f4bb49ac92c11f\"\n                            }\n                        ],\n                        \"category\": \"67b228a5329cf67423dedb38\",\n                        \"images\": [],\n                        \"createdAt\": \"2025-02-16T18:52:53.730Z\",\n                        \"updatedAt\": \"2025-02-16T18:52:53.730Z\"\n                    },\n                    \"quantity\": 2,\n                    \"_id\": \"67c4d858c988127fdd4b7ce8\"\n                }\n            ],\n            \"total_price\": 24,\n            \"total_quantity\": 2,\n            \"createdAt\": \"2025-03-02T22:13:00.302Z\",\n            \"updatedAt\": \"2025-03-02T22:15:48.474Z\",\n            \"__v\": 1\n        }\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Add product to cart",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"slug\":\"\",\r\n    \"quantity\": 0\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/api/cart",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"cart"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Add product to cart",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"slug\":\"chair-1\",\r\n    \"quantity\": 2\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{local}}/api/cart",
+									"host": [
+										"{{local}}"
+									],
+									"path": [
+										"api",
+										"cart"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "100"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "85"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 02 Mar 2025 21:44:50 GMT"
+								},
+								{
+									"key": "X-RateLimit-Reset",
+									"value": "1740952563"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Resource-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Origin-Agent-Cluster",
+									"value": "?1"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=31536000; includeSubDomains"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-DNS-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1522"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"5f2-YSPRzA6NsKi2A0cb0Prp/FLgYkM\""
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": true,\n    \"message\": \"Product added to cart\",\n    \"data\": {\n        \"cart\": {\n            \"_id\": \"67c4cdafd9a80568ae625321\",\n            \"userId\": \"6754999d0bfe1bd1ba029afb\",\n            \"products\": [\n                {\n                    \"product\": {\n                        \"_id\": \"67b2340505f4bb49ac92c11e\",\n                        \"name\": \"cd\",\n                        \"slug\": \"cd\",\n                        \"brand\": \"rfw\",\n                        \"description\": \"e312\",\n                        \"original_price\": 12,\n                        \"stock_num\": 2,\n                        \"available\": true,\n                        \"variations\": [\n                            {\n                                \"color\": {\n                                    \"hexadecimal\": \"f3we\",\n                                    \"plus_price\": 323,\n                                    \"stock_num\": 2\n                                },\n                                \"size\": \"20\",\n                                \"_id\": \"67b2340505f4bb49ac92c11f\"\n                            }\n                        ],\n                        \"category\": \"67b228a5329cf67423dedb38\",\n                        \"images\": [],\n                        \"createdAt\": \"2025-02-16T18:52:53.730Z\",\n                        \"updatedAt\": \"2025-02-16T18:52:53.730Z\"\n                    },\n                    \"quantity\": 4,\n                    \"_id\": \"67c4d12a87496a65179b7bea\"\n                },\n                {\n                    \"product\": {\n                        \"main_image\": {\n                            \"url\": \"https://res.cloudinary.com/dt6idcgyw/image/upload/v1739139711/gnmyrceisvvc40qwcmg5.jpg\",\n                            \"public_id\": \"gnmyrceisvvc40qwcmg5\"\n                        },\n                        \"_id\": \"67a92a815cec31f2782ff377\",\n                        \"name\": \"chair 1\",\n                        \"slug\": \"chair-1\",\n                        \"brand\": \"bdgtf\",\n                        \"description\": \"compfortable chair\",\n                        \"original_price\": 3245,\n                        \"stock_num\": 214,\n                        \"available\": false,\n                        \"variations\": [\n                            {\n                                \"color\": {\n                                    \"hexadecimal\": \"#fff\",\n                                    \"plus_price\": 0,\n                                    \"stock_num\": 12\n                                },\n                                \"size\": \"45\",\n                                \"_id\": \"67a92a815cec31f2782ff378\"\n                            }\n                        ],\n                        \"category\": \"67a7981362c655b823a783c6\",\n                        \"images\": [\n                            {\n                                \"url\": \"https://res.cloudinary.com/dt6idcgyw/image/upload/v1739141787/vdrstuwnqqjefncoo1qp.jpg\",\n                                \"public_id\": \"vdrstuwnqqjefncoo1qp\",\n                                \"_id\": \"67a9329c3dbd861d6897a64c\"\n                            }\n                        ],\n                        \"createdAt\": \"2025-02-09T22:21:53.158Z\",\n                        \"updatedAt\": \"2025-02-09T22:56:28.545Z\"\n                    },\n                    \"quantity\": 2,\n                    \"_id\": \"67c4d15287496a65179b7c00\"\n                }\n            ],\n            \"total_price\": 6538,\n            \"total_quantity\": 6,\n            \"createdAt\": \"2025-03-02T21:29:19.601Z\",\n            \"updatedAt\": \"2025-03-02T21:44:50.699Z\",\n            \"__v\": 7\n        }\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Remove product from cart",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/api/cart/remove/:slug",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"cart",
+								"remove",
+								":slug"
+							],
+							"variable": [
+								{
+									"key": "slug",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Remove product from cart",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{local}}/api/cart/remove/:slug",
+									"host": [
+										"{{local}}"
+									],
+									"path": [
+										"api",
+										"cart",
+										"remove",
+										":slug"
+									],
+									"variable": [
+										{
+											"key": "slug",
+											"value": "cd"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "100"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "84"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 02 Mar 2025 21:45:59 GMT"
+								},
+								{
+									"key": "X-RateLimit-Reset",
+									"value": "1740952563"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Resource-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Origin-Agent-Cluster",
+									"value": "?1"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=31536000; includeSubDomains"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-DNS-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1526"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"5f6-n95dY89U5qeJ66PiXtvJhoPEbc8\""
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": true,\n    \"message\": \"Product removed from cart\",\n    \"data\": {\n        \"cart\": {\n            \"_id\": \"67c4cdafd9a80568ae625321\",\n            \"userId\": \"6754999d0bfe1bd1ba029afb\",\n            \"products\": [\n                {\n                    \"product\": {\n                        \"_id\": \"67b2340505f4bb49ac92c11e\",\n                        \"name\": \"cd\",\n                        \"slug\": \"cd\",\n                        \"brand\": \"rfw\",\n                        \"description\": \"e312\",\n                        \"original_price\": 12,\n                        \"stock_num\": 2,\n                        \"available\": true,\n                        \"variations\": [\n                            {\n                                \"color\": {\n                                    \"hexadecimal\": \"f3we\",\n                                    \"plus_price\": 323,\n                                    \"stock_num\": 2\n                                },\n                                \"size\": \"20\",\n                                \"_id\": \"67b2340505f4bb49ac92c11f\"\n                            }\n                        ],\n                        \"category\": \"67b228a5329cf67423dedb38\",\n                        \"images\": [],\n                        \"createdAt\": \"2025-02-16T18:52:53.730Z\",\n                        \"updatedAt\": \"2025-02-16T18:52:53.730Z\"\n                    },\n                    \"quantity\": 3,\n                    \"_id\": \"67c4d12a87496a65179b7bea\"\n                },\n                {\n                    \"product\": {\n                        \"main_image\": {\n                            \"url\": \"https://res.cloudinary.com/dt6idcgyw/image/upload/v1739139711/gnmyrceisvvc40qwcmg5.jpg\",\n                            \"public_id\": \"gnmyrceisvvc40qwcmg5\"\n                        },\n                        \"_id\": \"67a92a815cec31f2782ff377\",\n                        \"name\": \"chair 1\",\n                        \"slug\": \"chair-1\",\n                        \"brand\": \"bdgtf\",\n                        \"description\": \"compfortable chair\",\n                        \"original_price\": 3245,\n                        \"stock_num\": 214,\n                        \"available\": false,\n                        \"variations\": [\n                            {\n                                \"color\": {\n                                    \"hexadecimal\": \"#fff\",\n                                    \"plus_price\": 0,\n                                    \"stock_num\": 12\n                                },\n                                \"size\": \"45\",\n                                \"_id\": \"67a92a815cec31f2782ff378\"\n                            }\n                        ],\n                        \"category\": \"67a7981362c655b823a783c6\",\n                        \"images\": [\n                            {\n                                \"url\": \"https://res.cloudinary.com/dt6idcgyw/image/upload/v1739141787/vdrstuwnqqjefncoo1qp.jpg\",\n                                \"public_id\": \"vdrstuwnqqjefncoo1qp\",\n                                \"_id\": \"67a9329c3dbd861d6897a64c\"\n                            }\n                        ],\n                        \"createdAt\": \"2025-02-09T22:21:53.158Z\",\n                        \"updatedAt\": \"2025-02-09T22:56:28.545Z\"\n                    },\n                    \"quantity\": 2,\n                    \"_id\": \"67c4d15287496a65179b7c00\"\n                }\n            ],\n            \"total_price\": 6526,\n            \"total_quantity\": 5,\n            \"createdAt\": \"2025-03-02T21:29:19.601Z\",\n            \"updatedAt\": \"2025-03-02T21:46:00.144Z\",\n            \"__v\": 7\n        }\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Clear cart",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/api/cart/clear",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"cart",
+								"clear"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Clear cart",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{local}}/api/cart/clear",
+									"host": [
+										"{{local}}"
+									],
+									"path": [
+										"api",
+										"cart",
+										"clear"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "100"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "98"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 02 Mar 2025 21:53:06 GMT"
+								},
+								{
+									"key": "X-RateLimit-Reset",
+									"value": "1740953264"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Resource-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Origin-Agent-Cluster",
+									"value": "?1"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=31536000; includeSubDomains"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-DNS-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "70"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"46-VFYsBqCiuzFs0WC46jtXnN/N5hU\""
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": true,\n    \"message\": \"All products removed from cart\",\n    \"data\": null\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Orders",
+			"item": [
+				{
+					"name": "Create order",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/api/order",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"order"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "empty cart",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"shippingAddress\":{\r\n        \"address\": \"fs\",\r\n        \"city\": \"sac\",\r\n        \"postalCode\": \"321\",\r\n        \"country\": \"egypt\"\r\n    },\r\n    \"phone\":\"0122964\",\r\n    \"paymentMethod\":\"Cash\" //Not required 'Cash' is defualt\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{local}}/api/order",
+									"host": [
+										"{{local}}"
+									],
+									"path": [
+										"api",
+										"order"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "100"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "99"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 04 Mar 2025 18:32:58 GMT"
+								},
+								{
+									"key": "X-RateLimit-Reset",
+									"value": "1741114079"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Resource-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Origin-Agent-Cluster",
+									"value": "?1"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=31536000; includeSubDomains"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-DNS-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "54"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"36-5ALmcvAkVZmZg8kDAtUde6nf520\""
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": false,\n    \"message\": \"Cart is empty\",\n    \"data\": null\n}"
+						},
+						{
+							"name": "New order",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"shippingAddress\":{\r\n        \"address\": \"fs\",\r\n        \"city\": \"sac\",\r\n        \"postalCode\": \"321\",\r\n        \"country\": \"egypt\"\r\n    },\r\n    \"phone\":\"0122964\",\r\n    \"paymentMethod\":\"Cash\" //Not required 'Cash' is defualt\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{local}}/api/order",
+									"host": [
+										"{{local}}"
+									],
+									"path": [
+										"api",
+										"order"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "100"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "86"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 04 Mar 2025 18:40:53 GMT"
+								},
+								{
+									"key": "X-RateLimit-Reset",
+									"value": "1741114240"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Resource-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Origin-Agent-Cluster",
+									"value": "?1"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=31536000; includeSubDomains"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-DNS-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "590"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"24e-9dP0mt+hUUuhVTmbjmpR4YQNQCk\""
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": true,\n    \"message\": \"Order created\",\n    \"data\": {\n        \"order\": {\n            \"shipping_address\": {\n                \"address\": \"fs\",\n                \"city\": \"sac\",\n                \"country\": \"egypt\"\n            },\n            \"_id\": \"67c749360ee3d0f6f1aa769c\",\n            \"user\": \"6754999d0bfe1bd1ba029afb\",\n            \"phone\": \"0122964\",\n            \"order_number\": \"ORD-633\",\n            \"order_items\": [\n                {\n                    \"product\": \"67a92a815cec31f2782ff377\",\n                    \"quantity\": 1,\n                    \"_id\": \"67c749360ee3d0f6f1aa769d\"\n                }\n            ],\n            \"items_price\": 3245,\n            \"shipping_price\": 0,\n            \"tax_price\": 0,\n            \"total_quantity\": 1,\n            \"payment_method\": \"Cash\",\n            \"payment_status\": \"Pending\",\n            \"order_status\": \"Pending\",\n            \"total_price\": 3245,\n            \"createdAt\": \"2025-03-04T18:40:54.058Z\",\n            \"updatedAt\": \"2025-03-04T18:40:54.058Z\",\n            \"__v\": 0\n        }\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Get all users orders",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/api/order?order_status=",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"order"
+							],
+							"query": [
+								{
+									"key": "order_status",
+									"value": ""
+								}
+							]
+						},
+						"description": "Get all user orders with filter order by status"
+					},
+					"response": [
+						{
+							"name": "Order status filtred",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{local}}/api/order?order_status=Cancelled",
+									"host": [
+										"{{local}}"
+									],
+									"path": [
+										"api",
+										"order"
+									],
+									"query": [
+										{
+											"key": "order_status",
+											"value": "Cancelled"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "100"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "92"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 04 Mar 2025 18:38:41 GMT"
+								},
+								{
+									"key": "X-RateLimit-Reset",
+									"value": "1741114240"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Resource-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Origin-Agent-Cluster",
+									"value": "?1"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=31536000; includeSubDomains"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-DNS-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "605"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"25d-0vyj4kWkj5mQtCdri+MNC2aXcOE\""
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": true,\n    \"message\": \"Orders retrieved\",\n    \"data\": {\n        \"orders\": [\n            {\n                \"shipping_address\": {\n                    \"address\": \"alex\",\n                    \"city\": \"Alex\",\n                    \"country\": \"egypt\"\n                },\n                \"_id\": \"67c746271a19497edb9d4064\",\n                \"user\": \"6754999d0bfe1bd1ba029afb\",\n                \"phone\": \"0122964\",\n                \"order_number\": \"ORD-586\",\n                \"order_items\": [\n                    {\n                        \"product\": \"67a92a815cec31f2782ff377\",\n                        \"quantity\": 15,\n                        \"_id\": \"67c746271a19497edb9d4065\"\n                    }\n                ],\n                \"items_price\": 48675,\n                \"shipping_price\": 0,\n                \"tax_price\": 0,\n                \"total_quantity\": 15,\n                \"payment_method\": \"Cash\",\n                \"payment_status\": \"Pending\",\n                \"order_status\": \"Cancelled\",\n                \"total_price\": 48675,\n                \"createdAt\": \"2025-03-04T18:27:51.315Z\",\n                \"updatedAt\": \"2025-03-04T18:27:51.315Z\",\n                \"__v\": 0\n            }\n        ]\n    }\n}"
+						},
+						{
+							"name": "Get all",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{local}}/api/order?order_status=",
+									"host": [
+										"{{local}}"
+									],
+									"path": [
+										"api",
+										"order"
+									],
+									"query": [
+										{
+											"key": "order_status",
+											"value": ""
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "100"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "91"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 04 Mar 2025 18:39:25 GMT"
+								},
+								{
+									"key": "X-RateLimit-Reset",
+									"value": "1741114240"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Resource-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Origin-Agent-Cluster",
+									"value": "?1"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=31536000; includeSubDomains"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-DNS-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1050"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"41a-h0HJBmtu9YwtxRImZ9pdCnb/cLc\""
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": true,\n    \"message\": \"Orders retrieved\",\n    \"data\": {\n        \"orders\": [\n            {\n                \"shipping_address\": {\n                    \"address\": \"alex\",\n                    \"city\": \"Alex\",\n                    \"country\": \"egypt\"\n                },\n                \"_id\": \"67c746271a19497edb9d4064\",\n                \"user\": \"6754999d0bfe1bd1ba029afb\",\n                \"phone\": \"0122964\",\n                \"order_number\": \"ORD-586\",\n                \"order_items\": [\n                    {\n                        \"product\": \"67a92a815cec31f2782ff377\",\n                        \"quantity\": 15,\n                        \"_id\": \"67c746271a19497edb9d4065\"\n                    }\n                ],\n                \"items_price\": 48675,\n                \"shipping_price\": 0,\n                \"tax_price\": 0,\n                \"total_quantity\": 15,\n                \"payment_method\": \"Cash\",\n                \"payment_status\": \"Pending\",\n                \"order_status\": \"Cancelled\",\n                \"total_price\": 48675,\n                \"createdAt\": \"2025-03-04T18:27:51.315Z\",\n                \"updatedAt\": \"2025-03-04T18:27:51.315Z\",\n                \"__v\": 0\n            },\n            {\n                \"shipping_address\": {\n                    \"address\": \"alex\",\n                    \"city\": \"Alex\",\n                    \"country\": \"egypt\"\n                },\n                \"_id\": \"67c746f7aef3dc52e88c56b6\",\n                \"user\": \"6754999d0bfe1bd1ba029afb\",\n                \"phone\": \"0122964\",\n                \"order_number\": \"ORD-499\",\n                \"order_items\": [],\n                \"items_price\": 0,\n                \"shipping_price\": 0,\n                \"tax_price\": 0,\n                \"total_quantity\": 0,\n                \"payment_method\": \"Cash\",\n                \"payment_status\": \"Pending\",\n                \"order_status\": \"Pending\",\n                \"total_price\": 0,\n                \"createdAt\": \"2025-03-04T18:31:19.907Z\",\n                \"updatedAt\": \"2025-03-04T18:31:19.907Z\",\n                \"__v\": 0\n            }\n        ]\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Get one order",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/api/order/one/:id",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"order",
+								"one",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "New Request",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{local}}/api/order/:id",
+									"host": [
+										"{{local}}"
+									],
+									"path": [
+										"api",
+										"order",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "67c749360ee3d0f6f1aa769c"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "100"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "99"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 04 Mar 2025 18:42:33 GMT"
+								},
+								{
+									"key": "X-RateLimit-Reset",
+									"value": "1741114654"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Resource-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Origin-Agent-Cluster",
+									"value": "?1"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=31536000; includeSubDomains"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-DNS-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "592"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"250-xDZ9vSFQ/gsC5t+fXPUOCcQu0Kg\""
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": true,\n    \"message\": \"Order retrieved\",\n    \"data\": {\n        \"order\": {\n            \"shipping_address\": {\n                \"address\": \"fs\",\n                \"city\": \"sac\",\n                \"country\": \"egypt\"\n            },\n            \"_id\": \"67c749360ee3d0f6f1aa769c\",\n            \"user\": \"6754999d0bfe1bd1ba029afb\",\n            \"phone\": \"0122964\",\n            \"order_number\": \"ORD-633\",\n            \"order_items\": [\n                {\n                    \"product\": \"67a92a815cec31f2782ff377\",\n                    \"quantity\": 1,\n                    \"_id\": \"67c749360ee3d0f6f1aa769d\"\n                }\n            ],\n            \"items_price\": 3245,\n            \"shipping_price\": 0,\n            \"tax_price\": 0,\n            \"total_quantity\": 1,\n            \"payment_method\": \"Cash\",\n            \"payment_status\": \"Pending\",\n            \"order_status\": \"Pending\",\n            \"total_price\": 3245,\n            \"createdAt\": \"2025-03-04T18:40:54.058Z\",\n            \"updatedAt\": \"2025-03-04T18:40:54.058Z\",\n            \"__v\": 0\n        }\n    }\n}"
 						}
 					]
 				}

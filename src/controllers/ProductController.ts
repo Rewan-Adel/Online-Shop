@@ -34,7 +34,7 @@ class ProductController{
     async getProducts(req: Request, res: Response): Promise<void>{
         try{
             const response = await this.ProductRepository.findAll( 
-                req.query.page as string, req.query.name as string, req.query.brand as string, req.query.categoryName as string,
+                req.query.page as string, req.query.name as string, req.query.brand as string, req.query.categoryId as string,
                 req.query.min as unknown as number, req.query.max as unknown as number);
             successResponse(res, 200, response.message, response.data?? undefined);
         }
