@@ -171,6 +171,18 @@ class ProductController{
             handleError(error, res);
         }
     };
+
+    async getTitlesAndImages(req: Request, res: Response): Promise<void>{
+        try{
+            const response = await this.ProductRepository.getTitlesAndImages();
+            if(response.length > 0)
+                successResponse(res, 200, "Product titles and images fetched.", response);
+            else
+                failedResponse(res, 404, "No products found.");
+        }catch(error){
+            handleError(error, res);
+        }
+    };
 };
 
 export default ProductController;

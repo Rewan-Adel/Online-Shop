@@ -7,6 +7,7 @@ import ProductType       from '../types/ProductType';
 import Product           from '../models/product.model';
 import User              from '../models/user.model';
 import CategoryService   from './CategoryService';
+import { stat } from 'fs';
 
 type ProductValue = {
     name?       : string,
@@ -400,5 +401,16 @@ class ProductService implements ProductRepository{
             return null;
         }
     };
+
+    public async getTitlesAndImages(): Promise<{title: string, main_image: {}, image: string}[] | []> {
+        try {
+            const products = await Product.find({}, { name: 1, main_image: 1, images: 1 });
+            return products as unknown as {title: string, main_image: {}, image: string}[] | [];
+        } catch (error: unknown) {
+            Logger.error(error);
+            return [];
+        }
+    };
+
 };
 export default ProductService;

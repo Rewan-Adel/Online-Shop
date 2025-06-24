@@ -2,8 +2,8 @@ import  ReviewType from '../types/ReviewType';
 
 interface ReviewRepository {
     createReview(reviewData: ReviewType): Promise<ReviewType | null>;
-    // getReviewById(reviewId: string): Promise<ReviewType | null>;
-    // getAllReviews(productId: string): Promise<ReviewType[]>;
+    getReviewById(reviewId: string): Promise<ReviewType | null>;
+    getAllReviews(productId: string): Promise<ReviewType[]>;
     // replyReview(reviewId: string, replyData: { userId: string; content: string }): Promise<boolean>;
 }
 

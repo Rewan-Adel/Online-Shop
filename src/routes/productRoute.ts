@@ -14,6 +14,7 @@ const productController = new ProductController(productService);
  */
 productRoutes.get("/all",   (req, res) => productController.getProducts(req, res));
 productRoutes.get("/:slug", (req, res) => productController.getProduct(req, res));
+productRoutes.get("/titles/images", (req, res) => productController.getTitlesAndImages(req, res));
 
 productRoutes.use(auth.authenticated);
 productRoutes.use(auth.isAdmin);

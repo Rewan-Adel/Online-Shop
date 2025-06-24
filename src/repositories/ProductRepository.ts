@@ -23,6 +23,7 @@ interface ProductRepository{
     removeAllFromWishlist(userID: string): Promise<boolean>;
     getWishlist(userID: string): Promise<ProductType[] | null>;
     checkProductQuantity(productId: string, quantity: number): Promise<string | ProductType | null>; 
+    getTitlesAndImages(): Promise<{title: string, main_image: {}, image: string}[] | []> ;
 };
 
 export default ProductRepository;

@@ -8,9 +8,6 @@ class ReviewService implements ReviewRepository {
 
     async createReview(reviewData: ReviewType): Promise<ReviewType | null> {
        try{
-           if (!reviewData.productId || !reviewData.userId || !reviewData.rating || !reviewData.title || !reviewData.content) {
-               throw new Error("Missing required fields for review creation.");
-            }
             if (reviewData.rating < 1 || reviewData.rating > 5) {
               throw new Error("Rating must be between 1 and 5.");
             }
@@ -40,6 +37,38 @@ class ReviewService implements ReviewRepository {
               return null;
        }
     }
+
+    async getReviewById(reviewId: string): Promise<ReviewType | null> {
+        try {
+            const review = await Review.findById(reviewId).populate('userId', 'name email').populate('productId', 'name');
+            if (!review) {
+               return null; 
+            }
+            return review as unknown as ReviewType;
+        } catch (error: unknown) {
+            if (error instanceof Error) {
+                console.error("Error fetching review:", error.message);
+            } else {
+                console.error("An unknown error occurred while fetching review.");
+            }
+            return null;
+        }
+    }
+
+    async getAllReviews(productId: string): Promise<ReviewType[]>{
+        try {
+            const reviews = await Review.find({ productId }).populate('userId', '_id name email').populate('productId', '_id name');
+            return reviews as unknown as ReviewType[];
+        } catch (error: unknown) {
+            if (error instanceof Error) {
+                console.error("Error fetching reviews:", error.message);
+            } else {
+                console.error("An unknown error occurred while fetching reviews.");
+            }
+            return [];
+        }
+    }
+    
 }
 
 export default ReviewService;
