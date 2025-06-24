@@ -18,6 +18,7 @@ import categoryRoutes from "./routes/categoryRoue";
 import productRoutes  from "./routes/productRoute";
 import cartRoutes     from "./routes/cartRoute";
 import orderRoutes    from "./routes/orderRoute";
+import reviewRoutes   from "./routes/reviewRoute";
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -48,11 +49,11 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use("/api/auth",     authRoutes);
 app.use("/api/user",     userRoutes);
-app.use("/api/category", categoryRoutes);
-app.use("/api/product",  productRoutes);
 app.use("/api/cart",     cartRoutes);
 app.use("/api/order",    orderRoutes);
-
+app.use("/api/review",   reviewRoutes);
+app.use("/api/product",  productRoutes);
+app.use("/api/category", categoryRoutes);
 
 app.all("*", (req: Request, res: Response) => {
     failedResponse(res, 404, `can't find ${req.originalUrl} on this server!`);
